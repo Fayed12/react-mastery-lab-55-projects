@@ -1,0 +1,10 @@
+.inp{
+    width: 65%;
+    height: 30px;
+    border: none;
+    outline: none;
+    border-radius: 7px;
+    padding: 10px;
+    margin-right: 20px;
+    box-shadow: 0 5px 5px 0px rgba(255, 255, 255, 0.319);
+}

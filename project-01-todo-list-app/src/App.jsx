@@ -1,35 +1,91 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+// react
+import { useState } from "react";
+
+// local
+import Input from "./components/input/input";
+import TasksList from "./components/tasks/tasksList";
+
+// toast
+import toast from "react-hot-toast";
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [tasks, setTasks] = useState([]);
+  const [inputValue, setInputValue] = useState("");
+
+  /*==========================================================================
+                                function handle click add task
+    ========================================================================*/
+  function handleAddTask() {
+    if (!inputValue) {
+      toast.error("please write any value before add it?");
+    } else {
+      toast.loading("loading....", { id: "toast" });
+      setTimeout(() => {
+        setTasks([
+          ...tasks,
+          {
+            id: Date.now(),
+            task: inputValue,
+            checked: false,
+          },
+        ]);
+        setInputValue("");
+        toast.success("task added successfully!", { id: "toast" });
+      }, 1500);
+    }
+  }
+
+  /*==========================================================================
+                                function handle reset input value
+    ========================================================================*/
+  function handleResetValue() {
+    if (!inputValue) {
+      toast.error("there is nothing to reset!", { id: "toast" });
+      return;
+    } else {
+      setInputValue("");
+      toast.success("reset done successfully!", { id: "toast" });
+    }
+  }
 
   return (
     <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+      <div className="all-page">
+        <div className="logo">
+          <h1>ToDo List</h1>
+        </div>
+        <div className="set-new-task">
+          <form onSubmit={(e)=>e.preventDefault()}>
+            <Input
+              type={"text"}
+              placeholder={"task title"}
+              inpValue={inputValue}
+              changeFunc={(e) => setInputValue(e.target.value)}
+            />
+            <div className="button-container">
+              <button
+                type="button"
+                className="add-value"
+                onClick={() => handleAddTask()}
+              >
+                Add
+              </button>
+              <button
+                type="button"
+                className="reset-value"
+                onClick={() => handleResetValue()}
+              >
+                Reset
+              </button>
+            </div>
+          </form>
+        </div>
+        <div className="tasks-list">
+          <TasksList tasks={tasks} setTasks={setTasks} />
+        </div>
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
     </>
-  )
+  );
 }
 
-export default App
+export default App;
