@@ -5,6 +5,10 @@ Projects range from beginner-friendly apps to intermediate-level applications in
 
 ---
 
+# 🛠️ by "Mohamed Enmad Fayed"
+
+---
+
 ## 🧙🏻‍♀️ Beginner Level Projects (1-10)
 
 1. **To-Do List App** – Add, mark as done, and delete tasks.
