@@ -1,9 +1,14 @@
+// react
 import { useRef, useState } from "react";
+
+// toast
+import toast from "react-hot-toast";
 
 export default function Calculator() {
     const [numbers, setNumbers] = useState("");
     const calcNumbers = useRef([]);
-    // const [operator]
+    
+    // initial values
     const buttons = [
         "C",
         "±",
@@ -26,17 +31,19 @@ export default function Calculator() {
         "=",
     ];
 
+    // main values used in logic
     const number = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "±", "."];
     const operator = ["+", "-", "/", "%", "*"];
-
     const maxLength = 8;
 
     /* ================================================================================================================================
                             main function ==> Gather all the numbers in one array and specify the operations on them.
     ====================================================================================================================================*/
     function handleCollectNumbers(button) {
+
         // 1- check that press button is [number | ± | .]
         if (number.includes(button)) {
+
             // 2- handel positive and negative signs
             if (button === "±") {
                 setNumbers((prev) => {
@@ -44,26 +51,32 @@ export default function Calculator() {
                     return prev.startsWith("-") ? prev.slice(1) : "-" + prev;
                 });
             } else {
+
                 // 3- handle decimal point sign
                 if (button === ".") {
                     if (numbers.includes(".")) {
                         return;
                     } else {
+
                         // 4- Determining the length of the number in decimal number
                         checkMaxLength(button);
                     }
                 } else {
+
                     // 5- Determining the length of the number in normal number
                     checkMaxLength(button);
                 }
             }
         } else {
+
             // 6- check the operator sign
             if (operator.includes(button)) {
+
                 // 7- check if there is one operator sign Once and not repeated consecutively
                 if (!numbers) {
-                    alert("error");
+                    toast.error("please add new number", {id:"calc-toast"})
                 } else {
+
                     // 8- if no repeated sign operator ==> and press one, add the number and operator to array, then clear display
                     calcNumbers.current.push(Number(numbers));
                     calcNumbers.current.push(button);
@@ -75,6 +88,9 @@ export default function Calculator() {
             if (button === "C") {
                 setNumbers("");
                 calcNumbers.current = [];
+                toast.success("All values have been reset", {
+                    id: "calc-toast",
+                });
             }
 
             // 10- if user finally press "=" sign ==> then check the number and calcNumber array and then make calculation process
@@ -94,7 +110,7 @@ export default function Calculator() {
     ==========================================================================================*/
     function checkOperation() {
         if (operator.includes(calcNumbers.current.at(-1))) {
-            alert("Incomplete operation");
+            toast.error("Incomplete operation", { id: "calc-toast" });
             return;
         } else {
             console.log(calcNumbers.current);
@@ -109,7 +125,7 @@ export default function Calculator() {
         if (numbers.length < maxLength) {
             setNumbers((prev) => prev + button);
         } else {
-            alert("max limit, try make operator");
+            toast.error("max limit, try make operator", { id: "calc-toast" });
         }
     }
     return (
