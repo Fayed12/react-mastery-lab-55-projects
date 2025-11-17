@@ -17,46 +17,52 @@ body{
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  background: #f5f5f7;
+  background-image: url(/bg.jpg);
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
   padding: 20px;
-}
-
-.date {
-  font-size: 15px;
-  color: #555;
-  margin-bottom: 12px;
-  font-family: sans-serif;
 }
 
 /* Quote Card */
 .card {
   width: 90%;
-  max-width: 600px;
-  background: white;
+  max-width: 800px;
+  -webkit-backdrop-filter: blur(5px);
+  backdrop-filter: blur(5px);
   padding: 30px 25px;
   border-radius: 20px;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
-  animation: slideDown 0.8s ease forwards;
+  box-shadow: 0 0 25px 5px rgba(255, 255, 255, 0.1);
+  background-color: rgba(190, 189, 189, 0.159);
+  animation: slideDown 1s ease forwards;
   opacity: 0;
+}
+
+.date {
+  font-size: .8rem;
+  color: #a7a6a6;
+  margin-bottom: 12px;
 }
 
 /* Quote Text */
 .body {
-  font-size: 22px;
+  font-size: 1.3rem;
   font-weight: 500;
   line-height: 1.6;
   font-family: "Georgia", serif;
   text-align: center;
-  margin-bottom: 25px;
-  color: #222;
+  color: #e2e2e2;
+  margin: 20px 0;
 }
 
 /* Author */
 .author {
-  font-size: 18px;
+  font-size: 1rem;
   text-align: center;
-  color: #444;
+  color: #888;
   margin-bottom: 20px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid #5a1195;
   font-weight: 600;
 }
 
@@ -69,20 +75,25 @@ body{
 
 /* Source icon */
 .icon-btn {
-  font-size: 22px;
+  font-size: 1.3rem;
   text-decoration: none;
 }
 
 /* Next Button */
 .next-btn {
-  background: black;
+  background-color: #5a1195;
   color: white;
   padding: 8px 16px;
-  border-radius: 10px;
+  border-radius: 7px;
   border: none;
   font-size: 16px;
   cursor: pointer;
   font-weight: 600;
+  transition: .4s;
+}
+
+.next-btn:hover{
+  background-color: #6f15b8;
 }
 
 /* Animation */
@@ -95,4 +106,25 @@ body{
     transform: translateY(0);
     opacity: 1;
   }
+}
+
+.spinner-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 150px;
+}
+
+.spinner {
+  border: 6px solid #34196c; 
+  border-top: 6px solid #6f15b8;
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
 }

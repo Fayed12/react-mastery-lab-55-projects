@@ -1,27 +1,68 @@
+// react
+import { useState, useEffect } from "react";
 
-const qotd_date = "2025-11-18";
-const url ="https://favqs.com/quotes/michelangelo/1999-the-best-artis-"; const
-          body = "The best artist has that thought alone Which is contained within the marble shell The sculptor's hand can only break the spellTo free the figures slumbering in the stone."
-          const author = "Michelangelo";
+// local
+import fetchQuote from "./services/fetchQuote";
+
 function App() {
-          return (
-              <div className="page">
-                  <p className="date">Quote of the day • {qotd_date}</p>
+    const [quote, setQuote] = useState({});
+    const [loading, setLoading] = useState(false);
 
-                  <div className="card">
-                      <p className="body">{body}</p>
-                      <p className="author">— {author}</p>
+    /*========================================================================================
+                            function change quote
+    ========================================================================================*/
+    async function handleChangeQuote() {
+        setLoading(true);
+        const data = await fetchQuote();
+        setLoading(false);
+        setQuote(data);
+    }
 
-                      <div className="buttons">
-                          <a href={url} target="_blank" className="icon-btn">
-                              🔗
-                          </a>
+    /*========================================================================================
+                            get random quote in first render
+    ========================================================================================*/
+    useEffect(() => {
+        async function firstFetch() {
+            setLoading(true);
+            const data = await fetchQuote();
+            setLoading(false);
+            setQuote(data);
+        }
+        firstFetch();
+    }, []);
+    return (
+        <div className="page">
+            <div className="card">
+                <p className="date">• {quote?.dateAdded}</p>
+                {loading ? (
+                    <div className="spinner-container">
+                        <div className="spinner"></div>
+                    </div>
+                ) : (
+                    <>
+                        <p className="body"> “ {quote?.content} ”</p>
+                        <p className="author">— {quote?.author}</p>
+                    </>
+                )}
 
-                          <button className="next-btn">Next →</button>
-                      </div>
-                  </div>
-              </div>
-          );
+                <div className="buttons">
+                    <a
+                        href="#"
+                        target="_blank"
+                        className="icon-btn"
+                        title="source">
+                        🔗
+                    </a>
+
+                    <button
+                        className="next-btn"
+                        onClick={() => handleChangeQuote()}>
+                        Next →
+                    </button>
+                </div>
+            </div>
+        </div>
+    );
 }
 
-export default App
+export default App;
