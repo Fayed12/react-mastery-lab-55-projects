@@ -104,11 +104,15 @@ export default function Calculator() {
             if (button === "=") {
                 if (Number.isNaN(Number(calcNumbers.current.at(-1)))) {
                     if (numbers) calcNumbers.current.push(Number(numbers));
-                    checkOperation();
-                    calculationProcess();
+                    if (checkOperation()) {
+                        calculationProcess();
+                    }
                 } else {
-                    checkOperation();
-                    calculationProcess();
+                    // checkOperation();
+                    // calculationProcess();
+                    if (checkOperation()) {
+                        calculationProcess();
+                    }
                 }
             }
         }
@@ -120,9 +124,9 @@ export default function Calculator() {
     function checkOperation() {
         if (operator.includes(calcNumbers.current.at(-1))) {
             toast.error("Incomplete operation", { id: "calc-toast" });
-            return;
+            return false;
         } else {
-            return;
+            return true;
         }
     }
 
