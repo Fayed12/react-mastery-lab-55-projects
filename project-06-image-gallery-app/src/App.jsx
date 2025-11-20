@@ -3,7 +3,10 @@ import { useState, useEffect } from "react";
 
 // local
 import WelcomePage from "./pages/welcome-page/welcomePage";
-import MainPage from "./pages/mainPageLayout";
+import router from "./router/mainRoutes";
+
+// react router
+import { RouterProvider } from "react-router";
 
 function App() {
     const [closeWelcome, setCloseWelcome] = useState(
@@ -19,7 +22,7 @@ function App() {
 
         return () => clearTimeout(timer);
     });
-    return <>{closeWelcome == "false" ? <WelcomePage /> : <MainPage />}</>;
+    return <>{closeWelcome == "false" ? <WelcomePage /> : <RouterProvider router={router}/>}</>;
 }
 
 export default App;

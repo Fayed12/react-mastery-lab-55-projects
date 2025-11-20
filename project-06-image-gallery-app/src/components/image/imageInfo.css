@@ -1,0 +1,156 @@
+.popup-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 40, 80, 0.6);
+    -webkit-backdrop-filter: blur(5px);
+    backdrop-filter: blur(7px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 2000;
+    animation: fadeIn 0.25s ease-in-out;
+}
+
+/* Animation */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+.popup-box {
+    width: 90%;
+    max-width: 950px;
+    background: #ffffff;
+    border-radius: 16px;
+    padding: 25px;
+    position: relative;
+    overflow-y: auto;
+    max-height: 90vh;
+    box-shadow: 0px 8px 30px rgba(0, 40, 80, 0.3);
+    animation: scaleIn 0.25s ease;
+}
+
+/* Animation */
+@keyframes scaleIn {
+    from {
+        transform: scale(0.9);
+        opacity: 0;
+    }
+    to {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+.popup-image img {
+    width: 100%;
+    height: 300px;
+    object-fit: cover;
+    border-radius: 12px;
+    box-shadow: 0px 4px 15px rgba(0, 40, 80, 0.2);
+}
+
+.popup-info {
+    margin-top: 25px;
+    padding: 20px;
+    border-radius: 12px;
+    background: #f5f9ff;
+    border: 1px solid #d3e3ff;
+}
+
+.popup-info h2 {
+    font-size: 24px;
+    font-weight: 600;
+    color: #003366;
+    margin-bottom: 15px;
+    padding-bottom: 10px;
+    text-align: center;
+    position: relative;
+}
+
+.popup-info h2::before {
+    content: "";
+    position: absolute;
+    width: 50%;
+    height: 2px;
+    background-color: #b6d8fd;
+    left: 50%;
+    bottom: 0;
+    transform: translateX(-50%);
+    border-radius: 20px;
+}
+
+.img-details {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 10px 0;
+}
+
+.popup-info p,
+strong {
+    margin: 8px 0;
+    font-size: 1.1rem;
+    color: #012a4a;
+}
+
+.popup-info p {
+    font-size: 0.9rem;
+}
+
+.image-id,
+.image-id strong {
+    font-size: 0.7rem !important;
+}
+
+.actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.close-btn span {
+    width: 100%;
+    height: 100%;
+    transition: 0.3s;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.close-btn span:hover {
+    transform: rotate(90deg);
+}
+
+.actions button{
+    margin-top: 10px;
+    outline: none;
+    border: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+    background: #007bff;
+    color: #fff;
+    padding: 10px 18px;
+    border-radius: 8px;
+    font-size: 18px;
+    transition: 0.2s;
+}
+
+.popup-info .download:hover {
+    background: #005fcc;
+    transform: translateY(-2px);
+}
+
+.popup-info .download svg {
+    font-size: 20px;
+}
+
+.popup-info button:active {
+    transform: scale(0.9);
+}
