@@ -1,11 +1,424 @@
-*{
-  margin: 0;
-  padding: 0;
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
-  box-sizing: border-box;
+/* Reset */
+* {
+    margin: 0;
+    padding: 0;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
 }
 
-body{
-  font-family: sans-serif;
+:root {
+    --blue-50: #eaf6ff;
+    --blue-100: #d0eefc;
+    --blue-200: #a8ddfb;
+    --blue-400: #3aa0ff;
+    --blue-500: #1e88ff;
+    --blue-600: #1565d8;
+    --white: #ffffff;
+    --glass: rgba(255, 255, 255, 0.75);
+    --muted: rgba(255, 255, 255, 0.85);
+    --shadow: 0 10px 40px rgba(12, 40, 80, 0.12);
+    --accent-glow: 0 0 40px rgba(30, 136, 255, 0.18);
+}
+
+html,
+body,
+#root {
+    height: 100%;
+}
+
+body {
+    font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, Arial;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    background: radial-gradient(
+            900px 400px at 8% 10%,
+            var(--blue-100) 0%,
+            transparent 20%
+        ),
+        radial-gradient(
+            700px 300px at 92% 90%,
+            var(--blue-50) 0%,
+            transparent 18%
+        ),
+        linear-gradient(180deg, #f7fbff 0%, #eef8ff 60%);
+    padding: 40px 20px;
+}
+
+/* floating soft shapes */
+body::before,
+body::after {
+    content: "";
+    position: fixed;
+    pointer-events: none;
+    border-radius: 50%;
+    filter: blur(40px);
+    opacity: 0.8;
+}
+body::before {
+    width: 520px;
+    height: 520px;
+    left: -8%;
+    top: -12%;
+    background: radial-gradient(
+        circle at 30% 30%,
+        var(--blue-200),
+        var(--blue-50)
+    );
+    animation: floatSlow 12s ease-in-out infinite;
+}
+body::after {
+    width: 420px;
+    height: 420px;
+    right: -6%;
+    bottom: -10%;
+    background: radial-gradient(
+        circle at 30% 30%,
+        var(--blue-200),
+        var(--blue-50)
+    );
+    animation: floatSlow 15s ease-in-out infinite reverse;
+    z-index: -10;
+}
+
+@keyframes floatSlow {
+    0% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-18px);
+    }
+    100% {
+        transform: translateY(0);
+    }
+}
+
+/* Card */
+.all-page {
+    width: min(920px, 96%);
+    background: linear-gradient(
+        180deg,
+        rgba(255, 255, 255, 0.95),
+        rgba(255, 255, 255, 0.9)
+    );
+    border-radius: 18px;
+    padding: 32px;
+    box-shadow: var(--shadow);
+    border: 1px solid rgba(30, 136, 255, 0.06);
+    position: relative;
+    overflow: hidden;
+    -webkit-backdrop-filter: blur(6px) saturate(120%);
+    backdrop-filter: blur(6px) saturate(120%);
+}
+
+/* Decorative SVG in the card */
+.card-decor {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    top: 0px;
+    pointer-events: none;
+    opacity: 0.95;
+}
+.card-decor .decor-top {
+    display: block;
+    transform: translateZ(0);
+    filter: blur(0px);
+}
+.card-decor .decor-top rect {
+    transform-origin: center;
+    animation: decorFloat 8s ease-in-out infinite;
+}
+@keyframes decorFloat {
+    0% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-6px);
+    }
+    100% {
+        transform: translateY(0);
+    }
+}
+
+.header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 50px;
+}
+.header h1 {
+    font-size: clamp(20px, 2.8vw, 28px);
+    margin: 0;
+    font-weight: 700;
+    background: linear-gradient(90deg, var(--blue-600), var(--blue-400));
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+}
+.header::after {
+    content: "";
+    position: absolute;
+    left: 28px;
+    top: 64px;
+    width: 120px;
+    height: 6px;
+    border-radius: 999px;
+    background: linear-gradient(
+        90deg,
+        rgba(30, 136, 255, 0.14),
+        rgba(30, 136, 255, 0.04)
+    );
+    transform-origin: left center;
+    animation: underlineGrow 1.8s ease forwards;
+}
+@keyframes underlineGrow {
+    0% {
+        transform: scaleX(0);
+        opacity: 0;
+    }
+    100% {
+        transform: scaleX(1);
+        opacity: 1;
+    }
+}
+
+.form {
+    padding-top: 6px;
+}
+form {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px 18px;
+    align-items: end;
+}
+
+/* Gender centered and prominent */
+.gender {
+    grid-column: 1 / -1;
+    display: flex;
+    gap: 14px;
+    justify-content: center;
+    align-items: center;
+}
+.gender .male,
+.gender .female {
+    flex: 0 0 260px;
+    max-width: 320px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 14px 16px;
+    background: linear-gradient(
+        180deg,
+        var(--white),
+        rgba(234, 234, 254, 0.98)
+    );
+    border-radius: 12px;
+    border: 1px solid rgba(30, 136, 255, 0.06);
+    box-shadow: 0 8px 30px rgba(14, 49, 90, 0.26);
+    transition: transform 0.28s ease, box-shadow 0.28s;
+}
+.gender .male:hover,
+.gender .female:hover {
+    transform: translateY(-6px);
+    box-shadow: var(--accent-glow);
+}
+.gender img {
+    width: 56px;
+    height: 56px;
+    object-fit: contain;
+    transition: 0.4s;
+    transform: translateY(0);
+    animation: img 2s linear infinite alternate;
+}
+
+.gender .female img {
+    animation: img 2s 2s linear infinite alternate;
+}
+.gender button {
+    margin-left: auto;
+    padding: 8px 14px;
+    border-radius: 999px;
+    border: none;
+    background: linear-gradient(90deg, var(--blue-400), var(--blue-500));
+    color: #fff;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+@keyframes img {
+    form {
+        transform: translateY(0);
+    }
+    to {
+        transform: translateY(-7px);
+    }
+}
+
+/* Inputs */
+.age,
+.tall,
+.weight {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    padding: 12px 14px;
+    background: linear-gradient(
+        180deg,
+        var(--white),
+        rgba(222, 231, 252, 0.98)
+    );
+    border-radius: 12px;
+    border: 1px solid rgba(30, 136, 255, 0.04);
+}
+.age {
+    grid-column: 1 / 2;
+}
+.tall {
+    grid-column: 2 / 3;
+}
+.weight {
+  margin-block: 20px;
+    grid-column: 1 /3;
+}
+
+input[type="number"] {
+    width: 100%;
+    border: none;
+    outline: none;
+    background: transparent;
+    font-size: 18px;
+    padding: 6px 8px;
+    color: #023047;
+}
+.age span,
+.tall span,
+.weight span {
+    font-weight: 700;
+    color: var(--blue-600);
+    min-width: 50px;
+    text-align: right;
+}
+
+button[type="submit"],
+.reset {
+    grid-column: 1 / -1;
+    margin-top: 12px;
+    padding: 14px 22px;
+    border-radius: 12px;
+    border: none;
+    cursor: pointer;
+    color: #fff;
+    font-weight: 800;
+    background: linear-gradient(90deg, var(--blue-500), var(--blue-600));
+    box-shadow: 0 14px 36px rgba(30, 136, 255, 0.18);
+    position: relative;
+    overflow: hidden;
+    transition: .4s;
+}
+button[type="submit"]::after,
+.reset::after {
+    content: "";
+    position: absolute;
+    left: -40%;
+    top: -10%;
+    width: 40%;
+    height: 120%;
+    transform: skewX(-18deg);
+    background: linear-gradient(
+        90deg,
+        rgba(255, 255, 255, 0.28),
+        rgba(255, 255, 255, 0.06)
+    );
+    transition: left 0.8s cubic-bezier(0.2, 0.9, 0.25, 0.99);
+}
+button[type="submit"]:hover::after,
+.reset:hover::after {
+    left: 120%;
+}
+button[type="submit"]:active,
+.reset:active {
+    transform: scale(.90);
+}
+.resetContainer{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  grid-column: 1 / -1;
+  width: 100%;
+}
+.reset{
+  width: 30%;
+}
+
+footer {
+    margin-top: 18px;
+    text-align: center;
+    color: rgba(7, 30, 55, 0.6);
+    font-size: 13px;
+}
+
+/* Responsive */
+@media (max-width: 720px) {
+    form {
+        grid-template-columns: 1fr;
+    }
+    .age,
+    .tall,
+    .weight {
+        grid-column: 1 / -1;
+    }
+    .gender {
+        gap: 12px;
+    }
+    .gender .male,
+    .gender .female {
+        flex: 1;
+        max-width: none;
+        justify-content: space-between;
+    }
+    .gender img {
+        width: 48px;
+        height: 48px;
+    }
+    .header::after {
+        left: 18px;
+        top: 56px;
+        width: 90px;
+    }
+}
+
+/* Focus styles */
+input[type="number"]:focus {
+    box-shadow: inset 0 6px 20px rgba(30, 136, 255, 0.06),
+        0 6px 18px rgba(30, 136, 255, 0.04);
+    border-radius: 8px;
+}
+
+/* remove default number spin on webkit */
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+.author{
+  color: var(--blue-600);
+  font-weight: 500;
+}
+
+/* disable buttons */
+
+.disabled{
+  background: rgb(167, 167, 167) !important;
+}
+
+.active {
+    background-color: #1e88ff;
+    color: white;
 }
