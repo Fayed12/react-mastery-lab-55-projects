@@ -65,7 +65,7 @@ function App() {
             const tallInM = measurements?.heightInCM / 100;
             const result = measurements?.weightInKG / (tallInM * tallInM);
             setBmiResult(result.toFixed(1));
-            handleIconResult();
+            handleIconResult(result.toFixed(1));
             toast.success("calculation done successfully", { id: "bmi" });
             // reset after done process
             setMeasurements({
@@ -83,22 +83,24 @@ function App() {
     /*===================================================================================================================
                                         handel icon based on result
     =======================================================================================================================*/
-    function handleIconResult() {
-        if (bmiResult < 18.5) {
+    function handleIconResult(bmiFromFunc) {
+        const bmi = Number(bmiFromFunc);
+
+        if (bmi < 18.5) {
             setResultIcon("/icons/underweight.svg");
-            setResultText("underweight");
-        } else if (bmiResult < 25) {
+            setResultText("Underweight");
+        } else if (bmi >= 18.5 && bmi < 25) {
             setResultIcon("/icons/normal.svg");
-            setResultText("normal");
-        } else if (bmiResult < 30) {
+            setResultText("Normal");
+        } else if (bmi >= 25 && bmi < 30) {
             setResultIcon("/icons/Overweight.svg");
             setResultText("Overweight");
-        } else if (bmiResult < 35) {
+        } else if (bmi >= 30 && bmi < 35) {
             setResultIcon("/icons/Obesity.svg");
             setResultText("Obesity");
         } else {
             setResultIcon("/icons/Very-overweight.svg");
-            setResultText("Very-overweight");
+            setResultText("Very Overweight");
         }
     }
 
