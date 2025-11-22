@@ -3,6 +3,7 @@ import { useState } from "react";
 
 // toast
 import toast from "react-hot-toast";
+import Popup from "./components/popup/popup";
 
 function App() {
     const [measurements, setMeasurements] = useState({
@@ -11,9 +12,12 @@ function App() {
     });
     const [bmiResult, setBmiResult] = useState(0);
     const [gender, setGender] = useState("");
+    const [openPopup, setOpenPopup] = useState(false);
+    const [resultIcon, setResultIcon] = useState("");
+    const [resultText, setResultText] = useState("");
     /*===================================================================================================================
                                     check empty value
-  =======================================================================================================================*/
+    =======================================================================================================================*/
     function handleCheckEmptyValue() {
         if (!measurements.heightInCM) {
             toast.error("please enter your tall?", { id: "bmi" });
@@ -28,7 +32,7 @@ function App() {
 
     /*===================================================================================================================
                                     check truth values
-  =======================================================================================================================*/
+    =======================================================================================================================*/
     function checkTruthValues() {
         if (measurements.weightInKG <= 20) {
             toast.error("please make sure the weight is greater than 20KG", {
@@ -47,36 +51,73 @@ function App() {
 
     /*===================================================================================================================
                                     calculate BMI function
-  =======================================================================================================================*/
+    =======================================================================================================================*/
     function handleCalculateBMI(e) {
         e.preventDefault();
         if (!handleCheckEmptyValue()) return;
         if (!checkTruthValues()) return;
+        if (!gender) {
+            toast.error("please select your gender!", { id: "bmi" });
+            return;
+        }
         toast.loading("loading.....", { id: "bmi" });
         setTimeout(() => {
             const tallInM = measurements?.heightInCM / 100;
             const result = measurements?.weightInKG / (tallInM * tallInM);
             setBmiResult(result.toFixed(1));
+            handleIconResult();
             toast.success("calculation done successfully", { id: "bmi" });
+            // reset after done process
+            setMeasurements({
+                heightInCM: 0,
+                weightInKG: 0,
+            }),
+                setGender("");
         }, 2000);
+        // open popup after 2.2s
+        setTimeout(() => {
+            setOpenPopup(true);
+        }, 2200);
+    }
+
+    /*===================================================================================================================
+                                        handel icon based on result
+    =======================================================================================================================*/
+    function handleIconResult() {
+        if (bmiResult < 18.5) {
+            setResultIcon("/icons/underweight.svg");
+            setResultText("underweight");
+        } else if (bmiResult < 25) {
+            setResultIcon("/icons/normal.svg");
+            setResultText("normal");
+        } else if (bmiResult < 30) {
+            setResultIcon("/icons/Overweight.svg");
+            setResultText("Overweight");
+        } else if (bmiResult < 35) {
+            setResultIcon("/icons/Obesity.svg");
+            setResultText("Obesity");
+        } else {
+            setResultIcon("/icons/Very-overweight.svg");
+            setResultText("Very-overweight");
+        }
     }
 
     /*===================================================================================================================
                                     reset all values if there is any mistake in writing data
-  =======================================================================================================================*/
+    =======================================================================================================================*/
     function handelResetValues() {
         if (!measurements.heightInCM && !measurements.weightInKG) {
-          toast.error("Nothing to reset" ,{})
+            toast.error("Nothing to reset", {});
         } else {
-          toast.loading("loading.....", { id: "bmi" });
-          setTimeout(() => {
-              setMeasurements({
-                  heightInCM: 0,
-                  weightInKG: 0,
-              }),
-                  setGender("");
-              toast.success("reset done successfully", { id: "bmi" });
-          }, 1500);
+            toast.loading("loading.....", { id: "bmi" });
+            setTimeout(() => {
+                setMeasurements({
+                    heightInCM: 0,
+                    weightInKG: 0,
+                }),
+                    setGender("");
+                toast.success("reset done successfully", { id: "bmi" });
+            }, 1500);
         }
     }
 
@@ -223,14 +264,14 @@ function App() {
                         </div>
                         <button type="submit"> Calculate Your BMI</button>
                     </form>
-                        <div className="resetContainer">
-                            <button
-                                type=" button"
-                                className="reset"
-                                onClick={() => handelResetValues()}>
-                                Reset
-                            </button>
-                        </div>
+                    <div className="resetContainer">
+                        <button
+                            type=" button"
+                            className="reset"
+                            onClick={() => handelResetValues()}>
+                            Reset
+                        </button>
+                    </div>
                 </div>
                 <footer>
                     <p>
@@ -239,6 +280,14 @@ function App() {
                     </p>
                 </footer>
             </div>
+            {openPopup && (
+                <Popup
+                    result={bmiResult}
+                    emoji={resultIcon}
+                    text={resultText}
+                    onClose={() => setOpenPopup(false)}
+                />
+            )}
         </>
     );
 }

@@ -1,0 +1,97 @@
+.popup-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(30, 136, 255, 0.18);
+    -webkit-backdrop-filter: blur(6px);
+    backdrop-filter: blur(6px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 999;
+}
+
+.popup-card {
+    background: var(--glass);
+    padding: 32px 36px;
+    width: 330px;
+    border-radius: 22px;
+    text-align: center;
+    box-shadow: var(--shadow);
+    border: 1px solid var(--blue-100);
+    animation: popupShow 0.25s ease-out;
+    -webkit-backdrop-filter: blur(12px);
+    backdrop-filter: blur(12px);
+}
+
+@keyframes popupShow {
+    from {
+        opacity: 0;
+        transform: translateY(18px) scale(0.95);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+.popup-title {
+    color: var(--blue-600);
+    font-size: clamp(20px, 2.6vw, 26px);
+    font-weight: 700;
+    margin-bottom: 14px;
+    text-shadow: 0 1px 2px rgba(30, 136, 255, 0.15);
+}
+
+.popup-emoji img {
+    width: 90px;
+    margin: 10px auto 15px;
+    filter: drop-shadow(0 5px 16px rgba(30, 136, 255, 0.3));
+}
+
+.popup-value,
+.popup-text{
+    font-size: 2rem;
+    font-weight: 800;
+    padding-bottom: 10px;
+    margin-bottom: 22px;
+    color: var(--blue-500);
+    text-shadow: var(--accent-glow);
+    position: relative;
+}
+
+.popup-value::before{
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 140px;
+    height: 2px;
+    background-color:#b4dbff;
+}
+
+.popup-text{
+    font-size: 1.5rem;
+    color: rgb(17, 86, 100);
+}
+
+.popup-close {
+    background: var(--blue-500);
+    color: var(--white);
+    border: none;
+    padding: 11px 20px;
+    width: 100%;
+    border-radius: 12px;
+    font-size: 1.1rem;
+    cursor: pointer;
+    font-weight: 600;
+    letter-spacing: 0.3px;
+    transition: 0.25s ease;
+    box-shadow: 0 4px 10px rgba(30, 136, 255, 0.24);
+}
+
+.popup-close:hover {
+    background: var(--blue-600);
+    box-shadow: 0 6px 16px rgba(30, 136, 255, 0.32);
+}
+
