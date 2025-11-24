@@ -92,7 +92,7 @@ main {
     border: none;
     border-radius: 50px;
     padding: 0.8rem 1rem;
-    font-size: .8rem;
+    font-size: 0.8rem;
     font-weight: 600;
     cursor: pointer;
     transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
@@ -109,14 +109,14 @@ main {
 }
 
 .stopwatch-btn.start.runningBtn,
-.stopwatch-btn.stop.stopRunningBtn{
+.stopwatch-btn.stop.stopRunningBtn {
     background-color: rgb(249, 77, 77);
     color: #fbfbfb;
     cursor: not-allowed;
 }
 
 .stopwatch-btn.reset {
-  background-color: rgb(61, 61, 193);
+    background-color: rgb(61, 61, 193);
 }
 
 .stopwatch-btn.stop,
@@ -131,7 +131,7 @@ main {
 
 .stopwatch-btn.stop:hover,
 .stopwatch-btn.reset:hover {
-    transform: translateY(18px);  
+    transform: translateY(18px);
 }
 
 .stopwatch-btn:active {
@@ -184,6 +184,74 @@ main {
     }
 }
 /* end stopwatch styling */
+
+/* start timer styling */
+.timer-inputs {
+    display: flex;
+    justify-content: center;
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.input-group {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.input-group input {
+    width: 60px;
+    height: 60px;
+    border: 2px solid #e0e0e0;
+    border-radius: 12px;
+    text-align: center;
+    font-size: 1.5rem;
+    font-weight: 600;
+    font-family: "Courier New", Courier, monospace;
+    transition: all 0.3s ease;
+    background: #f9f9f9;
+}
+
+.input-group input:focus {
+    outline: none;
+    border-color: #000;
+    background: #fff;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.input-group label {
+    margin-top: 0.5rem;
+    font-size: 0.8rem;
+    color: #888;
+    text-transform: uppercase;
+    font-weight: 500;
+}
+
+/* Expressive Button Colors for Timer */
+.timer-btn-start {
+    background-color: #10b981;
+}
+
+.timer-btn-start:hover {
+    background-color: #059669;
+}
+
+.timer-btn-stop {
+    background-color: #ef4444;
+}
+
+.timer-btn-stop:hover {
+    background-color: #dc2626;
+}
+
+.timer-btn-reset {
+    background-color: #3b82f6;
+}
+
+.timer-btn-reset:hover {
+    background-color: #2563eb;
+}
+/* end timer styling */
 
 @media (max-width: 600px) {
     body {

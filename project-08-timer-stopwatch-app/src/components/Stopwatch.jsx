@@ -1,5 +1,5 @@
 // react
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 
 function Stopwatch() {
     const [time, setTime] = useState({
@@ -85,6 +85,11 @@ function Stopwatch() {
         setIsRunning(false);
     }
 
+    // clear the interval when component unmount
+    useEffect(() => {
+        return () => clearInterval(intervalRef.current);
+    }, []);
+
     /*============================================================================================================================
                                             render stopwatch component 
     ============================================================================================================================*/
@@ -110,9 +115,9 @@ function Stopwatch() {
                 </div>
 
                 <div className="controls">
-                    <button className={!isRunning ? "stopwatch-btn stopRunningBtn stop" : "stopwatch-btn stop"} onClick={handleStopStopWatch} disabled={!isRunning}>Stop</button>
-                    <button className={isRunning ? "stopwatch-btn runningBtn start" : "stopwatch-btn start"} onClick={handleStartStopWatch} disabled={isRunning}>Start</button>
-                    <button className="stopwatch-btn reset" onClick={handleResetStopWatch}>Reset</button>
+                    <button className={!isRunning ? "stopwatch-btn stopRunningBtn stop timer-btn-stop" : "stopwatch-btn stop timer-btn-stop"} onClick={handleStopStopWatch} disabled={!isRunning}>Stop</button>
+                    <button className={isRunning ? "stopwatch-btn runningBtn start timer-btn-start" : "stopwatch-btn start timer-btn-start"} onClick={handleStartStopWatch} disabled={isRunning}>Start</button>
+                    <button className="stopwatch-btn reset timer-btn-reset" onClick={handleResetStopWatch}>Reset</button>
                 </div>
             </div>
         </div>
