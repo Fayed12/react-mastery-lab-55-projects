@@ -9,9 +9,9 @@ const NavBar = () => {
     return (
         <nav className={styles.nav}>
             <ul>
-                <li><NavLink to="/home">Home</NavLink></li>
-                <li><NavLink to="/about">About</NavLink></li>
-                <li><NavLink to="/contact">Contact</NavLink></li>
+                <li><NavLink to="/home" replace={true}>Home</NavLink></li>
+                <li><NavLink to="/about" replace={true}>About</NavLink></li>
+                <li><NavLink to="/contact" replace={true}>Contact</NavLink></li>
                 <li><button type='button' onClick={() => navigate('/login', {replace: true})}>
                     Login
                 </button></li>
