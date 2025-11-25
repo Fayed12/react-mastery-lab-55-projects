@@ -2,13 +2,13 @@
 import { createBrowserRouter } from "react-router";
 
 // pages
-import Home from "../pages/home/Home";
+import Home from "../pages/home-layout/Home/Home";
 import Error from "../pages/error/Error";
 import AllPosts from "../pages/allPosts/AllPosts";
 import SignUp from "../pages/signUp/SignUp";
 import Login from "../pages/login/Login";
-import About from "../pages/about/About";
-import Contact from "../pages/contact/Contact";
+import About from "../pages/home-layout/About/About";
+import Contact from "../pages/home-layout/Contact/Contact";
     
 // layouts
 import HomeLayout from "../layouts/homeLayout";

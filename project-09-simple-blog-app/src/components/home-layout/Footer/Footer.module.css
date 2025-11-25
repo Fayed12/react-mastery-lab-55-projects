@@ -3,13 +3,11 @@
     color: var(--text-secondary);
     padding: 1.5rem;
     text-align: center;
-    position: fixed;
-    bottom: 0;
-    left: 0;
     width: 100%;
     border-top: 1px solid var(--border-color);
     z-index: 1000;
     font-size: 0.9rem;
+    margin-top: auto;
 }
 
 .footer span {
