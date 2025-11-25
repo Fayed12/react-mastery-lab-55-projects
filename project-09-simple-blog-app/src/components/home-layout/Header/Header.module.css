@@ -1,0 +1,36 @@
+.header {
+    background-color: var(--bg-surface);
+    padding: 1rem 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    border-bottom: 1px solid var(--border-color);
+    box-shadow: 0 4px 6px var(--shadow-color);
+}
+
+.logo h1 {
+    margin: 0;
+    font-size: 1.8rem;
+    color: var(--text-white);
+    font-weight: 700;
+    letter-spacing: 1px;
+}
+
+
+@media (width < 768px) {
+    .header {
+        padding: 1rem;
+    }
+    .logo{
+        display: none;
+    }
+    .navBar{
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+}
