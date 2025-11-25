@@ -1,0 +1,15 @@
+.details {
+    padding: 2rem;
+    background-color: white;
+    border-radius: 8px;
+}
+
+.title {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+}
+
+.content {
+    line-height: 1.6;
+    color: #333;
+}

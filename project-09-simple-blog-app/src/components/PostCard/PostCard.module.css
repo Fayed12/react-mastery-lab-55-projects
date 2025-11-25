@@ -1,0 +1,25 @@
+.card {
+    border: 1px solid #ddd;
+    padding: 1rem;
+    border-radius: 8px;
+    background-color: white;
+}
+
+.title {
+    margin-top: 0;
+}
+
+.excerpt {
+    color: #666;
+}
+
+.link {
+    display: inline-block;
+    margin-top: 0.5rem;
+    color: #007bff;
+    text-decoration: none;
+}
+
+.link:hover {
+    text-decoration: underline;
+}
