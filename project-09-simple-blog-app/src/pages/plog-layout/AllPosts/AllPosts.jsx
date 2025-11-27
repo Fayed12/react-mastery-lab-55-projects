@@ -1,5 +1,5 @@
 import styles from './AllPosts.module.css';
-import PostList from '../../components/PostList/PostList';
+import PostList from '../../../components/plog-layout/PostList/PostList';
 
 const AllPosts = () => {
     return (

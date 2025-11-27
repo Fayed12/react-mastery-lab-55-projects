@@ -1,14 +1,13 @@
-// react router data loader
-
+// local
 import { API_ROUTES } from "/config.js";
+
+// axios
+import axios from "axios";
 
 async function siteDataLoader() {
     try {
-        const response = await fetch(API_ROUTES.site);
-        if (!response.ok) {
-            throw new Error("Failed to fetch site data");
-        }
-        const siteData = response.json();
+        const response = await axios.get(API_ROUTES.site);
+        const siteData = response.data;
 
         return siteData;
     } catch (error) {

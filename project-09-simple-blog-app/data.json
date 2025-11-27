@@ -8,9 +8,9 @@
             "id": "a3f1c8e2-9b24-4c02-b512-9ef8c4d91119",
             "uniqueId": "USR-A3F1C",
             "name": "Mohamed Fayed",
-            "email": "mohamed@example.com",
-            "password": "mohamed123",
-            "phone": "+201112223334",
+            "email": "mohamed@gmail.com",
+            "password": "Mohamed123@",
+            "phone": "01112223334",
             "avatar": "/images/users/mohamed.jpg",
             "bio": "Frontend React developer.",
             "postsCount": 5
@@ -19,12 +19,23 @@
             "id": "d92f7de2-14b5-48fd-b889-24c9db1a55a1",
             "uniqueId": "USR-D92F7",
             "name": "Sara Ahmed",
-            "email": "sara@example.com",
-            "password": "sara123",
-            "phone": "+201009998887",
+            "email": "sara@gmail.com",
+            "password": "Sara123@",
+            "phone": "01009998887",
             "avatar": "/images/users/sara.jpg",
             "bio": "Full-stack developer.",
             "postsCount": 5
+        },
+        {
+            "id": "cf272246-dce0-4f83-821d-a0a0b4aa6740",
+            "uniqueId": "USR-2E088B8B",
+            "name": "ali mohamed",
+            "email": "ali@gmail.com",
+            "password": "Ali@12Alia",
+            "phone": "01093650834",
+            "avatar": "",
+            "bio": "front end developer",
+            "postsCount": 0
         }
     ],
     "posts": [

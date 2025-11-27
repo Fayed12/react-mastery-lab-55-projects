@@ -3,15 +3,17 @@ import { createBrowserRouter } from "react-router";
 
 // loader
 import siteDataLoader from "../routers/siteDataLoader";
+import userDataLoader from "../routers/userDataLoader";
 
 // pages
 import Home from "../pages/home-layout/Home/Home";
 import Error from "../pages/error/Error";
-import AllPosts from "../pages/allPosts/AllPosts";
+import AllPosts from "../pages/plog-layout/AllPosts/AllPosts";
 import SignUp from "../pages/user-auth/SignUp/SignUp";
 import Login from "../pages/user-auth/Login/Login";
 import About from "../pages/home-layout/About/About";
 import Contact from "../pages/home-layout/Contact/Contact";
+import ForgotPassword from "../pages/user-auth/ForgotPassword/ForgotPassword";
 
 // layouts
 import HomeLayout from "../layouts/homeLayout";
@@ -47,11 +49,18 @@ const router = createBrowserRouter([
     },
     {
         path: "/signUp",
-        element: <ProtectLogin><SignUp /></ProtectLogin>,
+        element: <SignUp />,
+        loader: userDataLoader
     },
     {
         path: "/login",
         element: <ProtectLogin><Login /></ProtectLogin>,
+        loader: userDataLoader
+    },
+    {
+        path: "/forgotPassword",
+        element: <ForgotPassword />,
+        loader: userDataLoader
     },
     {
         path: "/blog",
