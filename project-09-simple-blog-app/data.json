@@ -1,0 +1,245 @@
+{
+    "site": {
+        "title": "Tech Insight Blog",
+        "description": "A tech blog sharing tutorials and programming knowledge."
+    },
+    "users": [
+        {
+            "id": "a3f1c8e2-9b24-4c02-b512-9ef8c4d91119",
+            "uniqueId": "USR-A3F1C",
+            "name": "Mohamed Fayed",
+            "email": "mohamed@example.com",
+            "password": "mohamed123",
+            "phone": "+201112223334",
+            "avatar": "/images/users/mohamed.jpg",
+            "bio": "Frontend React developer.",
+            "postsCount": 5
+        },
+        {
+            "id": "d92f7de2-14b5-48fd-b889-24c9db1a55a1",
+            "uniqueId": "USR-D92F7",
+            "name": "Sara Ahmed",
+            "email": "sara@example.com",
+            "password": "sara123",
+            "phone": "+201009998887",
+            "avatar": "/images/users/sara.jpg",
+            "bio": "Full-stack developer.",
+            "postsCount": 5
+        }
+    ],
+    "posts": [
+        {
+            "id": "p1-11a2",
+            "authorId": "a3f1c8e2-9b24-4c02-b512-9ef8c4d91119",
+            "title": "Understanding React useState",
+            "content": "useState is a hook that lets you manage state in functional components.",
+            "category": "React",
+            "tags": [
+                "react",
+                "hooks",
+                "state"
+            ],
+            "date": "2025-01-01",
+            "likes": 34,
+            "comments": [
+                {
+                    "id": "cmt-101",
+                    "userId": "d92f7de2-14b5-48fd-b889-24c9db1a55a1",
+                    "content": "Very helpful explanation!",
+                    "date": "2025-01-02"
+                }
+            ]
+        },
+        {
+            "id": "p2-11a2",
+            "authorId": "a3f1c8e2-9b24-4c02-b512-9ef8c4d91119",
+            "title": "How JavaScript Works",
+            "content": "JavaScript is a synchronous single-threaded language with an event loop.",
+            "category": "JavaScript",
+            "tags": [
+                "javascript",
+                "event loop"
+            ],
+            "date": "2025-01-05",
+            "likes": 57,
+            "comments": [
+                {
+                    "id": "cmt-102",
+                    "userId": "d92f7de2-14b5-48fd-b889-24c9db1a55a1",
+                    "content": "Great overview!",
+                    "date": "2025-01-06"
+                }
+            ]
+        },
+        {
+            "id": "p3-11a2",
+            "authorId": "a3f1c8e2-9b24-4c02-b512-9ef8c4d91119",
+            "title": "Mastering CSS Flexbox",
+            "content": "Flexbox makes layout creation easier using rows and columns.",
+            "category": "CSS",
+            "tags": [
+                "css",
+                "flexbox",
+                "layout"
+            ],
+            "date": "2025-01-10",
+            "likes": 21,
+            "comments": [
+                {
+                    "id": "cmt-103",
+                    "userId": "d92f7de2-14b5-48fd-b889-24c9db1a55a1",
+                    "content": "Awesome CSS breakdown!",
+                    "date": "2025-01-11"
+                }
+            ]
+        },
+        {
+            "id": "p4-11a2",
+            "authorId": "a3f1c8e2-9b24-4c02-b512-9ef8c4d91119",
+            "title": "Why Git is Important",
+            "content": "Git tracks changes and allows collaborative work.",
+            "category": "Tools",
+            "tags": [
+                "git",
+                "github"
+            ],
+            "date": "2025-01-14",
+            "likes": 12,
+            "comments": [
+                {
+                    "id": "cmt-104",
+                    "userId": "d92f7de2-14b5-48fd-b889-24c9db1a55a1",
+                    "content": "Very informative!",
+                    "date": "2025-01-15"
+                }
+            ]
+        },
+        {
+            "id": "p5-11a2",
+            "authorId": "a3f1c8e2-9b24-4c02-b512-9ef8c4d91119",
+            "title": "Understanding APIs",
+            "content": "APIs allow communication between applications.",
+            "category": "Backend",
+            "tags": [
+                "api",
+                "rest",
+                "backend"
+            ],
+            "date": "2025-01-18",
+            "likes": 48,
+            "comments": [
+                {
+                    "id": "cmt-105",
+                    "userId": "d92f7de2-14b5-48fd-b889-24c9db1a55a1",
+                    "content": "This really helped me understand!",
+                    "date": "2025-01-19"
+                }
+            ]
+        },
+        {
+            "id": "p6-22a2",
+            "authorId": "d92f7de2-14b5-48fd-b889-24c9db1a55a1",
+            "title": "Node.js Event Loop Explained",
+            "content": "The event loop allows Node.js to be non-blocking.",
+            "category": "Node.js",
+            "tags": [
+                "node",
+                "event loop"
+            ],
+            "date": "2025-01-02",
+            "likes": 39,
+            "comments": [
+                {
+                    "id": "cmt-201",
+                    "userId": "a3f1c8e2-9b24-4c02-b512-9ef8c4d91119",
+                    "content": "Very clean explanation!",
+                    "date": "2025-01-03"
+                }
+            ]
+        },
+        {
+            "id": "p7-22a2",
+            "authorId": "d92f7de2-14b5-48fd-b889-24c9db1a55a1",
+            "title": "Database Basics",
+            "content": "Databases store and manage structured information.",
+            "category": "Database",
+            "tags": [
+                "sql",
+                "database"
+            ],
+            "date": "2025-01-06",
+            "likes": 44,
+            "comments": [
+                {
+                    "id": "cmt-202",
+                    "userId": "a3f1c8e2-9b24-4c02-b512-9ef8c4d91119",
+                    "content": "Very useful intro!",
+                    "date": "2025-01-07"
+                }
+            ]
+        },
+        {
+            "id": "p8-22a2",
+            "authorId": "d92f7de2-14b5-48fd-b889-24c9db1a55a1",
+            "title": "Working with Express.js",
+            "content": "Express.js is a minimal framework for building APIs.",
+            "category": "Backend",
+            "tags": [
+                "express",
+                "node"
+            ],
+            "date": "2025-01-11",
+            "likes": 28,
+            "comments": [
+                {
+                    "id": "cmt-203",
+                    "userId": "a3f1c8e2-9b24-4c02-b512-9ef8c4d91119",
+                    "content": "Loved this article!",
+                    "date": "2025-01-12"
+                }
+            ]
+        },
+        {
+            "id": "p9-22a2",
+            "authorId": "d92f7de2-14b5-48fd-b889-24c9db1a55a1",
+            "title": "Secure Authentication",
+            "content": "Authentication ensures that users are who they claim to be.",
+            "category": "Security",
+            "tags": [
+                "auth",
+                "security"
+            ],
+            "date": "2025-01-15",
+            "likes": 63,
+            "comments": [
+                {
+                    "id": "cmt-204",
+                    "userId": "a3f1c8e2-9b24-4c02-b512-9ef8c4d91119",
+                    "content": "Security is super important!",
+                    "date": "2025-01-16"
+                }
+            ]
+        },
+        {
+            "id": "p10-22a2",
+            "authorId": "d92f7de2-14b5-48fd-b889-24c9db1a55a1",
+            "title": "What is REST API?",
+            "content": "REST APIs use HTTP to communicate between client and server.",
+            "category": "API",
+            "tags": [
+                "rest",
+                "api"
+            ],
+            "date": "2025-01-20",
+            "likes": 51,
+            "comments": [
+                {
+                    "id": "cmt-205",
+                    "userId": "a3f1c8e2-9b24-4c02-b512-9ef8c4d91119",
+                    "content": "Very clean explanation!",
+                    "date": "2025-01-21"
+                }
+            ]
+        }
+    ]
+}

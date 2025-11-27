@@ -1,14 +1,20 @@
 // local
 import styles from './About.module.css';
+import siteDataLoader from '../../../routers/siteDataLoader';
+
+// react router
+import { useLoaderData } from 'react-router';
 
 const About = () => {
+    const { description, title } = useLoaderData(siteDataLoader);
+    
     return (
         <section className={styles.about}>
             <div className={styles.container}>
                 <h1 className={styles.title}>About Us</h1>
+                <h3 className={styles.subtitle}>{title}</h3>
                 <p className={styles.description}>
-                    Welcome to Simple Blog App! This is a project where I showcase my work
-                    and share knowledge about web development.
+                    {description}
                 </p>
 
                 <h2 className={styles.featuresTitle}>Features of this Blog:</h2>

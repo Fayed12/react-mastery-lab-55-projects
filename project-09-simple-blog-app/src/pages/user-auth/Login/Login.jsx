@@ -5,8 +5,8 @@ import { NavLink } from 'react-router';
 import { useForm } from 'react-hook-form';
 
 // components
-import Input from '../../components/ui/input/input';
-import Button from '../../components/ui/button/button';
+import Input from '../../../components/ui/input/input';
+import Button from '../../../components/ui/button/button';
 
 // styles
 import styles from './Login.module.css';
