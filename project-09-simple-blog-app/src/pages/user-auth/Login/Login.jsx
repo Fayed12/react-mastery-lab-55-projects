@@ -10,7 +10,6 @@ import { useContext } from 'react';
 // components
 import Input from '../../../components/ui/input/input';
 import Button from '../../../components/ui/button/button';
-import userDataLoader from '../../../routers/userDataLoader';
 import { userContext } from '../../../context/userContext';
 
 // react icons
@@ -24,7 +23,7 @@ import styles from './Login.module.css';
 
 const Login = () => {
     const { register, handleSubmit, formState: { errors } } = useForm();
-    const userData = useLoaderData(userDataLoader);
+    const userData = useLoaderData();
     const { setUser, setIsLogin } = useContext(userContext);
 
     /*=====================================================================================================================

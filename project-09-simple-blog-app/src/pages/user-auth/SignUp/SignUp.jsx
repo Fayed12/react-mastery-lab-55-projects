@@ -9,8 +9,7 @@ import { useForm } from 'react-hook-form';
 
 // components
 import Input from '../../../components/ui/input/input';
-import Button from '../../../components/ui/button/button';
-import userDataLoader from '../../../routers/userDataLoader';
+import Button from '../../../components/ui/button/button'; 
 import addNewUser from '../../../services/addNewUser';
 
 // uuid
@@ -25,7 +24,7 @@ import { TiArrowBack } from 'react-icons/ti';
 
 const SignUp = () => {
     const { register, handleSubmit, formState: { errors }, reset, setFocus } = useForm();
-    const userData = useLoaderData(userDataLoader);
+    const userData = useLoaderData();
     const [users, setUsers] = useState(userData);
     const navigate = useNavigate();
 

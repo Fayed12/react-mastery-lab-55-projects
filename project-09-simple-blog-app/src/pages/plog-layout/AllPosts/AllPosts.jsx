@@ -1,11 +1,14 @@
-import styles from './AllPosts.module.css';
+// local
 import PostList from '../../../components/plog-layout/PostList/PostList';
 
+// react router
+import { useLoaderData } from 'react-router';
+
 const AllPosts = () => {
+    const posts = useLoaderData();
     return (
-        <div className={styles.allPosts}>
-            <h1>All Posts</h1>
-            <PostList />
+        <div >
+            <PostList posts={posts} />
         </div>
     );
 };

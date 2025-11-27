@@ -7,7 +7,6 @@ import { useForm } from 'react-hook-form';
 // components
 import Input from '../../../components/ui/input/input';
 import Button from '../../../components/ui/button/button';
-import userDataLoader from '../../../routers/userDataLoader';
 import { API_ROUTES } from '../../../../config';
 
 // styles
@@ -27,7 +26,7 @@ import { TiArrowBack } from "react-icons/ti";
 
 const ForgotPassword = () => {
     const { register, handleSubmit, formState: { errors } } = useForm();
-    const userData = useLoaderData(userDataLoader);
+    const userData = useLoaderData();
     const [user, setUser] = useState(null);
     const navigate = useNavigate();
     // if email is not correct or not found in database, isCorrect will be false otherwise true, go to update password

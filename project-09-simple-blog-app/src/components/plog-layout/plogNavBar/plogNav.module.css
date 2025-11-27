@@ -1,0 +1,81 @@
+.plogNav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: var(--bg-surface);
+    color: var(--text-primary);
+    padding: 1rem 2rem;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    box-shadow: 0 0px 10px 5px rgba(0, 0, 0, 0.5);
+}
+
+.logo h1 {
+    margin: 0;
+    font-size: 1.5rem;
+    color: var(--text-primary);
+}
+
+.nav {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+}
+
+.navList {
+    display: flex;
+    list-style: none;
+    gap: 2rem;
+    margin: 0;
+    padding: 0;
+}
+
+.navList li a {
+    text-decoration: none;
+    color: var(--text-primary);
+    font-weight: 500;
+    transition: color 0.3s ease;
+}
+
+.navList li a:hover,
+.navList li a.active {
+    color: var(--accent-hover);
+}
+
+.actions {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+}
+
+.theme {
+    cursor: pointer;
+    font-size: 1.5rem;
+}
+
+.theme span{
+    color: var(--accent-primary);
+    transition: color 0.3s ease;
+}
+
+.theme span:hover{
+    color: var(--accent-hover);
+}
+
+.user {
+    display: flex;
+    align-items: center;
+}
+
+@media (width < 768px) {
+    .logo{
+        display: none;
+    }
+    .nav{
+        justify-content: start;
+    }
+    .navList{
+        gap: 1rem;
+    }
+}

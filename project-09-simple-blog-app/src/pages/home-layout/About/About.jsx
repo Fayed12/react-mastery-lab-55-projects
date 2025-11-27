@@ -1,12 +1,11 @@
 // local
 import styles from './About.module.css';
-import siteDataLoader from '../../../routers/siteDataLoader';
 
 // react router
 import { useLoaderData } from 'react-router';
 
 const About = () => {
-    const { description, title } = useLoaderData(siteDataLoader);
+    const { description, title } = useLoaderData();
     
     return (
         <section className={styles.about}>

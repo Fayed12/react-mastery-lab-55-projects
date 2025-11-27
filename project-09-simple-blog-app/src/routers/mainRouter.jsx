@@ -4,6 +4,7 @@ import { createBrowserRouter } from "react-router";
 // loader
 import siteDataLoader from "../routers/siteDataLoader";
 import userDataLoader from "../routers/userDataLoader";
+import postsDataLoader from "../routers/postsDataLoader";
 
 // pages
 import Home from "../pages/home-layout/Home/Home";
@@ -14,6 +15,10 @@ import Login from "../pages/user-auth/Login/Login";
 import About from "../pages/home-layout/About/About";
 import Contact from "../pages/home-layout/Contact/Contact";
 import ForgotPassword from "../pages/user-auth/ForgotPassword/ForgotPassword";
+import Profile from "../pages/plog-layout/profile/profile";
+import Settings from "../pages/plog-layout/settings/settings";
+import PostDetails from "../pages/plog-layout/postDetails/postDetails";
+import CreatePostForm from "../pages/plog-layout/CreatePostForm/CreatePostForm"
 
 // layouts
 import HomeLayout from "../layouts/homeLayout";
@@ -69,6 +74,28 @@ const router = createBrowserRouter([
             {
                 index: true,
                 element: <AllPosts />,
+                loader: postsDataLoader,
+            },
+            {
+                path:"allPostsHome",
+                element: <AllPosts />,
+                loader: postsDataLoader,
+            },
+            {
+                path:"postDetails",
+                element: <PostDetails />,
+            },
+            {
+                path:"createPost",
+                element: <CreatePostForm />,
+            },
+            {
+                path:"profile",
+                element: <Profile />,
+            },
+            {
+                path:"settings",
+                element: <Settings />,
             },
         ],
     },

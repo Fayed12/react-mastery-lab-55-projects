@@ -1,15 +1,33 @@
-// react 
-import { useContext } from "react";
+// react router
+import { Outlet, useLocation } from "react-router";
 
-// context
-import { userContext } from "../context/userContext";
+// local
+import PlogNav from "../components/plog-layout/plogNavBar/plogNav";
+import Footer from "../components/home-layout/Footer/Footer";
 
 function BlogLayout() {
-    const { user, isLogin } = useContext(userContext);
-    console.log(user, isLogin)
+    const location = useLocation();
+    const path = location.pathname.split("/")[2];
+
+    const pageNames = {
+        allPostsHome: "Home",
+        postDetails: "Post Details",
+        createPost: "Create Post",
+        profile: "Profile",
+        settings: "Settings"
+    };
+
+    const linkName = pageNames[path] || "Home";
     return (
-        <div>
-            <h1>Blog Layout</h1>
+        <div className="container">
+            <PlogNav />
+            <main className="main">
+                <div className="header">
+                    <p>Blog / <span>{linkName}:</span></p>
+                </div>
+                <Outlet />
+            </main>
+            <Footer />
         </div>
     );
 }

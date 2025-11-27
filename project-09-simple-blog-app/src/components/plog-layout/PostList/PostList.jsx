@@ -1,13 +1,8 @@
+// local
 import styles from './PostList.module.css';
 import PostCard from '../PostCard/PostCard';
 
-const PostList = () => {
-    // Placeholder data
-    const posts = [
-        { id: 1, title: 'First Post', content: 'This is the first post.' },
-        { id: 2, title: 'Second Post', content: 'This is the second post.' },
-    ];
-
+const PostList = ({ posts }) => {
     return (
         <div className={styles.postList}>
             {posts.map(post => (

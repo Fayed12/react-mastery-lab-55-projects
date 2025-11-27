@@ -17,9 +17,9 @@ function Error() {
                 <button
                     type="button"
                     className={styles.button}
-                    onClick={() => navigate('/', { replace: true })}
+                    onClick={() => navigate(-1)}
                 >
-                    Go Back Home
+                    Back
                 </button>
             </div>
         </div>
