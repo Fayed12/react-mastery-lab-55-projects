@@ -4,7 +4,12 @@ import Button from "../../ui/Button/Button";
 import Input from "../../ui/Input/Input";
 import addNewComment from "../../../services/addNewComment";
 import addRemoveLikeFromPost from "../../../services/addLikeToPost";
+import deletePost from "../../../services/deletePost";
 import { userContext } from "../../../context/userContext";
+import EditPostForm from "../EditPostForm/EditPostForm";
+
+// react router
+import { useNavigate } from "react-router";
 
 // uuid
 import { v4 as uuidv4 } from "uuid";
@@ -17,21 +22,69 @@ import { useForm } from "react-hook-form";
 
 // react icons
 import { FaEllipsisH, FaHeart, FaRegHeart, FaComment } from "react-icons/fa";
+import { MdEdit } from "react-icons/md";
+import { MdDelete } from "react-icons/md";
+import { TiInfoLarge } from "react-icons/ti";
+import { BiSolidHide } from "react-icons/bi";
+
+// toast
+import toast from "react-hot-toast";
 
 
-const PostCard = ({ postFromList, setPostsList }) => {
+const PostCard = ({ postFromList, postsList,setPostsList }) => {
     const { register, handleSubmit, setFocus, formState: { errors }, reset } = useForm();
     const [isReadMore, setIsReadMore] = useState(false);
     const [showReadMore, setShowReadMore] = useState(false);
     const [post, setPost] = useState(postFromList);
+    const [openMenu, setOpenMenu] = useState(false);
+    const [openEditForm, setOpenEditForm] = useState(false);
     const { user } = useContext(userContext);
     const [isLiked, setIsLiked] = useState(post.likes.includes(user.id));
     const contentRef = useRef(null);
+    const menueRef = useRef(null);
+    const navigate = useNavigate();
+
+    /* ====================================================================================================
+                            handle menue actions
+    ==================================================================================================== */
+    function handleHidePost(id) {
+        setOpenMenu(false);
+        const updatedPostsList = postsList.filter(post => post.id !== id);
+        setPostsList(updatedPostsList);
+    }
+    
+    function handleDeletePost(id) {
+        setOpenMenu(false);
+        const confirmDelete = window.confirm("Are you sure you want to delete this post?");
+        if (confirmDelete) {
+            deletePost(id);
+            const updatedPostsList = postsList.filter(post => post.id !== id);
+            setPostsList(updatedPostsList);
+        } else {
+            toast.error("Post not deleted", { id: "delete-post" });
+            return;
+        }
+    }
+
+    function handleEditPost() {
+        setOpenMenu(false);
+        setOpenEditForm(true);
+    }
+
+    function handleInfoPost() {
+        setOpenMenu(false);
+        toast.loading("loading....", { id: "post-info" });
+        setTimeout(() => {
+            navigate(`/blog/postDetails/${post.id}`);
+            toast.success("Post loaded successfully", { id: "post-info" })
+        }, 1000);
+    }
 
     /* ====================================================================================================
                             handle love to post
     ==================================================================================================== */
     function handleLoveToPost() {
+        setOpenMenu(false);
         if (!isLiked) {
             setIsLiked(true);
             setPost({ ...post, likes: [...post.likes, user.id] });
@@ -47,6 +100,7 @@ const PostCard = ({ postFromList, setPostsList }) => {
                                 focus to comment section
     ==================================================================================================== */
     function handlefocusToComment() {
+        setOpenMenu(false);
         setFocus("comment");
     }
 
@@ -54,8 +108,10 @@ const PostCard = ({ postFromList, setPostsList }) => {
                                 add comment to post
     ==================================================================================================== */
     function handleAddComment(data) {
+        setOpenMenu(false);
         const newComment = {
             id: `cmt-${uuidv4().split("-").at(0)}`,
+            userName: user.name,
             userId: user.id,
             content: data.comment,
             date: new Date().toISOString().split("T").at(0),
@@ -79,11 +135,27 @@ const PostCard = ({ postFromList, setPostsList }) => {
             }
         }
     }, [post?.content]);
+
+    /* ====================================================================================================
+                                check if menu is open
+    ==================================================================================================== */
+    useEffect(() => {
+        const handleClickOutside = (event) => {
+            if (menueRef.current && !menueRef.current.contains(event.target)) {
+                setOpenMenu(false);
+            }
+        };
+        document.addEventListener("mousedown", handleClickOutside);
+        return () => {
+            document.removeEventListener("mousedown", handleClickOutside);
+        };
+    }, [menueRef]);
     
     /* ====================================================================================================
                                             render post card
     ==================================================================================================== */    
     return (
+        <>
         <div className={styles.cardContainer}>
             <div className={styles.card}>
                 {/* Header */}
@@ -102,9 +174,22 @@ const PostCard = ({ postFromList, setPostsList }) => {
                         </div>
                     </div>
                     <div className={styles.menu}>
-                        <FaEllipsisH />
-                        <div className={styles.menuOptions}>
+                        <FaEllipsisH onClick={() => setOpenMenu(!openMenu)}/>
+                        <div ref={menueRef} className={styles.menuOptions} style={{right: openMenu ? "-10px" : "-70px"}}>
                             {/* if this post is my post , then i can [edit, delete, get details, hidden it], if not my post then can only [get details, hidden it] */}
+                            {post?.authorId === user?.id ? (
+                                <>
+                                    <Button className={styles.menuOptionsBtn} content={<MdEdit />} type="button" onClick={() => handleEditPost(post.id)}/>
+                                    <Button className={styles.menuOptionsBtn} content={<MdDelete />} type="button" onClick={() => handleDeletePost(post.id)}/>
+                                    <Button className={styles.menuOptionsBtn} content={<TiInfoLarge />} type="button" onClick={() => handleInfoPost(post.id)}/>
+                                    <Button className={styles.menuOptionsBtn} content={<BiSolidHide />} type="button" onClick={() => handleHidePost(post.id)}/>
+                                </>
+                            ): (
+                                <>
+                                    <Button className={styles.menuOptionsBtn} content={<TiInfoLarge />} type="button" onClick={() => handleInfoPost(post.id)}/>
+                                    <Button className={styles.menuOptionsBtn} content={<BiSolidHide />} type="button" onClick={() => handleHidePost(post.id)}/> 
+                                </>
+                            )}
                         </div>
                     </div>
                 </div>
@@ -165,7 +250,9 @@ const PostCard = ({ postFromList, setPostsList }) => {
                     </form>
                 </div>
             </div>
-        </div>
+            </div>
+            {openEditForm && <EditPostForm post={post} onClose={() => setOpenEditForm(false)} setPost={ setPost} />}
+        </>
     );
 };
 

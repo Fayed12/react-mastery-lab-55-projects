@@ -87,6 +87,45 @@
 .menu {
     color: var(--accent-primary);
     cursor: pointer;
+    position: relative;
+}
+
+.menuOptions {
+    position: absolute;
+    width: 50px;
+    background-color: #cf2460;
+    border-radius: 8px;
+    padding: 7px;
+    z-index: 100;
+    right: -70px;
+    top: 40px;
+    transition: .4s;
+}
+
+.menuOptions::before{
+    content: "";
+    position: absolute;
+    top: -15px;
+    right: 50%;
+    transform: translateX(50%);
+    width: 0;
+    height: 0;
+    border-left: 10px solid transparent;
+    border-right: 10px solid transparent;
+    border-bottom: 10px solid #cf2460;
+}
+
+.menuOptionsBtn {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: .3rem .6rem;
+    margin-bottom: 7px;
+    border-radius: 4px;
+}
+
+.menuOptionsBtn:last-child {
+    margin-bottom: 0;
 }
 
 /* Body */
