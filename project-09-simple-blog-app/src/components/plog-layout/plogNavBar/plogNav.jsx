@@ -29,6 +29,9 @@ const PlogNav = () => {
                     <li>
                         <NavLink to="settings" replace={true}>Settings</NavLink>
                     </li>
+                    <li>
+                        <NavLink to="/about" replace={true}>About</NavLink>
+                    </li>
                 </ul>
             </nav>
             <div className={styles.actions}>

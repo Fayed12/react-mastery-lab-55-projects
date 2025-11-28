@@ -12,6 +12,7 @@ const NavBar = () => {
                 <li><NavLink to="/home" replace={true}>Home</NavLink></li>
                 <li><NavLink to="/about" replace={true}>About</NavLink></li>
                 <li><NavLink to="/contact" replace={true}>Contact</NavLink></li>
+                <li><NavLink to="/blog" replace={true}>Blog</NavLink></li>
                 <li><button type='button' onClick={() => navigate('/login', {replace: true})}>
                     Login
                 </button></li>

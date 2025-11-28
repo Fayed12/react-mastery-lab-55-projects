@@ -2,17 +2,69 @@
 import styles from "./PostCard.module.css";
 import Button from "../../ui/Button/Button";
 import Input from "../../ui/Input/Input";
+import addNewComment from "../../../services/addNewComment";
+import addRemoveLikeFromPost from "../../../services/addLikeToPost";
+import { userContext } from "../../../context/userContext";
+
+// uuid
+import { v4 as uuidv4 } from "uuid";
 
 // react 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, useContext } from "react";
+
+// react hook form
+import { useForm } from "react-hook-form";
 
 // react icons
 import { FaEllipsisH, FaHeart, FaRegHeart, FaComment } from "react-icons/fa";
 
-const PostCard = ({ post }) => {
+
+const PostCard = ({ postFromList, setPostsList }) => {
+    const { register, handleSubmit, setFocus, formState: { errors }, reset } = useForm();
     const [isReadMore, setIsReadMore] = useState(false);
     const [showReadMore, setShowReadMore] = useState(false);
+    const [post, setPost] = useState(postFromList);
+    const { user } = useContext(userContext);
+    const [isLiked, setIsLiked] = useState(post.likes.includes(user.id));
     const contentRef = useRef(null);
+
+    /* ====================================================================================================
+                            handle love to post
+    ==================================================================================================== */
+    function handleLoveToPost() {
+        if (!isLiked) {
+            setIsLiked(true);
+            setPost({ ...post, likes: [...post.likes, user.id] });
+            addRemoveLikeFromPost(post.id, user.id, true)
+        } else {
+            setIsLiked(false);
+            setPost({ ...post, likes: post.likes.filter((id) => id !== user.id) });
+            addRemoveLikeFromPost(post.id, user.id, false)
+        }
+    }
+    
+    /* ====================================================================================================
+                                focus to comment section
+    ==================================================================================================== */
+    function handlefocusToComment() {
+        setFocus("comment");
+    }
+
+    /* ====================================================================================================
+                                add comment to post
+    ==================================================================================================== */
+    function handleAddComment(data) {
+        const newComment = {
+            id: `cmt-${uuidv4().split("-").at(0)}`,
+            userId: user.id,
+            content: data.comment,
+            date: new Date().toISOString().split("T").at(0),
+        }
+        addNewComment(post.id, newComment);
+        setPost({ ...post, comments: [...post.comments, newComment] });
+        reset({ comment: "" });
+        handlefocusToComment();
+    }
 
     /* ====================================================================================================
                                     check if content is more than 3 lines
@@ -51,6 +103,9 @@ const PostCard = ({ post }) => {
                     </div>
                     <div className={styles.menu}>
                         <FaEllipsisH />
+                        <div className={styles.menuOptions}>
+                            {/* if this post is my post , then i can [edit, delete, get details, hidden it], if not my post then can only [get details, hidden it] */}
+                        </div>
                     </div>
                 </div>
 
@@ -67,19 +122,21 @@ const PostCard = ({ post }) => {
                 <div className={styles.actions}>
                     <div className={styles.stats}>
                         <span className={styles.stat}>
-                            {post?.likes}
+                            {post?.likes?.length}
                             <Button
                                 className={styles.actionBtn}
                                 content={
                                     <>
-                                        <FaRegHeart />
+                                        {isLiked ? <FaHeart /> : <FaRegHeart />}
                                     </>
                                 }
+                                onClick={handleLoveToPost}
                             />
                         </span>
                         <span className={styles.stat}>
                             {post?.comments?.length}
                             <Button
+                                onClick={handlefocusToComment}
                                 className={styles.actionBtn}
                                 content={
                                     <>
@@ -96,12 +153,16 @@ const PostCard = ({ post }) => {
             {/* Comments Section */}
             <div className={styles.commentsSection}>
                 <div className={styles.commentInput}>
-                    <Input
-                        name="comment"
-                        type="text"
-                        placeholder="Add a comment..."
-                    />
-                    <Button className={styles.postBtn} content="Post" />
+                    <form onSubmit={handleSubmit(handleAddComment)} className={styles.commentForm}>
+                        <Input
+                            name="comment"
+                            type="text"
+                            placeholder="Add a comment..."
+                            register={register("comment", { required: "write any thing and comment it" })}
+                        />
+                        <Button className={styles.postBtn} content="Post" type="submit" />
+                        {errors.comment && <p className={styles.commentError}>{errors.comment.message}</p>}
+                    </form>
                 </div>
             </div>
         </div>
