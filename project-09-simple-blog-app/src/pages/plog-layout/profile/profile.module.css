@@ -1,0 +1,148 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    background-color: var(--bg-body);
+    animation: fadeIn 0.5s ease-out;
+}
+
+.banner {
+    height: 250px;
+    width: 100%;
+    background: linear-gradient(135deg, #2a0845 0%, #6441a5 50%, #bb86fc 100%);
+    position: relative;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.banner::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 50%;
+    background: linear-gradient(to top, var(--bg-body), transparent);
+}
+
+.profileHeader {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: -75px; /* Overlap banner */
+    position: relative;
+    z-index: 2;
+    padding: 0 2rem;
+}
+
+.avatarContainer {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    background-color: var(--bg-surface);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 4px solid var(--bg-body);
+    box-shadow: 0 10px 30px rgba(187, 134, 252, 0.4);
+    margin-bottom: 1.5rem;
+    animation: float 6s ease-in-out infinite;
+}
+
+.avatarIcon {
+    font-size: 5rem;
+    color: var(--accent-primary);
+    filter: drop-shadow(0 0 10px rgba(187, 134, 252, 0.5));
+}
+
+.userInfo {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.userName {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: var(--text-white);
+    margin-bottom: 0.5rem;
+}
+
+.userBio {
+    color: var(--text-secondary);
+    font-size: 1.1rem;
+    max-width: 600px;
+}
+
+.actions {
+    margin-bottom: 3rem;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.createPostBtn {
+    padding: 0.8rem 2rem !important;
+    font-size: 1.1rem !important;
+    box-shadow: 0 4px 15px rgba(187, 134, 252, 0.3);
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.createPostBtn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(187, 134, 252, 0.5);
+}
+
+.postsSection {
+    width: 100%;
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 0 2rem 4rem;
+}
+
+.sectionTitle {
+    font-size: 1.5rem;
+    color: var(--text-white);
+    margin-bottom: 1.5rem;
+    border-left: 4px solid var(--accent-primary) !important;
+    padding-left: 1rem;
+}
+
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes float {
+    0% {
+        transform: translateY(0px);
+    }
+    50% {
+        transform: translateY(-10px);
+    }
+    100% {
+        transform: translateY(0px);
+    }
+}
+
+@media (max-width: 768px) {
+    .banner {
+        height: 200px;
+    }
+
+    .avatarContainer {
+        width: 120px;
+        height: 120px;
+    }
+
+    .avatarIcon {
+        font-size: 4rem;
+    }
+
+    .userName {
+        font-size: 2rem;
+    }
+}

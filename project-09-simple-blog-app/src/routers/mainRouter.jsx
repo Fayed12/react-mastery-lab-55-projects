@@ -16,7 +16,6 @@ import About from "../pages/home-layout/About/About";
 import Contact from "../pages/home-layout/Contact/Contact";
 import ForgotPassword from "../pages/user-auth/ForgotPassword/ForgotPassword";
 import Profile from "../pages/plog-layout/profile/profile";
-import Settings from "../pages/plog-layout/settings/settings";
 import PostDetails from "../pages/plog-layout/postDetails/postDetails";
 import CreatePostForm from "../pages/plog-layout/CreatePostForm/CreatePostForm"
 
@@ -93,10 +92,7 @@ const router = createBrowserRouter([
             {
                 path:"profile",
                 element: <Profile />,
-            },
-            {
-                path:"settings",
-                element: <Settings />,
+                loader: postsDataLoader,
             },
         ],
     },

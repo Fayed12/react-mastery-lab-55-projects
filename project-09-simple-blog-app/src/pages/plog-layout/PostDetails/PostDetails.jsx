@@ -88,7 +88,7 @@ const PostDetails = () => {
                     </div>
                 </div>
                 <div className={styles.backButton}>
-                    <Button content={"Back Home"} onClick={() => navigate("/blog/allPostsHome", { replace: true })} type="button" />
+                    <Button content={"Back"} onClick={() => navigate(-1)} type="button" />
                 </div>
                 {openUserDetials && <UserDetails userId={post[0]?.authorId} onClose={handleUserDetails} />}
             </>
