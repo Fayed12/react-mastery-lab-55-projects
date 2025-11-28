@@ -2,6 +2,7 @@
 import styles from './PostDetails.module.css';
 import Button from '../../../components/ui/Button/Button';
 import UserDetails from '../../../components/plog-layout/userDetails/userDetails';
+import Loading from '../../loading/loading';
 
 // react router
 import { useLoaderData, useNavigate } from 'react-router';
@@ -15,12 +16,24 @@ import { useState } from 'react';
 
 const PostDetails = () => {
     const post = useLoaderData()
+    const [openLoading, setOpenLoading] = useState(false)
     const navigate = useNavigate()
     const [openUserDetials, setOpenUserDetials] = useState(false)
 
     // handle user details
     const handleUserDetails = () => {
         setOpenUserDetials(!openUserDetials)
+    }
+
+    // navigate back 
+    const navigateBack = () => {
+        setOpenLoading(true)
+        setTimeout(() => {
+            setOpenLoading(false)
+        }, 1200)
+        setTimeout(() => {
+            navigate(-1)
+        }, 1000)
     }
 
     if (!post) {
@@ -88,9 +101,10 @@ const PostDetails = () => {
                     </div>
                 </div>
                 <div className={styles.backButton}>
-                    <Button content={"Back"} onClick={() => navigate(-1)} type="button" />
+                    <Button content={"Back"} onClick={() => navigateBack()} type="button" />
                 </div>
                 {openUserDetials && <UserDetails userId={post[0]?.authorId} onClose={handleUserDetails} />}
+                {openLoading && <Loading />}
             </>
         );
     }

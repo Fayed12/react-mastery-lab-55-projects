@@ -1,104 +1,112 @@
 // react router
 import { createBrowserRouter } from "react-router";
 
+// react 
+import { Suspense, lazy } from "react";
+
 // loader
 import siteDataLoader from "../routers/siteDataLoader";
 import userDataLoader from "../routers/userDataLoader";
 import postsDataLoader from "../routers/postsDataLoader";
 
 // pages
-import Home from "../pages/home-layout/Home/Home";
-import Error from "../pages/error/Error";
-import AllPosts from "../pages/plog-layout/AllPosts/AllPosts";
-import SignUp from "../pages/user-auth/SignUp/SignUp";
-import Login from "../pages/user-auth/Login/Login";
-import About from "../pages/home-layout/About/About";
-import Contact from "../pages/home-layout/Contact/Contact";
-import ForgotPassword from "../pages/user-auth/ForgotPassword/ForgotPassword";
-import Profile from "../pages/plog-layout/profile/profile";
-import PostDetails from "../pages/plog-layout/postDetails/postDetails";
-import CreatePostForm from "../pages/plog-layout/CreatePostForm/CreatePostForm"
+const Home = lazy(() => import("../pages/home-layout/Home/Home"));
+const Error = lazy(() => import("../pages/error/Error"));
+const AllPosts = lazy(() => import("../pages/plog-layout/AllPosts/AllPosts"));
+const SignUp = lazy(() => import("../pages/user-auth/SignUp/SignUp"));
+const Login = lazy(() => import("../pages/user-auth/Login/Login"));
+const About = lazy(() => import("../pages/home-layout/About/About"));
+const Contact = lazy(() => import("../pages/home-layout/Contact/Contact"));
+const ForgotPassword = lazy(() => import("../pages/user-auth/ForgotPassword/ForgotPassword"));
+const Profile = lazy(() => import("../pages/plog-layout/profile/profile"));
+const PostDetails = lazy(() => import("../pages/plog-layout/postDetails/postDetails"));
+const CreatePostForm = lazy(() => import("../pages/plog-layout/CreatePostForm/CreatePostForm"));
 
 // layouts
-import HomeLayout from "../layouts/homeLayout";
-import BlogLayout from "../layouts/blogLayout";
+const HomeLayout = lazy(() => import("../layouts/homeLayout"));
+const BlogLayout = lazy(() => import("../layouts/blogLayout"));
 
 // local
 import ProtectRoute from "./protectRouter";
 import ProtectLogin from "./protectLogin";
+import Loading from "../pages/loading/loading";
+
+// const Loader = () => <div>Loading...</div>;
 
 const router = createBrowserRouter([
     {
         path: "/",
-        element: <HomeLayout />,
+        element: <Suspense fallback={<Loading />}>
+            <HomeLayout />
+        </Suspense>,
         children: [
             {
                 index: true,
-                element: <Home />,
+                element: <Suspense fallback={<Loading />}><Home /></Suspense>,
             },
             {
                 path: "home",
-                element: <Home />,
+                element: <Suspense fallback={<Loading />}><Home /></Suspense>,
             },
             {
                 path: "about",
-                element: <About />,
+                element: <Suspense fallback={<Loading />}><About /></Suspense>,
                 loader: siteDataLoader,
             },
             {
                 path: "contact",
-                element: <Contact />,
+                element: <Suspense fallback={<Loading />}><Contact /></Suspense>,
             },
         ],
     },
     {
         path: "/signUp",
-        element: <SignUp />,
+        element: <Suspense fallback={<Loading />}><SignUp /></Suspense>,
         loader: userDataLoader
     },
     {
         path: "/login",
-        element: <ProtectLogin><Login /></ProtectLogin>,
+        element: <Suspense fallback={<Loading />}><ProtectLogin><Login /></ProtectLogin></Suspense>,
         loader: userDataLoader
     },
     {
         path: "/forgotPassword",
-        element: <ForgotPassword />,
+        element: <Suspense fallback={<Loading />}><ForgotPassword /></Suspense>,
         loader: userDataLoader
     },
     {
         path: "/blog",
-        element: <ProtectRoute><BlogLayout /></ProtectRoute>,
+        element: <Suspense fallback={<Loading />}><ProtectRoute><BlogLayout /></ProtectRoute></Suspense>,
         children: [
             {
                 index: true,
-                element: <AllPosts />,
+                element: <Suspense fallback={<Loading />}><AllPosts /></Suspense>,
                 loader: postsDataLoader,
             },
             {
-                path:"allPostsHome",
-                element: <AllPosts />,
+                path: "allPostsHome",
+                element: <Suspense fallback={<Loading />}><AllPosts /></Suspense>,
                 loader: postsDataLoader,
             },
             {
-                path:"postDetails/:id",
-                element: <PostDetails />, 
+                path: "postDetails/:id",
+                element: <Suspense fallback={<Loading />}><PostDetails /></Suspense>,
                 loader: postsDataLoader,
             },
             {
-                path:"createPost",
-                element: <CreatePostForm />,
+                path: "createPost",
+                element: <Suspense fallback={<Loading />}><CreatePostForm /></Suspense>,
             },
             {
-                path:"profile",
-                element: <Profile />,
+                path: "profile",
+                element: <Suspense fallback={<Loading />}><Profile /></Suspense>,
                 loader: postsDataLoader,
             },
         ],
     },
     {
         path: "*",
-        element: <Error />,
+        element: <Suspense fallback={<Loading />}><Error /></Suspense>,
     },
 ]);
 

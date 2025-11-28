@@ -7,6 +7,7 @@ import addRemoveLikeFromPost from "../../../services/addLikeToPost";
 import deletePost from "../../../services/deletePost";
 import { userContext } from "../../../context/userContext";
 import EditPostForm from "../EditPostForm/EditPostForm";
+import Loading from "../../../pages/loading/Loading";
 
 // react router
 import { useNavigate } from "react-router";
@@ -38,6 +39,7 @@ const PostCard = ({ postFromList, postsList,setPostsList }) => {
     const [post, setPost] = useState(postFromList);
     const [openMenu, setOpenMenu] = useState(false);
     const [openEditForm, setOpenEditForm] = useState(false);
+    const [openLoading, setOpenLoading] = useState(false);
     const { user } = useContext(userContext);
     const [isLiked, setIsLiked] = useState(post.likes.includes(user.id));
     const contentRef = useRef(null);
@@ -74,10 +76,14 @@ const PostCard = ({ postFromList, postsList,setPostsList }) => {
     function handleInfoPost() {
         setOpenMenu(false);
         toast.loading("loading....", { id: "post-info" });
+        setOpenLoading(true);
         setTimeout(() => {
             navigate(`/blog/postDetails/${post.id}`);
             toast.success("Post loaded successfully", { id: "post-info" })
         }, 1000);
+        setTimeout(() => {
+            setOpenLoading(false);
+        }, 1200);
     }
 
     /* ====================================================================================================
@@ -251,7 +257,8 @@ const PostCard = ({ postFromList, postsList,setPostsList }) => {
                 </div>
             </div>
             </div>
-            {openEditForm && <EditPostForm post={post} onClose={() => setOpenEditForm(false)} setPost={ setPost} />}
+            {openEditForm && <EditPostForm post={post} onClose={() => setOpenEditForm(false)} setPost={setPost} />}
+            {openLoading && <Loading />}
         </>
     );
 };
