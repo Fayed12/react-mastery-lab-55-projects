@@ -15,7 +15,7 @@ import { useNavigate } from "react-router";
 // uuid
 import { v4 as uuidv4 } from "uuid";
 
-// react 
+// react
 import { useEffect, useRef, useState, useContext } from "react";
 
 // react hook form
@@ -181,7 +181,7 @@ const PostCard = ({ postFromList, postsList,setPostsList }) => {
                     </div>
                     <div className={styles.menu}>
                         <FaEllipsisH onClick={() => setOpenMenu(!openMenu)}/>
-                        <div ref={menueRef} className={styles.menuOptions} style={{right: openMenu ? "-10px" : "-70px"}}>
+                        <div ref={menueRef} className={styles.menuOptions} style={{right: openMenu ? "-0px" : "-70px"}}>
                             {/* if this post is my post , then i can [edit, delete, get details, hidden it], if not my post then can only [get details, hidden it] */}
                             {post?.authorId === user?.id ? (
                                 <>

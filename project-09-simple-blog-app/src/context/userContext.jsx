@@ -1,5 +1,5 @@
 // react context
-import { createContext, useState } from "react";
+import { createContext, useMemo, useState } from "react";
 
 // eslint-disable-next-line react-refresh/only-export-components
 export const userContext = createContext();
@@ -13,14 +13,18 @@ export const UserContextProvider = ({ children }) => {
         const storedUser = sessionStorage.getItem("user") || localStorage.getItem("user");
         return storedUser ? JSON.parse(storedUser) : null;
     });
-    
-    return (
-        <userContext.Provider value={{
+
+    const value = useMemo(() => {
+        return {
             user,
             setUser,
             isLogin,
             setIsLogin,
-        }}>
+        }
+    }, [user, isLogin]);
+    
+    return (
+        <userContext.Provider value={value}>
             {children}
         </userContext.Provider>
     );

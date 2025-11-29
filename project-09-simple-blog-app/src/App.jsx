@@ -9,7 +9,10 @@ import WelcomePage from "./pages/welcomePage/welcomePage";
 function App() {
   const [showWelcome, setShowWelcome] = useState(() => {
     const welcomeShown = sessionStorage.getItem("welcomeShown");
-    return welcomeShown === "false";
+    if (welcomeShown) {
+      return welcomeShown === "false";
+    }
+    return true;
   });
 
   const handleWelcomeComplete = () => {

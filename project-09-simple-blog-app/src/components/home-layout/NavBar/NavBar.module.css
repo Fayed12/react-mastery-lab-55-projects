@@ -49,9 +49,15 @@
 }
 
 @media (width < 768px) {
-    .nav button {
-    padding: .5rem 1rem;
-}
+    .nav .MuiButtonBase-root{
+        padding:0rem !important;
+    }
+
+    .nav .MuiButtonBase-root .MuiAvatar-circular {
+        width: 40px !important;
+        height: 40px !important;
+        font-size: 1rem !important;
+    }
 }
 
 .theme {

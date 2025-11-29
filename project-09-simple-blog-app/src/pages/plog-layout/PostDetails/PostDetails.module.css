@@ -27,6 +27,14 @@
     box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
 }
 
+@media (width < 600px) {
+    .container {
+        padding: 0rem;
+    }
+    .card {
+        padding: 0.7rem !important;
+    }
+}
 /* Header Section */
 .header {
     display: flex;
@@ -100,12 +108,41 @@
     border: 1px solid rgba(187, 134, 252, 0.2);
 }
 
+@media (width < 600px) {
+    .header {
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: 20px;
+    }
+    .title {
+        font-size: 1rem !important;
+    }
+    .metaInfo {
+        font-size: 0.7rem !important;
+        display: flex !important;
+        justify-content: space-between !important;
+        align-items: center;
+    }
+    .category {
+        padding: 0.4rem 0.8rem;
+        border-radius: 40px;
+        font-size: 0.7rem;
+    }
+}
+
 /* Content Section */
 .content {
     font-size: 1.1rem;
     line-height: 1.8;
     color: var(--text-primary);
     padding: 1rem 0;
+}
+
+@media (width < 600px) {
+    .content {
+        font-size: 0.9rem !important;
+    }
 }
 
 /* Stats Section */
@@ -130,6 +167,18 @@
     font-size: 1.2rem;
 }
 
+@media (width < 600px) {
+    .stats {
+        flex-direction: column;
+        justify-content: center;
+        align-items: flex-start;
+        gap: 10px;
+    }
+    .icon {
+        font-size: 1rem !important;
+    }
+}
+
 /* Footer ID */
 .footerId {
     font-size: 0.75rem;
@@ -152,7 +201,7 @@
     display: flex;
     flex-direction: column;
     gap: 1.5rem;
-    max-height: 500px; /* Limit height for scrolling */
+    max-height: 500px;
 }
 
 .commentsHeader {
@@ -172,12 +221,12 @@
     padding-right: 0.5rem;
 }
 
-.commentsList::-webkit-scrollbar{
-    width: 2px!important;
+.commentsList::-webkit-scrollbar {
+    width: 2px !important;
 }
 
-.commentsList::-webkit-scrollbar-track{
-    background: transparent!important;
+.commentsList::-webkit-scrollbar-track {
+    background: transparent !important;
 }
 
 /* Scrollbar styling for comments */
@@ -237,6 +286,32 @@
     line-height: 1.5;
 }
 
+@media (width < 600px) {
+    .commentsContainer {
+        padding: 1rem !important;
+        gap: 1.5rem;
+        max-height: 400px;
+    }
+
+    .commentsHeader {
+        font-size: 1rem;
+    }
+    .commentHeader {
+        font-size: 0.7rem;
+    }
+
+    .commentAuthor span:first-child {
+        font-size: 1.5rem;
+    }
+
+    .commentDate {
+        font-size: 0.6rem;
+    }
+    .commentContent {
+        font-size: 0.8rem;
+    }
+}
+
 @keyframes fadeIn {
     from {
         opacity: 0;
@@ -263,9 +338,14 @@
     }
 }
 
-
-.backButton{
+.backButton {
     position: absolute;
-    top:120px;
-    right:50px;
+    top: 120px;
+    right: 50px;
+}
+
+@media (max-width: 600px) {
+    .backButton {
+        display: none;
+    }
 }

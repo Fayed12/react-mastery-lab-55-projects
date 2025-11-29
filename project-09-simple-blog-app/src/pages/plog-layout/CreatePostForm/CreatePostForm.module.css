@@ -144,20 +144,36 @@
 }
 
 @media (max-width: 768px) {
+    .container{
+        padding: 0rem !important;
+    }
     .formCard {
-        padding: 2rem;
+        padding: 1rem;
     }
 
     .title {
-        font-size: 2rem;
+        font-size: 1.2rem;
+        margin-bottom: .5rem;
+    }
+
+    .overview{
+        font-size: .8rem;
     }
 
     .actions {
         flex-direction: column;
     }
 
+    .actions button{
+        padding: 1rem !important;
+        font-size: .8rem !important;
+    }
+
     .submitBtn,
     .cancelBtn {
         width: 100%;
     }
+    .label {
+    font-size: .8rem;
+}
 }

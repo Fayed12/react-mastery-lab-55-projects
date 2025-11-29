@@ -28,7 +28,7 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin-top: -75px; /* Overlap banner */
+    margin-top: -75px;
     position: relative;
     z-index: 2;
     padding: 0 2rem;
@@ -106,7 +106,6 @@
     padding-left: 1rem;
 }
 
-
 @keyframes fadeIn {
     from {
         opacity: 0;
@@ -139,10 +138,25 @@
     }
 
     .avatarIcon {
-        font-size: 4rem;
+        font-size: 3rem;
     }
 
     .userName {
-        font-size: 2rem;
+        font-size: 1.5rem;
+    }
+
+    .createPostBtn {
+        font-size: 0.7rem !important;
+    }
+    .userBio {
+        font-size: 0.8rem !important;
+    }
+    .postsSection {
+        max-width: 100%;
+        padding: 0rem !important;
+    }
+
+    .sectionTitle {
+        font-size: 1.3rem;
     }
 }

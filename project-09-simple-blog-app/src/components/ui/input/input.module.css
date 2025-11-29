@@ -20,3 +20,10 @@
     border-color: var(--accent-primary);
     box-shadow: 0 0 0 2px rgba(187, 134, 252, 0.2);
 }
+
+
+@media (max-width: 768px) {
+    .input {
+        padding: .5rem 1rem;
+    }
+}
