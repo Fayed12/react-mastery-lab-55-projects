@@ -13,7 +13,7 @@
     font-size: 3rem;
     margin-bottom: 1rem;
     color: var(--text-white);
-    background: linear-gradient(45deg, var(--accent-primary), #fff);
+    background: linear-gradient(45deg, var(--accent-primary), #ffc0c0);
     background-clip: text;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;

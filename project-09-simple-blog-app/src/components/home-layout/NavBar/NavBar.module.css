@@ -48,25 +48,22 @@
     width: 100%;
 }
 
-.nav button {
-    background-color: var(--accent-primary);
-    color: var(--text-on-accent);
-    border: none;
-    padding: 0.5rem 1.2rem;
-    border-radius: 5px;
-    cursor: pointer;
-    font-weight: 600;
-    font-family: inherit;
-    transition: transform 0.2s ease, background-color 0.2s ease;
-}
-
-.nav button:hover {
-    background-color: var(--accent-hover);
-    transform: translateY(-2px);
-}
-
 @media (width < 768px) {
     .nav button {
     padding: .5rem 1rem;
 }
+}
+
+.theme {
+    cursor: pointer;
+    font-size: 1.5rem;
+}
+
+.theme span{
+    color: var(--accent-primary);
+    transition: .4s;
+}
+
+.theme span:hover{
+    color: var(--accent-hover);
 }

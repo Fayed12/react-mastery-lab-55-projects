@@ -20,6 +20,20 @@
     --error-color: #cf6679;
 }
 
+:root.light {
+    --bg-body: #f8ebfd;
+    --bg-surface: #f5e0fd;
+    --text-primary: #121212;
+    --text-secondary: #1e1e1e;
+    --text-white: #000000;
+    --accent-primary: #a866f9;
+    --accent-hover: #9846fc;
+    --text-on-accent: #121212;
+    --border-color: #33333329;
+    --shadow-color: rgba(0, 0, 0, 0.1);
+    --error-color: #cf6679;
+}
+
 body {
     font-family: "Poppins", sans-serif;
     background-color: var(--bg-body);

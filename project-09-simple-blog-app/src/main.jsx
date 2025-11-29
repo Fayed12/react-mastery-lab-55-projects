@@ -4,15 +4,18 @@ import './index.css'
 import App from './App.jsx'
 import { UserContextProvider } from './context/userContext'
 import UserPostsContextProvider from './context/userPostsContext.jsx'
+import ThemeContextProvider from './context/themeContext.jsx'
 import { Toaster } from 'react-hot-toast'
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-    <UserContextProvider>
-      <UserPostsContextProvider>
-        <Toaster/>
-        <App />
-      </UserPostsContextProvider>
-    </UserContextProvider>
+    <ThemeContextProvider>
+      <UserContextProvider>
+        <UserPostsContextProvider>
+          <Toaster/>
+          <App />
+        </UserPostsContextProvider>
+      </UserContextProvider>
+    </ThemeContextProvider>
   </StrictMode>,
 )

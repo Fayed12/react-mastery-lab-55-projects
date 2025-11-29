@@ -1,18 +1,31 @@
 // local
 import styles from './plogNav.module.css';
 import UserMenu from '../../ui/userPopup';
+import { ThemeContext } from '../../../context/themeContext'
 
 // react router
 import { NavLink } from 'react-router';
 
 // react
-import { useState } from 'react';
+import { useEffect, useContext } from 'react';
 
 // react icons
 import { MdDarkMode, MdLightMode } from "react-icons/md";
 
 const PlogNav = () => {
-    const [darkMode, setDarkMode] = useState(false);
+    const { theme, setTheme } = useContext(ThemeContext);
+
+    // set theme mode 
+    useEffect(() => {
+        const root = document.documentElement;
+        if (theme === "dark") {
+            root.classList.remove("light");
+        } else {
+            root.classList.add("light")
+        }
+
+        sessionStorage.setItem("theme", theme);
+    }, [theme])
     return (
         <div className={styles.plogNav}>
             <div className={styles.logo}>
@@ -33,13 +46,13 @@ const PlogNav = () => {
             </nav>
             <div className={styles.actions}>
                 <div className={styles.theme}>
-                    {darkMode ?
+                    {theme === "dark" ?
                         (<span>
-                            <MdDarkMode onClick={() => setDarkMode(false)} />
+                            <MdDarkMode onClick={() => setTheme("light")} />
                         </span>)
                         :
                         (<span>
-                            <MdLightMode onClick={() => setDarkMode(true)} />
+                            <MdLightMode onClick={() => setTheme("dark")} />
                         </span>)
                     }
                 </div>

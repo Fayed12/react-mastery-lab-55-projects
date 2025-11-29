@@ -18,12 +18,10 @@ function ProtectRoute({ children }) {
         return () => clearTimeout(timer);
     }, []);
 
-    // Show loading while checking login
     if (loading) return <Loading />;
 
-    // User not logged in → redirect to home
     if (!isLogin) {
-        return <Navigate to="/" replace />;
+        return <Navigate to="/login" replace />;
     }
 
     // Logged in → render page

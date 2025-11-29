@@ -12,7 +12,7 @@ async function userDataLoader() {
         return userData;
     } catch (error) {
         console.error("Error fetching user data:", error);
-        return null;
+        return [];
     }
 }
 

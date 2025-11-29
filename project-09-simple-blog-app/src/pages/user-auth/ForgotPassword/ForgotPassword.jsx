@@ -83,49 +83,54 @@ const ForgotPassword = () => {
     return (
         <>
             <div className={styles.pageContainer}>
-                <div className={styles.card}>
-                    <h1 className={styles.title}>{!isCorrect ? "Check Email" : "Update Password"}</h1>
+                <div className={styles.imageSide}>
+                    <img src="/login.png" alt="Login Visual" className={styles.loginImage} />
+                </div>
+                <div className={styles.formSide}>
+                    <div className={styles.card}>
+                        <h1 className={styles.title}>{!isCorrect ? "Check Email" : "Update Password"}</h1>
 
-                    <div className={styles.content}>
-                        {!isCorrect ? (
-                            <div className={styles.emailSection}>
-                                <form className={styles.form} onSubmit={handleSubmit(submitEmail)}>
+                        <div className={styles.content}>
+                            {!isCorrect ? (
+                                <div className={styles.emailSection}>
+                                    <form className={styles.form} onSubmit={handleSubmit(submitEmail)}>
+                                        <Input
+                                            type="email"
+                                            placeholder="Enter your email"
+                                            name="email"
+                                            register={register("email", { required: "Email is required", pattern: { value: /^[a-zA-Z0-9._%+-]+@gmail\.com$/, message: "Invalid email format, only email@gmail.com" } })}
+                                        />
+                                        {errors.email && <p className="error">{errors.email.message}</p>}
+
+                                        <Button content="Check Email" className={styles.checkBtn} aria-label="Check Email" title='Check Email' />
+
+                                    </form>
+                                </div>
+                            ) : (
+                                <form className={styles.form} onSubmit={handleSubmit(submitPassword)}>
                                     <Input
-                                        type="email"
-                                        placeholder="Enter your email"
-                                        name="email"
-                                        register={register("email", { required: "Email is required", pattern: { value: /^[a-zA-Z0-9._%+-]+@gmail\.com$/, message: "Invalid email format, only email@gmail.com" } })}
+                                        type="password"
+                                        placeholder="New Password"
+                                        name="password"
+                                        register={register("password", { required: "Password is required", minLength: { value: 6, message: "Password must be at least 6 characters" }, pattern: { value: /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/, message: "Password must contain at least one uppercase letter, one lowercase letter, one digit, and one special character" } })}
                                     />
-                                    {errors.email && <p className="error">{errors.email.message}</p>}
+                                    {errors.password && <p className="error">{errors.password.message}</p>}
+                                    <Input
+                                        type="password"
+                                        placeholder="Confirm Password"
+                                        name="confirmPassword"
+                                        register={register("confirmPassword", { required: "Confirm Password is required" })}
+                                    />
+                                    {errors.confirmPassword && <p className="error">{errors.confirmPassword.message}</p>}
 
-                                    <Button content="Check Email" className={styles.checkBtn} aria-label="Check Email" title='Check Email' />
-
+                                    <Button content="Update Password" className={styles.updateBtn} aria-label="Update Password" title='Update Password' />
                                 </form>
+                            )}
+                            <div className={styles.leftAction} aria-label="Back to Login" title='Back to Login'>
+                                <NavLink to="/login" className={styles.backLink} replace={true}>
+                                    <TiArrowBack />
+                                </NavLink>
                             </div>
-                        ) : (
-                            <form className={styles.form} onSubmit={handleSubmit(submitPassword)}>
-                                <Input
-                                    type="password"
-                                    placeholder="New Password"
-                                    name="password"
-                                    register={register("password", { required: "Password is required", minLength: { value: 6, message: "Password must be at least 6 characters" }, pattern: { value: /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/, message: "Password must contain at least one uppercase letter, one lowercase letter, one digit, and one special character" } })}
-                                />
-                                {errors.password && <p className="error">{errors.password.message}</p>}
-                                <Input
-                                    type="password"
-                                    placeholder="Confirm Password"
-                                    name="confirmPassword"
-                                    register={register("confirmPassword", { required: "Confirm Password is required" })}
-                                />
-                                {errors.confirmPassword && <p className="error">{errors.confirmPassword.message}</p>}
-
-                                <Button content="Update Password" className={styles.updateBtn} aria-label="Update Password" title='Update Password' />
-                            </form>
-                        )}
-                        <div className={styles.leftAction} aria-label="Back to Login" title='Back to Login'>
-                            <NavLink to="/login" className={styles.backLink} replace={true}>
-                                <TiArrowBack />
-                            </NavLink>
                         </div>
                     </div>
                 </div>
