@@ -7,7 +7,7 @@ import Footer from "./components/footer/footer";
 
 function App() {
     return (
-        <>
+        <div className="all-page">
             <nav>
                 <NavBar/>
             </nav>
@@ -17,7 +17,7 @@ function App() {
             <footer>
                 <Footer/>
             </footer>
-        </>
+        </div>
     );
 }
 
