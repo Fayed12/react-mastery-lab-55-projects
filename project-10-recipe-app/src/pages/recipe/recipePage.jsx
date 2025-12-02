@@ -2,6 +2,7 @@
 import style from "./recipePage.module.css";
 import usegetIngredients from "../../hooks/getIngredients";
 import getRecipe from "../../services/getRecip";
+import Loading from "../loading/loading";
 
 // react icons
 import { FaSearch, FaYoutube, FaUtensils, FaMapMarkerAlt, FaList, FaRulerCombined, FaPlay } from "react-icons/fa";
@@ -12,12 +13,16 @@ import { useEffect, useState } from "react";
 // react router
 import { useSearchParams } from "react-router";
 
+// DotLottieReact 
+import { DotLottieReact } from "@lottiefiles/dotlottie-react";
+
 
 function RecipePage() {
     const [searchTerm, setSearchTerm] = useState("");
     const [searchParams, setSearchParams] = useSearchParams();
     const [recipe, setRecipe] = useState([]);
     const [ingredients, setIngredients] = useState([]);
+    const [openLoading, setOpenLoading] = useState(false);
     const meal = recipe?.[0];
     const query = searchParams.get("query") || "";
 
@@ -32,105 +37,130 @@ function RecipePage() {
     // handle seach to get recipe
     useEffect(() => {
         if (query) {
-            const fetchRecipe = async () => {
-                const recipeData = await getRecipe(query);
-                setRecipe(recipeData);
-                setIngredients(usegetIngredients(recipeData?.[0]) || []);
+            const fetchRecipe = () => {
+                setOpenLoading(true);
+                setTimeout(async () => {
+                    const recipeData = await getRecipe(query);
+                    setRecipe(recipeData);
+                    setIngredients(usegetIngredients(recipeData?.[0]) || []);
+                }, 2000);
+                setTimeout(() => {
+                    setOpenLoading(false);
+                }, 2200);
             }
             fetchRecipe();
         }
     }, [query])
 
+    // make page is fixed while loading
+    useEffect(() => {
+        if (openLoading) {
+            document.body.style.overflow = "hidden";
+        } else {
+            document.body.style.overflow = "auto";
+        }
+    }, [openLoading])
+
     return (
-        <div className={style.recipePage}>
-            {/* Search Section */}
-            <div className={style.searchSection}>
-                <div className={style.searchContainer}>
-                    <form onSubmit={handleSubmit}>
+        <>
+            <div className={style.recipePage}>
+                {/* Search Section */}
+                <div className={style.searchSection}>
+                    <div className={style.searchContainer}>
+                        <form onSubmit={handleSubmit}>
 
-                        <input
-                            type="text"
-                            placeholder="Search for a delicious recipe..."
-                            className={style.searchInput}
-                            value={searchTerm}
-                            onChange={(e) => setSearchTerm(e.target.value)}
-                        />
-                        <button className={style.searchButton} type="submit">
-                            <FaSearch />
-                        </button>
-                    </form>
-                </div>
-            </div>
-
-            {/* Recipe Card */}
-            <div className={style.recipeCard}>
-                <div className={style.cardHeader}>
-                    <div className={style.headerTop}>
-                        <h1 className={style.mealTitle}>{meal?.strMeal}</h1>
-                        <div className={style.badges}>
-                            <span className={`${style.badge} ${style.badgeCategory}`}>
-                                <FaUtensils /> {meal?.strCategory}
-                            </span>
-                            <span className={`${style.badge} ${style.badgeArea}`}>
-                                <FaMapMarkerAlt /> {meal?.strArea}
-                            </span>
-                        </div>
+                            <input
+                                id="search"
+                                type="text"
+                                placeholder="Search for a delicious recipe..."
+                                className={style.searchInput}
+                                value={searchTerm}
+                                onChange={(e) => setSearchTerm(e.target.value)}
+                            />
+                            <button className={style.searchButton} type="submit">
+                                <FaSearch />
+                            </button>
+                        </form>
                     </div>
                 </div>
 
-                <div className={style.cardContent}>
-                    {/* Left Column: Image */}
-                    <div className={style.imageSection}>
-                        <img
-                            src={meal?.strMealThumb}
-                            alt={meal?.strMeal}
-                            className={style.mealImage}
-                        />
-                        <div className={style.videoSection}>
-                            <a
-                                href={meal?.strYoutube}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className={style.youtubeLink}
-                            >
-                                <FaYoutube size={24} /> Watch Video Tutorial
-                            </a>
-                        </div>
-                    </div>
-
-                    {/* Right Column: Details */}
-                    <div className={style.detailsSection}>
-                        {/* Instructions */}
-                        <div className={style.instructions}>
-                            <h3 className={style.sectionTitle}>
-                                <FaList /> Instructions
-                            </h3>
-                            <p className={style.instructionsText}>
-                                {meal?.strInstructions}
-                            </p>
+                {/* Recipe Card */}
+                {recipe?.length > 0 ? (
+                    <div className={style.recipeCard}>
+                        <div className={style.cardHeader}>
+                            <div className={style.headerTop}>
+                                <h1 className={style.mealTitle}>{meal?.strMeal}</h1>
+                                <div className={style.badges}>
+                                    <span className={`${style.badge} ${style.badgeCategory}`}>
+                                        <FaUtensils /> {meal?.strCategory}
+                                    </span>
+                                    <span className={`${style.badge} ${style.badgeArea}`}>
+                                        <FaMapMarkerAlt /> {meal?.strArea}
+                                    </span>
+                                </div>
+                            </div>
                         </div>
 
-                        {/* Ingredients */}
-                        <div className={style.ingredients}>
-                            <h3 className={style.sectionTitle}>
-                                <FaRulerCombined /> Ingredients
-                            </h3>
-                            <div className={style.ingredientsGrid}>
-                                {ingredients.map((item, index) => (
-                                    <div key={index} className={style.ingredientCard}>
-                                        <FaPlay className={style.measureIcon} size={12} />
-                                        <div className={style.ingredientInfo}>
-                                            <span className={style.ingredientName}>{item.ingredient}</span>
-                                            <span className={style.ingredientMeasure}>{item.measure}</span>
-                                        </div>
+                        <div className={style.cardContent}>
+                            {/* Left Column: Image */}
+                            <div className={style.imageSection}>
+                                <img
+                                    src={meal?.strMealThumb}
+                                    alt={meal?.strMeal}
+                                    className={style.mealImage}
+                                />
+                                <div className={style.videoSection}>
+                                    <a
+                                        href={meal?.strYoutube}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className={style.youtubeLink}
+                                    >
+                                        <FaYoutube size={24} /> Watch Video Tutorial
+                                    </a>
+                                </div>
+                            </div>
+
+                            {/* Right Column: Details */}
+                            <div className={style.detailsSection}>
+                                {/* Instructions */}
+                                <div className={style.instructions}>
+                                    <h3 className={style.sectionTitle}>
+                                        <FaList /> Instructions
+                                    </h3>
+                                    <p className={style.instructionsText}>
+                                        {meal?.strInstructions}
+                                    </p>
+                                </div>
+
+                                {/* Ingredients */}
+                                <div className={style.ingredients}>
+                                    <h3 className={style.sectionTitle}>
+                                        <FaRulerCombined /> Ingredients
+                                    </h3>
+                                    <div className={style.ingredientsGrid}>
+                                        {ingredients.map((item, index) => (
+                                            <div key={index} className={style.ingredientCard}>
+                                                <FaPlay className={style.measureIcon} size={12} />
+                                                <div className={style.ingredientInfo}>
+                                                    <span className={style.ingredientName}>{item.ingredient}</span>
+                                                    <span className={style.ingredientMeasure}>{item.measure}</span>
+                                                </div>
+                                            </div>
+                                        ))}
                                     </div>
-                                ))}
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
+                ) : (
+                    <div className={style.emptyRecipe}>
+                        <DotLottieReact src="/animation/empty.json" loop autoplay style={{ width: "130%", height: "130%" }} />
+                    </div>
+                )}
             </div>
-        </div>
+            {openLoading && <Loading />}
+        </>
     );
 }
 

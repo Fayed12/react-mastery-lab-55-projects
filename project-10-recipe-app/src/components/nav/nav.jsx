@@ -17,6 +17,9 @@ function NavBar() {
                             <NavLink to="/home">Home</NavLink>
                         </li>
                         <li>
+                            <NavLink to="/popular">Popular</NavLink>
+                        </li>
+                        <li>
                             <NavLink to="/recipe">Recipe</NavLink>
                         </li>
                     </ul>

@@ -313,3 +313,30 @@
         transform: translateY(0);
     }
 }
+
+/* empty recipe */
+
+.emptyRecipe{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 60vh;
+    width: fit-content;
+    padding: 2rem;
+    border-radius: 15px;
+    animation: fadeIn 0.8s ease-out;
+    margin-inline: auto;
+    animation: float 3s ease-in-out infinite;
+}
+
+@keyframes float {
+    0% {
+        transform: translateY(0px);
+    }
+    50% {
+        transform: translateY(-10px);
+    }
+    100% {
+        transform: translateY(0px);
+    }
+}

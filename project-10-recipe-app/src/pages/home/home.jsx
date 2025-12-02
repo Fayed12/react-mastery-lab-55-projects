@@ -13,7 +13,7 @@ function HomePage() {
                     Discover delicious recipes from around the world. Start your culinary journey today!
                 </p>
                 <button className={style.getStartedBtn}>
-                    <Link to="/recipe">Get Started</Link>
+                    <Link to="/recipe" replace={true}>Get Started</Link>
                 </button>
             </div>
             <div className={style.imageSection}>

@@ -5,6 +5,7 @@ import { createBrowserRouter } from "react-router";
 import HomePage from "../pages/home/home";
 import ErrorPage from "../pages/error/error";
 import RecipePage from "../pages/recipe/recipePage";
+import PopularPage from "../pages/Popular/Popular";
 import App from "../App";
 
 const router = createBrowserRouter([
@@ -20,6 +21,10 @@ const router = createBrowserRouter([
             {
                 path: "/home",
                 element: <HomePage />,
+            },
+            {
+                path: "/popular",
+                element: <PopularPage />,
             },
             {
                 path: "/recipe",
