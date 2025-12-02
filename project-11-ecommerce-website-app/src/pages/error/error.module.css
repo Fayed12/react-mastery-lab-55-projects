@@ -1,0 +1,29 @@
+.errorPage{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+}
+
+.errorPage__animation{
+    width: 70%;
+}
+
+.errorPage button{
+    border: none;
+    outline: none;
+    text-decoration: none;
+    background-color: var(--primary-green);
+    color: white;
+    padding: 1rem 2rem;
+    border-radius: 10px;
+    font-size: 1.4rem;
+    font-weight: 500;
+    transition: .5s;
+}
+
+.errorPage button:hover{
+    background-color: #105d39;
+    transform: translateY(-5px);
+}
