@@ -1,0 +1,696 @@
+    {
+        "meals": [
+            {
+                "id": 1,
+                "name": "Pizza Margherita",
+                "description": "Cheesy and delicious pizza with tomato sauce and fresh basil.",
+                "image": "https://images.unsplash.com/photo-1598023696416-0193a0bcd302?q=80&w=1236&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+                "categoryFood": "Pizza",
+                "categoryTime": "Dinner",
+                "price": 120,
+                "rating": 4.5,
+                "likes": 150,
+                "extras": [
+                    "Extra Cheese",
+                    "Olives",
+                    "Mushrooms"
+                ],
+                "ingredients": [
+                    "Flour",
+                    "Tomato Sauce",
+                    "Cheese",
+                    "Basil"
+                ],
+                "available": true,
+                "createdAt": "2025-12-03T15:00:00Z"
+            },
+            {
+                "id": 2,
+                "name": "Spaghetti Carbonara",
+                "description": "Classic Italian pasta with creamy egg‑cheese sauce and pancetta.",
+                "image": "https://images.unsplash.com/photo-1588013273468-315fd88ea34c?q=80&w=1169&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+                "categoryFood": "Pasta",
+                "categoryTime": "Lunch",
+                "price": 90,
+                "rating": 4.7,
+                "likes": 200,
+                "extras": [
+                    "Parmesan",
+                    "Black Pepper"
+                ],
+                "ingredients": [
+                    "Spaghetti",
+                    "Eggs",
+                    "Cheese",
+                    "Pancetta",
+                    "Pepper"
+                ],
+                "available": true,
+                "createdAt": "2025-12-02T12:30:00Z"
+            },
+            {
+                "id": 3,
+                "name": "Greek Salad",
+                "description": "Fresh salad with tomatoes, cucumbers, olives and feta cheese.",
+                "image": "https://images.unsplash.com/photo-1636654931290-418d20865e03?w=1000&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8N3x8R3JlZWslMjBTYWxhZHxlbnwwfHwwfHx8MA%3D%3D",
+                "categoryFood": "Salad",
+                "categoryTime": "Lunch",
+                "price": 60,
+                "rating": 4.2,
+                "likes": 95,
+                "extras": [
+                    "Olives",
+                    "Extra Feta"
+                ],
+                "ingredients": [
+                    "Tomatoes",
+                    "Cucumbers",
+                    "Olives",
+                    "Feta Cheese",
+                    "Olive Oil"
+                ],
+                "available": true,
+                "createdAt": "2025-12-01T10:15:00Z"
+            },
+            {
+                "id": 4,
+                "name": "Chicken Burger",
+                "description": "Juicy grilled chicken patty burger with lettuce and mayo.",
+                "image": "https://images.unsplash.com/photo-1513185158878-8d8c2a2a3da3?w=1000&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTF8fENoaWNrZW4lMjBCdXJnZXJ8ZW58MHx8MHx8fDA%3D",
+                "categoryFood": "Burger",
+                "categoryTime": "Dinner",
+                "price": 75,
+                "rating": 4.4,
+                "likes": 120,
+                "extras": [
+                    "Extra Mayo",
+                    "Cheese",
+                    "Fries"
+                ],
+                "ingredients": [
+                    "Chicken Patty",
+                    "Bun",
+                    "Lettuce",
+                    "Mayo",
+                    "Tomato"
+                ],
+                "available": true,
+                "createdAt": "2025-11-30T18:45:00Z"
+            },
+            {
+                "id": 5,
+                "name": "Beef Burger",
+                "description": "Classic beef burger with cheddar and pickles.",
+                "image": "https://images.unsplash.com/photo-1572802419224-296b0aeee0d9?w=1000&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8QmVlZiUyMEJ1cmdlcnxlbnwwfHwwfHx8MA%3D%3D",
+                "categoryFood": "Burger",
+                "categoryTime": "Dinner",
+                "price": 80,
+                "rating": 4.6,
+                "likes": 140,
+                "extras": [
+                    "Cheddar",
+                    "Bacon",
+                    "Fries"
+                ],
+                "ingredients": [
+                    "Beef Patty",
+                    "Bun",
+                    "Cheddar",
+                    "Pickles",
+                    "Onion"
+                ],
+                "available": true,
+                "createdAt": "2025-11-29T19:00:00Z"
+            },
+            {
+                "id": 6,
+                "name": "Margherita Calzone",
+                "description": "Folded pizza stuffed with cheese, sauce and basil.",
+                "image": "https://images.unsplash.com/photo-1753656681797-3234c89d6d4d?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OXx8Q2Fsem9uZXxlbnwwfHwwfHx8MA%3D%3D",
+                "categoryFood": "Pizza",
+                "categoryTime": "Lunch",
+                "price": 110,
+                "rating": 4.3,
+                "likes": 85,
+                "extras": [
+                    "Extra Cheese"
+                ],
+                "ingredients": [
+                    "Flour Dough",
+                    "Tomato Sauce",
+                    "Cheese",
+                    "Basil"
+                ],
+                "available": true,
+                "createdAt": "2025-11-28T13:20:00Z"
+            },
+            {
+                "id": 7,
+                "name": "Penne Arrabiata",
+                "description": "Spicy penne pasta with tomato‑garlic sauce.",
+                "image": "https://images.unsplash.com/photo-1680678242896-a8e64cb95b62?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTF8fFBlbm5lfGVufDB8fDB8fHww",
+                "categoryFood": "Pasta",
+                "categoryTime": "Lunch",
+                "price": 85,
+                "rating": 4.1,
+                "likes": 75,
+                "extras": [
+                    "Parmesan"
+                ],
+                "ingredients": [
+                    "Penne",
+                    "Tomato Sauce",
+                    "Garlic",
+                    "Chili",
+                    "Olive Oil"
+                ],
+                "available": true,
+                "createdAt": "2025-11-27T12:00:00Z"
+            },
+            {
+                "id": 8,
+                "name": "Caesar Salad",
+                "description": "Crisp romaine lettuce with Caesar dressing and croutons.",
+                "image": "https://images.unsplash.com/photo-1605291535065-e1d52d2b264a?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8N3x8Q2Flc2FyJTIwU2FsYWR8ZW58MHx8MHx8fDA%3D",
+                "categoryFood": "Salad",
+                "categoryTime": "Lunch",
+                "price": 65,
+                "rating": 4.0,
+                "likes": 60,
+                "extras": [
+                    "Extra Dressing",
+                    "Parmesan"
+                ],
+                "ingredients": [
+                    "Romaine Lettuce",
+                    "Croutons",
+                    "Parmesan",
+                    "Caesar Dressing"
+                ],
+                "available": true,
+                "createdAt": "2025-11-26T11:30:00Z"
+            },
+            {
+                "id": 9,
+                "name": "Chocolate Cake",
+                "description": "Rich and moist chocolate cake slice.",
+                "image": "https://images.unsplash.com/photo-1607257882338-70f7dd2ae344?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTl8fENob2NvbGF0ZSUyMENha2V8ZW58MHx8MHx8fDA%3D",
+                "categoryFood": "Dessert",
+                "categoryTime": "Any",
+                "price": 50,
+                "rating": 4.8,
+                "likes": 210,
+                "extras": [
+                    "Whipped Cream"
+                ],
+                "ingredients": [
+                    "Flour",
+                    "Cocoa",
+                    "Sugar",
+                    "Eggs",
+                    "Butter"
+                ],
+                "available": true,
+                "createdAt": "2025-11-25T09:00:00Z"
+            },
+            {
+                "id": 10,
+                "name": "Tiramisu",
+                "description": "Classic Italian dessert with mascarpone and coffee soak.",
+                "image": "https://images.unsplash.com/photo-1691688334265-7936fb8c49ba?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTV8fFRpcmFtaXN1fGVufDB8fDB8fHww",
+                "categoryFood": "Dessert",
+                "categoryTime": "Any",
+                "price": 70,
+                "rating": 4.9,
+                "likes": 230,
+                "extras": [
+                    "Cocoa Sprinkles"
+                ],
+                "ingredients": [
+                    "Ladyfingers",
+                    "Mascarpone",
+                    "Coffee",
+                    "Cocoa",
+                    "Sugar"
+                ],
+                "available": true,
+                "createdAt": "2025-11-24T14:15:00Z"
+            },
+            {
+                "id": 11,
+                "name": "Mushroom Soup",
+                "description": "Creamy mushroom soup with herbs.",
+                "image": "https://plus.unsplash.com/premium_photo-1729104879632-37edda71fd9b?w=400&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTd8fE11c2hyb29tJTIwU291cHxlbnwwfHwwfHx8MA%3D%3D",
+                "categoryFood": "Soup",
+                "categoryTime": "Lunch",
+                "price": 45,
+                "rating": 4.2,
+                "likes": 55,
+                "extras": [
+                    "Bread"
+                ],
+                "ingredients": [
+                    "Mushrooms",
+                    "Cream",
+                    "Onion",
+                    "Garlic",
+                    "Herbs"
+                ],
+                "available": true,
+                "createdAt": "2025-11-23T12:45:00Z"
+            },
+            {
+                "id": 12,
+                "name": "Tomato Soup",
+                "description": "Warm tomato soup served with croutons.",
+                "image": "https://images.unsplash.com/photo-1629978444632-9f63ba0eff47?w=400&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8VG9tYXRvJTIwU291cHxlbnwwfHwwfHx8MA%3D%3D",
+                "categoryFood": "Soup",
+                "categoryTime": "Lunch",
+                "price": 40,
+                "rating": 4.0,
+                "likes": 50,
+                "extras": [
+                    "Croutons"
+                ],
+                "ingredients": [
+                    "Tomatoes",
+                    "Onion",
+                    "Garlic",
+                    "Olive Oil",
+                    "Herbs"
+                ],
+                "available": true,
+                "createdAt": "2025-11-22T13:00:00Z"
+            },
+            {
+                "id": 13,
+                "name": "Veggie Sandwich",
+                "description": "Whole‑grain sandwich with fresh veggies and hummus spread.",
+                "image": "https://images.unsplash.com/photo-1676300187347-6f60002fd83e?w=400&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTV8fFZlZ2dpZSUyMFNhbmR3aWNofGVufDB8fDB8fHww",
+                "categoryFood": "Sandwich",
+                "categoryTime": "Lunch",
+                "price": 55,
+                "rating": 4.3,
+                "likes": 65,
+                "extras": [
+                    "Extra Hummus"
+                ],
+                "ingredients": [
+                    "Whole‑grain Bread",
+                    "Lettuce",
+                    "Tomato",
+                    "Cucumber",
+                    "Hummus"
+                ],
+                "available": true,
+                "createdAt": "2025-11-21T11:20:00Z"
+            },
+            {
+                "id": 14,
+                "name": "Club Sandwich",
+                "description": "Triple‑layer sandwich with chicken, bacon, lettuce and mayo.",
+                "image": "https://images.unsplash.com/photo-1678969405738-323f9acb3c18?w=400&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTB8fENsdWIlMjBTYW5kd2ljaHxlbnwwfHwwfHx8MA%3D%3D",
+                "categoryFood": "Sandwich",
+                "categoryTime": "Lunch",
+                "price": 65,
+                "rating": 4.5,
+                "likes": 90,
+                "extras": [
+                    "Cheese",
+                    "Fries"
+                ],
+                "ingredients": [
+                    "Bread",
+                    "Chicken",
+                    "Bacon",
+                    "Lettuce",
+                    "Mayo"
+                ],
+                "available": true,
+                "createdAt": "2025-11-20T12:10:00Z"
+            },
+            {
+                "id": 15,
+                "name": "Grilled Chicken Salad",
+                "description": "Mixed greens topped with grilled chicken and vinaigrette.",
+                "image": "https://images.unsplash.com/photo-1604909052743-94e838986d24?w=400&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8R3JpbGxlZCUyMENoaWNrZW4lMjBTYWxhZHxlbnwwfHwwfHx8MA%3D%3D",
+                "categoryFood": "Salad",
+                "categoryTime": "Lunch",
+                "price": 80,
+                "rating": 4.6,
+                "likes": 110,
+                "extras": [
+                    "Avocado",
+                    "Extra Dressing"
+                ],
+                "ingredients": [
+                    "Mixed Greens",
+                    "Grilled Chicken",
+                    "Tomato",
+                    "Cucumber",
+                    "Vinaigrette"
+                ],
+                "available": true,
+                "createdAt": "2025-11-19T13:50:00Z"
+            },
+            {
+                "id": 16,
+                "name": "Cheese Pizza",
+                "description": "Classic cheese pizza with tomato sauce and mozzarella cheese.",
+                "image": "https://images.unsplash.com/photo-1513104890138-7c749659a591?w=400&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NHx8Q2hlZXNlJTIwUGl6emF8ZW58MHx8MHx8fDA%3D",
+                "categoryFood": "Pizza",
+                "categoryTime": "Dinner",
+                "price": 100,
+                "rating": 4.4,
+                "likes": 130,
+                "extras": [
+                    "Extra Cheese",
+                    "Olives"
+                ],
+                "ingredients": [
+                    "Dough",
+                    "Tomato Sauce",
+                    "Mozzarella"
+                ],
+                "available": true,
+                "createdAt": "2025-11-18T17:30:00Z"
+            },
+            {
+                "id": 17,
+                "name": "Veggie Pasta",
+                "description": "Pasta with mixed veggies and light tomato sauce.",
+                "image": "https://images.unsplash.com/photo-1755722437563-9e39663b88f7?w=400&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTJ8fFZlZ2dpZSUyMFBhc3RhfGVufDB8fDB8fHww",
+                "categoryFood": "Pasta",
+                "categoryTime": "Lunch",
+                "price": 95,
+                "rating": 4.2,
+                "likes": 80,
+                "extras": [
+                    "Parmesan"
+                ],
+                "ingredients": [
+                    "Pasta",
+                    "Bell Pepper",
+                    "Zucchini",
+                    "Tomato Sauce",
+                    "Olive Oil"
+                ],
+                "available": true,
+                "createdAt": "2025-11-17T12:40:00Z"
+            },
+            {
+                "id": 18,
+                "name": "Fish Burger",
+                "description": "Crispy fish fillet burger with tartar sauce.",
+                "image": "https://images.unsplash.com/photo-1634031703407-f40855281168?w=400&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTJ8fEZpc2glMjBCdXJnZXJ8ZW58MHx8MHx8fDA%3D",
+                "categoryFood": "Burger",
+                "categoryTime": "Dinner",
+                "price": 85,
+                "rating": 4.3,
+                "likes": 70,
+                "extras": [
+                    "Tartar Sauce",
+                    "Fries"
+                ],
+                "ingredients": [
+                    "Fish Fillet",
+                    "Bun",
+                    "Lettuce",
+                    "Tartar Sauce",
+                    "Tomato"
+                ],
+                "available": true,
+                "createdAt": "2025-11-16T18:20:00Z"
+            },
+            {
+                "id": 19,
+                "name": "Vanilla Ice Cream",
+                "description": "Creamy vanilla ice cream scoop.",
+                "image": "https://images.unsplash.com/photo-1568903880699-b53f3e0c2b96?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Nnx8VmFuaWxsYSUyMEljZSUyMENyZWFtfGVufDB8fDB8fHww",
+                "categoryFood": "Dessert",
+                "categoryTime": "Any",
+                "price": 45,
+                "rating": 4.5,
+                "likes": 100,
+                "extras": [
+                    "Chocolate Syrup",
+                    "Cherry"
+                ],
+                "ingredients": [
+                    "Milk",
+                    "Cream",
+                    "Sugar",
+                    "Vanilla"
+                ],
+                "available": true,
+                "createdAt": "2025-11-15T15:00:00Z"
+            },
+            {
+                "id": 20,
+                "name": "Chocolate Milkshake",
+                "description": "Thick and creamy chocolate milkshake.",
+                "image": "https://images.unsplash.com/photo-1591864384134-8a21ffb51cb5?w=400&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OHx8Q2hvY29sYXRlJTIwTWlsa3NoYWtlfGVufDB8fDB8fHww",
+                "categoryFood": "Drink",
+                "categoryTime": "Any",
+                "price": 55,
+                "rating": 4.7,
+                "likes": 150,
+                "extras": [
+                    "Whipped Cream"
+                ],
+                "ingredients": [
+                    "Milk",
+                    "Ice Cream",
+                    "Cocoa",
+                    "Sugar"
+                ],
+                "available": true,
+                "createdAt": "2025-11-14T16:45:00Z"
+            },
+            {
+                "id": 21,
+                "name": "Lemonade",
+                "description": "Refreshing homemade lemonade.",
+                "image": "https://images.unsplash.com/photo-1507281549113-040fcfef650e?w=400&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8N3x8TGVtb25hZGV8ZW58MHx8MHx8fDA%3D",
+                "categoryFood": "Drink",
+                "categoryTime": "Any",
+                "price": 25,
+                "rating": 4.0,
+                "likes": 60,
+                "extras": [],
+                "ingredients": [
+                    "Water",
+                    "Lemon",
+                    "Sugar",
+                    "Ice"
+                ],
+                "available": true,
+                "createdAt": "2025-11-13T14:30:00Z"
+            },
+            {
+                "id": 22,
+                "name": "Chicken Alfredo",
+                "description": "Creamy Alfredo pasta with grilled chicken slices.",
+                "image": "https://images.unsplash.com/photo-1645112411341-6c4fd023714a?w=400&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8Q2hpY2tlbiUyMEFsZnJlZG98ZW58MHx8MHx8fDA%3D",
+                "categoryFood": "Pasta",
+                "categoryTime": "Dinner",
+                "price": 105,
+                "rating": 4.6,
+                "likes": 160,
+                "extras": [
+                    "Parmesan",
+                    "Mushrooms"
+                ],
+                "ingredients": [
+                    "Fettuccine",
+                    "Cream",
+                    "Chicken",
+                    "Parmesan",
+                    "Garlic"
+                ],
+                "available": true,
+                "createdAt": "2025-11-12T19:10:00Z"
+            },
+            {
+                "id": 23,
+                "name": "Pepperoni Pizza",
+                "description": "Classic pizza topped with pepperoni and cheese.",
+                "image": "https://images.unsplash.com/photo-1564128442383-9201fcc740eb?w=400&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8UGVwcGVyb25pJTIwUGl6emF8ZW58MHx8MHx8fDA%3D",
+                "categoryFood": "Pizza",
+                "categoryTime": "Dinner",
+                "price": 130,
+                "rating": 4.7,
+                "likes": 180,
+                "extras": [
+                    "Extra Pepperoni",
+                    "Olives"
+                ],
+                "ingredients": [
+                    "Dough",
+                    "Tomato Sauce",
+                    "Cheese",
+                    "Pepperoni"
+                ],
+                "available": true,
+                "createdAt": "2025-11-11T17:00:00Z"
+            },
+            {
+                "id": 24,
+                "name": "BBQ Chicken Pizza",
+                "description": "Pizza with BBQ sauce, chicken, and onions.",
+                "image": "https://plus.unsplash.com/premium_photo-1664472696633-4b0b41e95202?w=400&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8QkJRJTIwQ2hpY2tlbiUyMFBpenphfGVufDB8fDB8fHww",
+                "categoryFood": "Pizza",
+                "categoryTime": "Dinner",
+                "price": 135,
+                "rating": 4.8,
+                "likes": 190,
+                "extras": [
+                    "Extra Cheese",
+                    "Onions"
+                ],
+                "ingredients": [
+                    "Dough",
+                    "BBQ Sauce",
+                    "Chicken",
+                    "Cheese",
+                    "Onions"
+                ],
+                "available": true,
+                "createdAt": "2025-11-10T18:25:00Z"
+            },
+            {
+                "id": 25,
+                "name": "Fruit Salad",
+                "description": "Mixed fresh fruits bowl with seasonal selection.",
+                "image": "https://images.unsplash.com/photo-1490474418585-ba9bad8fd0ea?w=400&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NHx8RnJ1aXQlMjBTYWxhZHxlbnwwfHwwfHx8MA%3D%3D",
+                "categoryFood": "Salad",
+                "categoryTime": "Any",
+                "price": 50,
+                "rating": 4.3,
+                "likes": 70,
+                "extras": [
+                    "Honey"
+                ],
+                "ingredients": [
+                    "Apple",
+                    "Banana",
+                    "Orange",
+                    "Grapes",
+                    "Strawberries"
+                ],
+                "available": true,
+                "createdAt": "2025-11-09T10:50:00Z"
+            },
+            {
+                "id": 26,
+                "name": "Shrimp Pasta",
+                "description": "Pasta with garlic shrimp and white‑wine sauce.",
+                "image": "https://plus.unsplash.com/premium_photo-1661610605309-77feabcc8772?w=400&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NXx8U2hyaW1wJTIwUGFzdGF8ZW58MHx8MHx8fDA%3D",
+                "categoryFood": "Pasta",
+                "categoryTime": "Dinner",
+                "price": 140,
+                "rating": 4.6,
+                "likes": 155,
+                "extras": [
+                    "Parmesan"
+                ],
+                "ingredients": [
+                    "Pasta",
+                    "Shrimp",
+                    "Garlic",
+                    "Olive Oil",
+                    "White Wine"
+                ],
+                "available": true,
+                "createdAt": "2025-11-08T19:30:00Z"
+            },
+            {
+                "id": 27,
+                "name": "Grilled Cheese Sandwich",
+                "description": "Toasted sandwich with melted cheese and butter.",
+                "image": "https://plus.unsplash.com/premium_photo-1739907121476-9dffe9e7578e?w=400&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OXx8R3JpbGxlZCUyMENoZWVzZSUyMFNhbmR3aWNofGVufDB8fDB8fHww",
+                "categoryFood": "Sandwich",
+                "categoryTime": "Lunch",
+                "price": 45,
+                "rating": 4.1,
+                "likes": 55,
+                "extras": [
+                    "Tomato"
+                ],
+                "ingredients": [
+                    "Bread",
+                    "Cheese",
+                    "Butter"
+                ],
+                "available": true,
+                "createdAt": "2025-11-07T12:05:00Z"
+            },
+            {
+                "id": 28,
+                "name": "Fish & Chips",
+                "description": "Crispy battered fish with french fries.",
+                "image": "https://plus.unsplash.com/premium_photo-1695758774479-faae1180b078?w=400&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NXx8RmlzaCUyMCUyNiUyMENoaXBzfGVufDB8fDB8fHww",
+                "categoryFood": "Main Course",
+                "categoryTime": "Dinner",
+                "price": 110,
+                "rating": 4.4,
+                "likes": 100,
+                "extras": [
+                    "Tartar Sauce"
+                ],
+                "ingredients": [
+                    "Fish Fillet",
+                    "Batter",
+                    "Potatoes",
+                    "Oil",
+                    "Salt"
+                ],
+                "available": true,
+                "createdAt": "2025-11-06T18:55:00Z"
+            },
+            {
+                "id": 29,
+                "name": "Mango Smoothie",
+                "description": "Refreshing mango smoothie with ice and sugar.",
+                "image": "https://plus.unsplash.com/premium_photo-1695411846421-d26e731f0054?w=400&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NXx8TWFuZ28lMjBTbW9vdGhpZXxlbnwwfHwwfHx8MA%3D%3D",
+                "categoryFood": "Drink",
+                "categoryTime": "Any",
+                "price": 40,
+                "rating": 4.5,
+                "likes": 95,
+                "extras": [],
+                "ingredients": [
+                    "Mango",
+                    "Milk",
+                    "Ice",
+                    "Sugar"
+                ],
+                "available": true,
+                "createdAt": "2025-11-05T15:30:00Z"
+            },
+            {
+                "id": 30,
+                "name": "Pancakes Stack",
+                "description": "Fluffy pancakes stack with syrup and butter.",
+                "image": "https://via.placeholder.com/300?text=Pancakes+Stack",
+                "categoryFood": "Dessert",
+                "categoryTime": "Breakfast",
+                "price": 70,
+                "rating": 4.4,
+                "likes": 125,
+                "extras": [
+                    "Maple Syrup",
+                    "Fruits"
+                ],
+                "ingredients": [
+                    "Flour",
+                    "Milk",
+                    "Eggs",
+                    "Butter",
+                    "Sugar"
+                ],
+                "available": true,
+                "createdAt": "2025-11-04T08:00:00Z"
+            }
+        ]
+    }
