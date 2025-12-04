@@ -45,7 +45,7 @@
                     "Pancetta",
                     "Pepper"
                 ],
-                "available": true,
+                "available": false,
                 "createdAt": "2025-12-02T12:30:00Z"
             },
             {
@@ -69,7 +69,7 @@
                     "Feta Cheese",
                     "Olive Oil"
                 ],
-                "available": true,
+                "available": false,
                 "createdAt": "2025-12-01T10:15:00Z"
             },
             {
@@ -672,7 +672,7 @@
                 "id": 30,
                 "name": "Pancakes Stack",
                 "description": "Fluffy pancakes stack with syrup and butter.",
-                "image": "https://via.placeholder.com/300?text=Pancakes+Stack",
+                "image": "https://plus.unsplash.com/premium_photo-1672130779126-fef02aa062da?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OXx8UGFuY2FrZXMlMjBTdGFja3xlbnwwfHwwfHx8MA%3D%3D",
                 "categoryFood": "Dessert",
                 "categoryTime": "Breakfast",
                 "price": 70,

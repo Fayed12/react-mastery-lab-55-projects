@@ -33,7 +33,7 @@ function App() {
             <nav>
                 <NavBar />
             </nav>
-            <main>
+            <main className="main-page">
                 <Outlet />
             </main>
             <footer>

@@ -2,6 +2,10 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 
+// rtk
+import { Provider } from 'react-redux'
+import store from './redux/store'
+
 // local
 import './index.css'
 import router from './router/mainRouter'
@@ -14,7 +18,9 @@ import { Toaster } from 'react-hot-toast'
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-    <Toaster/>
+    <Toaster />
+    <Provider store={store}>
     <RouterProvider router={router}/>
+    </Provider>
   </StrictMode>,
 )

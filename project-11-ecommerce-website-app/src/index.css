@@ -1,22 +1,111 @@
-*{
-  margin: 0;
-  padding: 0;
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
-  box-sizing: border-box;
+:root {
+    /* ===== Primary Orange ===== */
+    --primary-color: #ff7a1a;
+    --primary-color-hover: #e66a12;
+    --primary-color-active: #cc5d10;
+    --primary-color-active-hover: #b7500e;
+
+    /* ===== Buttons Orange ===== */
+    --primary-button: #ff7a1a;
+    --primary-button-hover: #e66a12;
+    --primary-button-active: #cc5d10;
+    --primary-button-active-hover: #b7500e;
+
+    /* ===== Secondary (Black / Dark) ===== */
+    --secondary-color: #111111;
+    --secondary-color-hover: #1c1c1c;
+    --secondary-color-active: #000000;
+
+    /* ===== Text Colors ===== */
+    --text-color-light: #ffffff;
+    --text-color-dark: #222222;
+    --text-color-muted: #aaaaaa;
+    --text-main: #ffffff;
+
+    /* ===== Backgrounds ===== */
+    --background-color: #111111;
+    --background-dark: #000000;
+    --background-light: #1c1c1c;
+
+    /* ===== Borders & Shadows ===== */
+    --border-color: #333333;
+    --shadow-orange-color: rgba(255, 123, 0, 0.1);
+    --shadow-black-color: rgba(0, 0, 0, 0.5);
+
+    /* ===== Font Sizes ===== */
+    --font-xs: 0.75rem; /* 12px */
+    --font-sm: 0.875rem; /* 14px */
+    --font-md: 1rem; /* 16px */
+    --font-lg: 1.25rem; /* 20px */
+    --font-xl: 1.5rem; /* 24px */
+    --font-2xl: 2rem; /* 32px */
+    --font-3xl: 2.5rem; /* 40px */
 }
 
-body{
-  font-family: "Winky Sans", sans-serif;
+html{
+    font-size: 16px;
 }
 
-ul{
-  list-style-type: none;
-  margin: 0;
-  padding: 0;
+* {
+    margin: 0;
+    padding: 0;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
 }
 
-a{
-  text-decoration: none;
+body {
+    font-family: "Winky Sans", sans-serif;
+    background-color: var(--background-color);
+    color: var(--text-main);
 }
 
+::-webkit-scrollbar {
+    width: 7px;
+}
+
+::-webkit-scrollbar-track {
+    background-color: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: var(--primary-color);
+    border-radius: 10px;
+}
+
+ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+a {
+    text-decoration: none;
+}
+
+.all-page {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 100dvh;
+}
+
+nav {
+    position: sticky;
+    top: 0;
+    z-index: 999;
+}
+
+.main-page {
+    flex: 1;
+}
+
+/* Error Messages */
+.error {
+    color: #ff4d4d !important;
+    font-size: 0.85rem !important;
+    margin-top: -1rem !important;
+    margin-left: 0.5rem !important;
+    margin-bottom: 0 !important;
+    text-align: left !important;
+}
