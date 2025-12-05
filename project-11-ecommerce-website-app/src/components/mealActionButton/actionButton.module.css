@@ -1,0 +1,18 @@
+.actionButton{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+}
+
+.quantity{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+
+.quantity button{
+    padding: 10px !important;
+}

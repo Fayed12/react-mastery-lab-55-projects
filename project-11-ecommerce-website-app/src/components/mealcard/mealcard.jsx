@@ -1,7 +1,7 @@
 // react
 import style from './mealcard.module.css';
 import Button from '../../ui/button/button';
-
+import ActionButton from '../mealActionButton/actionButton';
 
 // react router
 import { useNavigate } from 'react-router';
@@ -49,6 +49,8 @@ const MealCard = ({ meal }) => {
                         )}
                     </div>
                     <div className={style.action}>
+                        {meal.available && <ActionButton meal={meal} />}
+                        
                         <Button
                             type="button"
                             content={<><FaInfoCircle /> Details</>}
