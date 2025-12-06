@@ -4,7 +4,6 @@ import { Outlet } from "react-router";
 // local
 import NavBar from "./components/navBar/navBar";
 import Footer from "./components/footer/footer";
-// import WelcomePage from "./pages/welcome/welcome";
 import WelcomePage from "./pages/welcome/welcome"
 
 // react

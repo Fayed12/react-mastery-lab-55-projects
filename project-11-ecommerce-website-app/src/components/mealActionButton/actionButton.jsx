@@ -10,7 +10,8 @@ import { useDispatch, useSelector } from 'react-redux';
 function ActionButton({ meal }) {
     const cart = useSelector(getAllCart)
     const dispatch = useDispatch()
-    console.log(cart)
+
+    const isMealInCart = cart.find((m) => m.id === meal.id)
 
     // handle increase quantity
     const handleIncreaseQuantity = () => {
@@ -40,11 +41,8 @@ function ActionButton({ meal }) {
     }
     return (
         <div className={style.actionButton}>
-            {cart.length === 0 ? (
-                <Button type="button" title='addToCart' content="Add to Cart" onClick={handleAddToCart} />
-            ) : (
-                cart.map((m) => (
-                    !(m.id === meal.id) ? (
+            {
+                !isMealInCart ? (
                         <>
                             <Button type="button" title='addToCart' content="Add to Cart" onClick={handleAddToCart} />
                         </>
@@ -52,14 +50,13 @@ function ActionButton({ meal }) {
                         <>
                             <div className={style.quantity}>
                                 <Button type="button" title='decreaseQuantity' content="-" onClick={handleDecreaseQuantity} />
-                                <span>{m.quantity}</span>
+                                <span>{isMealInCart.quantity}</span>
                                 <Button type="button" title='increaseQuantity' content="+" onClick={handleIncreaseQuantity} />
                             </div>
                             <Button type="button" title='removeFromCart' content="Remove" onClick={handleRemoveFromCart} />
                         </>
                     )
-                )
-            ) )}
+            }
         </div>
     );
 }

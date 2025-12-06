@@ -13,7 +13,7 @@ const MealCard = ({ meal }) => {
     const navigate = useNavigate()
 
     const handleDetailsClick = () => {
-        navigate(`/mealDetails/${meal.id}`)
+        navigate(`/mealDetails/${meal.id}`, { replace: true })
     }
     return (
         <div className={style.card}>

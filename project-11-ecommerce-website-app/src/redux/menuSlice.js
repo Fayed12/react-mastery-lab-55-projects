@@ -52,10 +52,15 @@ const menueSlice = createSlice({
                 }
             }
         },
-
+        
         // payload === meal
         removeFromCart: (state, action) => {
             state.cart = state.cart.filter(meal => meal.id !== action.payload.id)
+        },
+
+        // payload === meal
+        clearCart: (state) => {
+            state.cart = []
         }
     },
     extraReducers: (builder) => {
@@ -72,11 +77,11 @@ const menueSlice = createSlice({
 
 })
 
-export const { addToCart, increaseQuantity, decreaseQuantity, removeFromCart } = menueSlice.actions
+export const { addToCart, increaseQuantity, decreaseQuantity, removeFromCart, clearCart } = menueSlice.actions
 export default menueSlice.reducer
 
 // get state value
-export const getMeals = (state)=> state.menue.meals
-export const getMealsStatus = (state)=> state.menue.status
+export const getMeals = (state) => state.menue.meals
+export const getMealsStatus = (state) => state.menue.status
 export const getMealsError = (state) => state.menue.error
 export const getAllCart = (state) => state.menue.cart

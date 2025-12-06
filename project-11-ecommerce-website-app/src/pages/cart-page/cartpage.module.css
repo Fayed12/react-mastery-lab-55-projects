@@ -1,0 +1,142 @@
+.cartPage {
+    padding: 2rem;
+    background-color: var(--background-color);
+    height: 100%;
+    color: var(--text-main);
+    animation: fadeIn 0.5s ease-in-out;
+}
+
+.title {
+    font-size: var(--font-2xl);
+    color: var(--primary-color);
+    margin-bottom: 2rem;
+    text-align: center;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.cartContainer {
+    display: flex;
+    gap: 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.cartList {
+    flex: 2;
+}
+
+.summaryBox {
+    flex: 1;
+    background-color: var(--background-light);
+    padding: 1.5rem;
+    border-radius: 12px;
+    border: 1px solid var(--border-color);
+    height: fit-content;
+    position: sticky;
+    top: 100px;
+}
+
+.summaryBox h3 {
+    font-size: var(--font-xl);
+    color: var(--text-main);
+    margin-bottom: 1.5rem;
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 1rem;
+}
+
+.summaryRow {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 1rem;
+    font-size: var(--font-md);
+    color: var(--text-color-muted);
+}
+
+.totalItems,
+.totalPrice {
+    font-weight: bold;
+    color: var(--text-main);
+}
+
+.totalPrice {
+    color: var(--primary-color);
+    font-size: var(--font-lg);
+}
+
+.buttons {
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    margin-top: 2rem;
+}
+
+.buttons button {
+    width: 100%;
+    flex: 1 !important;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: var(--font-sm);
+    padding: 0.75rem 1rem;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+}
+
+/* Empty State */
+.emptyWrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 60vh;
+    text-align: center;
+}
+
+.emptyCart {
+    font-size: var(--font-xl);
+    color: var(--text-color-muted);
+    margin-bottom: 1.5rem;
+}
+
+.goMenu {
+    padding: 0.75rem 2rem;
+    background-color: var(--primary-button);
+    color: white;
+    border-radius: 8px;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+}
+
+.goMenu:hover {
+    background-color: var(--primary-button-hover);
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Responsiveness */
+@media (max-width: 768px) {
+    .cartContainer {
+        flex-direction: column;
+    }
+
+    .summaryBox {
+        position: static;
+        margin-top: 2rem;
+    }
+
+    .buttons {
+        flex-direction: row;
+    }
+}

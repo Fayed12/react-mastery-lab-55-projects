@@ -1,0 +1,47 @@
+.orderItem {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: var(--background-light);
+    padding: 1rem;
+    border-radius: 8px;
+    border-bottom: 1px solid var(--border-color);
+    margin-bottom: 0.5rem;
+}
+
+.orderItem:last-child {
+    border-bottom: none;
+}
+
+.orderItem h3 {
+    font-size: var(--font-md);
+    color: var(--text-main);
+    margin: 0 0 0.25rem 0;
+}
+
+.price {
+    font-size: var(--font-sm);
+    color: var(--text-color-muted);
+    margin: 0;
+}
+
+.total {
+    font-weight: bold;
+    color: var(--primary-color);
+    font-size: var(--font-md);
+    margin: 0;
+    white-space: nowrap;
+}
+
+/* Responsiveness */
+@media (max-width: 480px) {
+    .orderItem {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.5rem;
+    }
+
+    .total {
+        align-self: flex-end;
+    }
+}

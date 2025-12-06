@@ -1,0 +1,181 @@
+.checkoutPage {
+    padding: 2rem;
+    background-color: var(--background-color);
+    height: 100%;
+    color: var(--text-main);
+    max-width: 800px;
+    margin: 0 auto;
+    animation: fadeIn 0.5s ease-in-out;
+}
+
+.sectionTitle {
+    font-size: var(--font-xl);
+    color: var(--primary-color);
+    padding-bottom: 10px;
+    margin-bottom: 2rem;
+    text-align: center;
+    text-transform: uppercase;
+    position: relative;
+}
+
+.sectionTitle::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100px;
+    height: 2px;
+    background-color: var(--primary-color);
+}
+
+/* Form Styles */
+.formWrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 60vh;
+    padding: 2rem;
+    background-color: var(--background-color);
+}
+
+.formTitle {
+    font-size: var(--font-2xl);
+    color: var(--primary-color);
+    margin-bottom: 2rem;
+}
+
+.form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    width: 100%;
+    max-width: 400px;
+    background-color: var(--background-light);
+    padding: 2rem;
+    border-radius: 12px;
+    border: 1px solid var(--border-color);
+    box-shadow: 0 4px 12px var(--shadow-black-color);
+}
+
+.form input {
+    padding: 1rem;
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+    background-color: var(--background-dark);
+    color: var(--text-main);
+    font-size: var(--font-md);
+    outline: none;
+    transition: border-color 0.3s ease;
+}
+
+.form input:focus {
+    border-color: var(--primary-color);
+}
+
+.address{
+    display: flex;
+    width: 100%;
+    position: relative;
+}
+
+.address input{
+    flex: 1;
+}
+
+.address button{
+    position: absolute;
+    top: 50%;
+    right: 4px;
+    transform: translateY(-50%);
+    padding: 1rem;
+    border-radius: 10px;
+    height: 80%;
+}
+
+.address button:hover{
+    transform: translateY(-50%);
+}
+
+/* Order Summary Styles */
+.orderBox {
+    background-color: var(--background-light);
+    padding: 1.5rem;
+    border-radius: 12px;
+    border: 1px solid var(--border-color);
+    margin-bottom: 2rem;
+    max-height: 400px;
+    overflow-y: auto;
+}
+
+.summaryFooter {
+    background-color: var(--background-light);
+    padding: 1.5rem;
+    border-radius: 12px;
+    border: 1px solid var(--border-color);
+    margin-bottom: 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.userDetails,
+.orderDetails {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.userDetails {
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 1rem;
+}
+
+.summaryFooter p {
+    font-size: var(--font-md);
+    color: var(--text-color-muted);
+    display: flex;
+    justify-content: space-between;
+    margin: 0;
+}
+
+.summaryFooter strong {
+    color: var(--text-main);
+}
+
+.orderDetails p:last-child {
+    font-size: var(--font-lg);
+    color: var(--primary-color);
+    font-weight: bold;
+    border-top: 1px dashed var(--border-color);
+    padding-top: 0.75rem;
+    margin-top: 0.5rem;
+}
+
+.summaryFooterButtons {
+    display: flex;
+    gap: 1rem;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Responsiveness */
+@media (max-width: 600px) {
+    .checkoutPage {
+        padding: 1rem;
+    }
+
+    .formWrapper {
+        padding: 1rem;
+    }
+}

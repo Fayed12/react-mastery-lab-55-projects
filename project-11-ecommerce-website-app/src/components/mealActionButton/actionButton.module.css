@@ -2,7 +2,17 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    gap: 1rem;
+    gap: .5rem;
+}
+
+.actionButton button{
+    background-color: rgb(28, 90, 131);
+    padding: 10px ;
+    font-size: var(--font-xs);
+}
+
+.actionButton button:hover{
+    background-color: rgb(20, 67, 98);
 }
 
 .quantity{

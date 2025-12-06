@@ -37,7 +37,7 @@ function HomePage() {
                     <h1>The best restaurant in the world</h1>
                     <p className={style.description}>We offer the best food in the world</p>
                     <div className={style.btnContainer}>
-                        <Button type="button" content="order now" onClick={() => navigate("/menu")} disabled={false} />
+                        <Button type="button" content="order now" onClick={() => navigate("/menu", { replace: true })} disabled={false} />
                     </div>
                 </div>
                 <div className={style.imageContainer}>

@@ -2,25 +2,27 @@
 import style from './mealdetailspage.module.css';
 import { getAllMeals, getMeals } from '../../redux/menuSlice';
 import ActionButton from '../../components/mealActionButton/actionButton';
+import Button from '../../ui/button/button';
 
 // react
 import { useEffect } from 'react';
 
 // react router
-import { useParams } from 'react-router';
+import { useParams,useNavigate } from 'react-router';
 
 // RTK
 import { useSelector,useDispatch } from 'react-redux';
 
 // icons
 import { FaStar, FaHeart, FaClock, FaUtensils, FaCheckCircle, FaTimesCircle } from 'react-icons/fa';
+import { IoMdArrowRoundBack } from "react-icons/io";
 
 const MealDetailsPage = () => {
     const { id } = useParams();
     const meals = useSelector(getMeals);
     const dispatch = useDispatch()
     const meal = meals.find(meal => meal.id === id);
-    console.log(meal)
+    const navigate = useNavigate();
 
     useEffect(() => {
         if (meals.length === 0) {
@@ -119,6 +121,7 @@ const MealDetailsPage = () => {
 
                     {/* Actions */}
                     <div className={style.actionArea}>
+                        <Button content={<><IoMdArrowRoundBack /> back</>} onClick={() => navigate("/menu", { replace: true })} />
                         <ActionButton meal={meal} />
                     </div>
 

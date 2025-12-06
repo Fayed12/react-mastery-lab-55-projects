@@ -9,6 +9,7 @@ import App from "../App.jsx";
 import ErrorPage from "../pages/error/error.jsx";
 import Loading from "../pages/loading/loading.jsx";
 import LoadingSkilton from "../components/loadingSkilton/loadingSkilton.jsx";
+import ProtectedCart from "./protectedCart.jsx";
 
 // lazy loading imports
 const HomePage = lazy(() => import("../pages/home/home.jsx"))
@@ -48,7 +49,7 @@ const router = createBrowserRouter([
             },
             {
                 path: "cart",
-                element: <Suspense fallback={<Loading />}><CartPage /></Suspense>,
+                element: <ProtectedCart><Suspense fallback={<Loading />}><CartPage /></Suspense></ProtectedCart>,
             },
             {
                 path: "mealDetails/:id",
