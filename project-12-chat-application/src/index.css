@@ -1,67 +1,100 @@
-*{
-  margin: 0;
-  padding: 0;
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
-  box-sizing: border-box;
+* {
+    margin: 0;
+    padding: 0;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
 }
 
 :root {
-  /* ====== Main Background ====== */
-  --bg-primary: #1b1e27;
-  --bg-secondary: #232734;
-  --bg-tertiary: #2b3040;
+    /* ====== Main Background ====== */
+    --bg-primary: #1b1e27;
+    --bg-secondary: #232734;
+    --bg-tertiary: #2b3040;
 
-  /* ====== Sidebar ====== */
-  --sidebar-bg: #1c1f28;
-  --sidebar-hover: #2a2f3e;
+    /* ====== Sidebar ====== */
+    --sidebar-bg: #1c1f28;
+    --sidebar-hover: #2a2f3e;
 
-  /* ====== Text Colors ====== */
-  --text-primary: #ffffff;
-  --text-secondary: #c9c9d3;
-  --text-muted: #8a8fa3;
+    /* ====== Text Colors ====== */
+    --text-primary: #ffffff;
+    --text-secondary: #c9c9d3;
+    --text-muted: #8a8fa3;
 
-  /* ====== Borders & Lines ====== */
-  --border-color: #2f3442;
+    /* ====== Borders & Lines ====== */
+    --border-color: #2f3442;
 
-  /* ====== Hover States ====== */
-  --hover-bg: #343a4f;
-  --hover-chat-item: #2e3444;
+    /* ====== Hover States ====== */
+    --hover-bg: #343a4f;
+    --hover-chat-item: #2e3444;
 
-  /* ====== Buttons ====== */
-  --btn-primary: #1565ff;
-  --btn-primary-hover: #3c7dff;
-  --btn-icon-bg: #2e3444;
-  --btn-icon-hover: #3a4157;
+    /* ====== Buttons ====== */
+    --btn-primary: #1565ff;
+    --btn-primary-hover: #3c7dff;
+    --btn-icon-bg: #2e3444;
+    --btn-icon-hover: #3a4157;
 
-  /* ====== Chat Bubble ====== */
-  --bubble-sent: #1565ff;
-  --bubble-received: #2f3445;
+    /* ====== Chat Bubble ====== */
+    --bubble-sent: #1565ff;
+    --bubble-received: #2f3445;
 
-  /* ====== Inputs ====== */
-  --input-bg: #2b3040;
-  --input-border: #3a3f52;
-  --input-text: #ffffff;
+    /* ====== Inputs ====== */
+    --input-bg: #2b3040;
+    --input-border: #3a3f52;
+    --input-text: #ffffff;
 
-  /* ====== Misc ====== */
-  --online-green: #4cd964;
-  --notification-red: #ff3b30;
+    /* ====== Misc ====== */
+    --online-green: #4cd964;
+    --notification-red: #ff3b30;
 
-  /* Shadow */
-  --shadow-soft: 0 4px 20px rgba(0, 0, 0, 0.35);
+    /* Shadow */
+    --shadow-soft: 0 4px 20px rgba(0, 0, 0, 0.35);
 }
 
-
-body{
-  font-family: sans-serif;
+::-webkit-scrollbar{
+    width: 6px;
 }
 
-ul{
-  list-style-type: none;
-  margin: 0;
-  padding: 0;
+::-webkit-scrollbar-track{
+    background: transparent;
 }
 
-a{
-  text-decoration: none;
+::-webkit-scrollbar-thumb{
+    background: var(--btn-primary);
+    border-radius: 3px;
+}
+
+body {
+    font-family: sans-serif;
+}
+
+ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+a {
+    text-decoration: none;
+}
+
+.error {
+    color: var(--notification-red);
+    font-size: 0.875rem;
+    margin-top: 4px;
+    font-weight: 500;
+    animation: shake 0.4s ease-in-out;
+}
+
+@keyframes shake {
+    0%,
+    100% {
+        transform: translateX(0);
+    }
+    25% {
+        transform: translateX(-4px);
+    }
+    75% {
+        transform: translateX(4px);
+    }
 }

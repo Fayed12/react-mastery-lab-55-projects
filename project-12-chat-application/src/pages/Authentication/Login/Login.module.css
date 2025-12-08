@@ -1,6 +1,140 @@
 .container {
+    width: 100%;
+    height: 100dvh;
     display: flex;
     justify-content: center;
+    flex-direction: column;
     align-items: center;
-    height: 100vh;
+    background-color: var(--bg-primary);
+    opacity: 1;
+    padding: 20px;
+}
+
+.header {
+    margin-bottom: 24px;
+    text-align: center;
+    background-color: var(--bg-secondary);
+    width: 100%;
+    max-width: 420px;
+    padding: 20px;
+    border-radius: 16px;
+    box-shadow: var(--shadow-soft);
+    opacity: 0;
+    animation: fadeIn 1s ease forwards;
+}
+
+.header p {
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    text-transform: capitalize;
+}
+
+.form {
+    background-color: var(--bg-secondary);
+    padding: 40px;
+    border-radius: 16px;
+    width: 100%;
+    max-width: 420px;
+    box-shadow: var(--shadow-soft);
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    opacity: 0;
+    animation: fadeIn 1s ease forwards;
+}
+
+.form form {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.foregtPassword {
+    text-align: right;
+    font-size: 0.8rem;
+}
+
+.foregtPassword a {
+    color: var(--text-muted);
+    transition: color 0.3s;
+}
+
+.foregtPassword a:hover {
+    color: var(--text-secondary);
+}
+
+.googleLogin {
+    margin-top: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    text-align: center;
+}
+
+.googleLogin p {
+    color: var(--text-secondary);
+    font-size: 0.8rem;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.googleLogin button span{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    font-size: .8rem;
+}
+
+.googleLogin button{
+    background-color: var(--btn-icon-bg);
+    color: var(--text-primary);
+}
+
+.googleLogin button:hover{
+    background-color: var(--btn-icon-hover);
+    box-shadow: none;
+}
+
+.googleLogin p::before,
+.googleLogin p::after {
+    content: "";
+    flex: 1;
+    height: 1px;
+    background-color: var(--border-color);
+    margin: 0 10px;
+}
+
+.formFooter {
+    margin-top: 16px;
+    display: flex;
+    align-items: center;
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+}
+
+.formFooter a {
+    color: var(--btn-primary);
+    font-weight: 500;
+    margin-left: 5px;
+    transition: color 0.3s;
+}
+
+.formFooter a:hover {
+    color: var(--btn-primary-hover);
+    text-decoration: underline;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: scale(.5);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
 }
