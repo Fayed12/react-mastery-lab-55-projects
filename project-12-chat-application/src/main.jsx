@@ -6,6 +6,7 @@ import './index.css'
 import router from './router/mainRouter.jsx'
 import store from './redux/store.js'
 import AuthProvider from './fierbase-services/authProvider.jsx'
+import ThemeProvider from './themeProvider.jsx'
 
 // react redux
 import { Provider } from 'react-redux'
@@ -20,8 +21,10 @@ createRoot(document.getElementById('root')).render(
   <StrictMode>
     <Provider store={store}>
       <AuthProvider>
-        <Toaster />
-        <RouterProvider router={router} />
+        <ThemeProvider>
+          <Toaster />
+          <RouterProvider router={router} />
+        </ThemeProvider>
       </AuthProvider>
     </Provider>
   </StrictMode>,

@@ -14,10 +14,11 @@ const Login = lazy(() => import("../pages/Authentication/Login/Login"));
 const Register = lazy(() => import("../pages/Authentication/Signup/Signup"));
 const ForgotPassword = lazy(()=>import("../pages/Authentication/forgotPassword/forgotPassword.jsx"))
 const App = lazy(()=>import("../App.jsx"))
-const Home = lazy(() => import("../pages/Home/Home"));
+const HomeChats = lazy(() => import("../pages/Home-chats/Home"));
 const Profile = lazy(() => import("../pages/Profile/Profile"));
 const ContactUs = lazy(() => import("../pages/ContactUs/ContactUs"));
 const Setting = lazy(() => import("../pages/Setting/Setting"));
+const ExploreApp = lazy(()=>import("../pages/explore-app/exploreApp.jsx"))
 
 const router = createBrowserRouter([
     {
@@ -27,23 +28,27 @@ const router = createBrowserRouter([
         children: [
             {
                 index: true,
-                element:<Suspense fallback={<Loading/>}><Home/></Suspense>
+                element:<Suspense fallback={<Loading/>}><HomeChats/></Suspense>
             },
             {
-                path:"home",
-                element:<Suspense fallback={<Loading/>}><Home/></Suspense>
+                path:"homeChats",
+                element:<Suspense fallback={<Loading/>}><HomeChats/></Suspense>
             },
             {
                 path:"profile",
                 element:<Suspense fallback={<Loading/>}><Profile/></Suspense>
             },
             {
-                path:"contact-us",
+                path:"contactUs",
                 element:<Suspense fallback={<Loading/>}><ContactUs/></Suspense>
             },
             {
                 path:"setting",
                 element:<Suspense fallback={<Loading/>}><Setting/></Suspense>
+            },
+            {
+                path:"exploreApp",
+                element:<Suspense fallback={<Loading/>}><ExploreApp/></Suspense>
             }
         ]
     },

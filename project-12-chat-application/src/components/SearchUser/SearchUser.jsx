@@ -1,9 +1,10 @@
+// local
 import styles from './SearchUser.module.css';
 
-const SearchUser = () => {
+const SearchUser = ({search, onChange}) => {
     return (
         <div className={styles.container}>
-            <input type="text" placeholder="Search user..." />
+            <input type="text" placeholder="Search user..." value={search} onChange={onChange} />
         </div>
     );
 };

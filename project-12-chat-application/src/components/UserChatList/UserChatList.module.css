@@ -1,3 +1,136 @@
+/* UserChatList.module.css */
 .container {
-    padding: 10px;
+    width: 100%;
+}
+
+.userChatItem {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    padding: 12px;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    background-color: transparent;
+}
+
+.userChatItem:hover {
+    background-color: var(--hover-bg, rgba(255, 255, 255, 0.05));
+    transform: translateY(-1px);
+}
+
+.image {
+    position: relative;
+    width: 50px;
+    height: 50px;
+    min-width: 50px;
+    border-radius: 50%;
+    background-color: var(--accent-light, #333);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Avatar Icon Styling */
+.image svg {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    object-fit: cover;
+    color: var(--text-secondary);
+}
+
+.onlineStatus {
+    position: absolute;
+    bottom: 2px;
+    right: 2px;
+    z-index: 1;
+    background-color: var(--sidebar-bg, #000); /* Border effect */
+    border-radius: 50%;
+    padding: 2px;
+    display: flex;
+}
+
+.online {
+    background-color: var(--online-green);
+    box-shadow: 0 0 4px var(--online-green);
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    display: block;
+}
+
+.data {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    overflow: hidden;
+}
+
+.unseenTime{
+    color: var(--btn-primary) !important;
+}
+
+.dataHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.dataHeader span:first-child {
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: var(--text-secondary);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.time {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    font-weight: 400;
+}
+
+.dataFooter {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-left: 0 !important;
+}
+
+.lastMessage{
+    display: inline-block;
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 180px !important;
+}
+
+.arrow{
+    margin-right: 5px;
+    height: 100%;
+}
+
+.seenArrow {
+    color: var(--online-green) !important;
+}
+
+.unseenArrow {
+    color: var(--accent-color, #3b82f6) !important;
+}
+
+.unseen {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    display: block;
+    margin-right: 5px;
+}
+
+.unseen {
+    background-color: var(--accent-color, #3b82f6);
 }

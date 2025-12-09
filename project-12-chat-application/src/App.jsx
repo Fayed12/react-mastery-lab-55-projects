@@ -2,6 +2,10 @@
 import { Outlet } from "react-router";
 
 // local
+import SideBar from "./components/SideBar/SideBar"
+import AppHeader from "./components/AppHeader/AppHeader";
+
+// local
 // import WelcomePage from "./pages/welcome/welcomePage"
 
 // react
@@ -28,9 +32,17 @@ function App() {
   //   return <WelcomePage />;
   // }
   return (
-    <div className="all-page">
+    <div className={`all-page`}>
+      <div className="sidebar">
+        <SideBar />
+      </div>
       <main className="main-page">
-        <Outlet />
+        <div className="app-header">
+          <AppHeader />
+        </div>
+        <div className="app-content">
+          <Outlet />
+        </div>
       </main>
     </div>
   );

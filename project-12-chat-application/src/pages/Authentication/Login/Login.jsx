@@ -6,7 +6,8 @@ import { firebaseLogin } from '../../../fierbase-services/login';
 import { loginWithGoogle } from '../../../fierbase-services/loginGoogle';
 import { MdEmail, MdLock } from "react-icons/md";
 import { FcGoogle } from "react-icons/fc";
-import Loading  from "../../loading/loading"
+import Loading from "../../loading/loading"
+import updateUserField from '../../../fierbase-services/fireStore/updateValueInUsers';
 
 // react router
 import { Link, useNavigate } from 'react-router';
@@ -35,8 +36,9 @@ const Login = () => {
         toast.loading("Logging in...", { id: "login" });
         setTimeout(async () => {
             await firebaseLogin(data.email, data.password);
+            await updateUserField(user.uid, { online: true });
             toast.success("Login successful", { id: "login" });
-            navigate("/", { replace: true });
+            navigate("/homeChats", { replace: true });
         }, 1000);
     }
 
@@ -51,8 +53,9 @@ const Login = () => {
                     toast.error("Login failed", { id: "login" });
                     return;
                 }
+                await updateUserField(user.uid, { online: true });
                 toast.success("Login successful", { id: "login" });
-                navigate("/", { replace: true });
+                navigate("/homeChats", { replace: true });
             }, 1000);
         } catch (error) {
             toast.error("Login failed", { id: "login" });
@@ -72,7 +75,7 @@ const Login = () => {
                 setOpenLoading(true);
             }, 0);
             const timer2 = setTimeout(() => {
-                navigate("/", { replace: true })
+                navigate("/homeChats", { replace: true })
             }, 2000);
             const timer3 = setTimeout(() => {
                 setOpenLoading(false);
