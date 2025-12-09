@@ -12,7 +12,7 @@ import { useEffect, useState } from 'react';
 import { RxAvatar } from "react-icons/rx";
 import { RiCheckDoubleLine } from "react-icons/ri";
 
-const UserChatList = ({ data, loginUser, handleClickChat }) => {
+const UserChatList = ({data, loginUser, handleClickChat }) => {
     const currentDay = new Date().toISOString().split("T")[0];
     const allContectedChats = useSelector(getAllContectedChats);
     const [userData, setUserData] = useState(null)

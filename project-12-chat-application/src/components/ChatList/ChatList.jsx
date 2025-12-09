@@ -5,8 +5,7 @@ import SearchUser from "../SearchUser/SearchUser"
 import getAllUsers from '../../fierbase-services/fireStore/getAllUsers';
 import { selectUser } from '../../redux/authSlice';
 import { setContectedUsers } from '../../redux/usersSlice';
-import getAllChats from '../../fierbase-services/fireStore/getallChats';
-import { setAllContectedChats, setCurrentChatId } from '../../redux/chatsSlice';
+import { setCurrentChatId } from '../../redux/chatsSlice';
 
 // react
 import { useEffect, useState } from "react";
@@ -37,18 +36,6 @@ const ChatList = () => {
         }
         getALlContectedUsers();
     }, [user?.uid, dispatch]);
-
-    // fetch all chats
-    useEffect(() => {
-        async function getALlContectedChats() {
-            const allContectedChats = await getAllChats(user?.uid);
-            if(allContectedChats.length > 0){
-                dispatch(setAllContectedChats(allContectedChats))
-            }
-        }
-        getALlContectedChats();
-
-    }, [user?.uid, dispatch]);
     return (
         <div className={styles.container}>
             <div className={styles.header}>
@@ -61,9 +48,7 @@ const ChatList = () => {
             <div className={styles.chatList}>
                 {data.map((item,index)=>{
                     return (
-                        <>
                         <UserChatList key={index} data={item} loginUser={user} handleClickChat={handleClickChat}/>
-                        </>
                     )
                 })}
             </div>

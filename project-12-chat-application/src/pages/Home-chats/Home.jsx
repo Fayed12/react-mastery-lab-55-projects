@@ -2,9 +2,11 @@
 import styles from './Home.module.css';
 import ChatList from '../../components/ChatList/ChatList';
 import Chat from '../../components/chat/chat';
-import { getCurrentChatId, getAllContectedChats, setAllContectedChats } from '../../redux/chatsSlice';
+import { getCurrentChatId, setAllContectedChats, setCurrentChatMessages } from '../../redux/chatsSlice';
 import { selectUser } from '../../redux/authSlice';
 import getAllChats from '../../fierbase-services/fireStore/getallChats';
+import getMessages from '../../fierbase-services/fireStore/getAllChatMessages';
+import { setIsThereIsChat } from '../../redux/chatsSlice';
 
 // redux
 import { useDispatch, useSelector } from 'react-redux';
@@ -17,29 +19,21 @@ const Home = () => {
     const dispatch = useDispatch();
     const [allChats, setAllChats] = useState([]);
     const currentChatId = useSelector(getCurrentChatId);
-    // console.log(currentChatId)
-    // console.log(allChats)
 
+    // compare all chats with the current id ser press 
     useEffect(() => {
-        // const chat = allChats.find((item) => item.id === currentChatId);
-        // if (chat) {
-        //     console.log(chat.id)
-        // } else {
-        //     // console.log(currentChatId)
-        //     console.log("no chat")
-        // }
+        const chat = allChats.find((item) => item.id === currentChatId);
+        if (chat) {
+            const unsubscribe = getMessages(chat.id, (messages) => {
+                dispatch(setCurrentChatMessages(messages))
+                dispatch(setIsThereIsChat(true))
+            });
 
-        allChats.forEach((item) => {
-            if (String(item.id) === String(currentChatId)) {
-                console.log(item.id)
-                console.log(currentChatId)
-            } else {
-                console.log(item.id)
-                console.log(currentChatId)
-            }
-        })
-    }, [allChats, currentChatId]);
+            return () => unsubscribe();
+        }
+    }, [allChats, currentChatId, dispatch]);
 
+    // get all chats related to user
     useEffect(() => {
         async function getALlContectedChats() {
             const allContectedChats = await getAllChats(user?.uid);
