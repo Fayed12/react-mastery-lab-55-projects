@@ -2,7 +2,7 @@ import {db} from "../firebaseConfig";
 import { onSnapshot, collection, query, orderBy } from "firebase/firestore";
 
 const getMessages = (chatId, callback) => {
-    const messagesRef = collection(db, "chats", chatId, "messages");
+    const messagesRef = collection(db, "chats", chatId, "chatMessages");
 
     const q = query(messagesRef, orderBy("time", "asc"));
 

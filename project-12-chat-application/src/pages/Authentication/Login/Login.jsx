@@ -29,16 +29,17 @@ const Login = () => {
     const { register, handleSubmit, formState: { errors }, setFocus } = useForm();
 
     const user = useSelector(selectUser);
-    console.log(user)
 
     // handle submit login
     const onSubmit = (data) => {
         toast.loading("Logging in...", { id: "login" });
         setTimeout(async () => {
-            await firebaseLogin(data.email, data.password);
-            await updateUserField(user.uid, { online: true });
-            toast.success("Login successful", { id: "login" });
-            navigate("/homeChats", { replace: true });
+            const newUser = await firebaseLogin(data.email, data.password);
+            if (newUser.user.uid) {
+                await updateUserField(newUser.user.uid, { online: true });
+                toast.success("Login successful", { id: "login" });
+                navigate("/homeChats", { replace: true });
+            }
         }, 1000);
     }
 
@@ -48,14 +49,12 @@ const Login = () => {
         try {
             toast.loading("Logging in...", { id: "login" });
             setTimeout(async () => {
-                const user = await loginWithGoogle();
-                if (!user) {
-                    toast.error("Login failed", { id: "login" });
-                    return;
+                const newUser = await loginWithGoogle();
+                if (newUser.uid) {
+                    await updateUserField(newUser.uid, { online: true });
+                    toast.success("Login successful", { id: "login" });
+                    navigate("/homeChats", { replace: true });
                 }
-                await updateUserField(user.uid, { online: true });
-                toast.success("Login successful", { id: "login" });
-                navigate("/homeChats", { replace: true });
             }, 1000);
         } catch (error) {
             toast.error("Login failed", { id: "login" });

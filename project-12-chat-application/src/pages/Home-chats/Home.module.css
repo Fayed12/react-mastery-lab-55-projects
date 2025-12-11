@@ -4,3 +4,12 @@
     height: 100%;
     width: 100%;
 }
+
+.chatList{
+    width: 40%;
+    min-width: 350px;
+}
+
+.chat{
+    width: calc(60% - 20px);
+}

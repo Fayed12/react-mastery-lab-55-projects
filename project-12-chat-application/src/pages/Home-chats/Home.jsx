@@ -6,7 +6,9 @@ import { getCurrentChatId, setAllContectedChats, setCurrentChatMessages } from '
 import { selectUser } from '../../redux/authSlice';
 import getAllChats from '../../fierbase-services/fireStore/getallChats';
 import getMessages from '../../fierbase-services/fireStore/getAllChatMessages';
-import { setIsThereIsChat } from '../../redux/chatsSlice';
+import { setAllAppUsers } from '../../redux/usersSlice';
+import getAppUsers from '../../fierbase-services/fireStore/getAllAppUsers';
+import { setLoginUser } from '../../redux/usersSlice';
 
 // redux
 import { useDispatch, useSelector } from 'react-redux';
@@ -16,9 +18,11 @@ import { useEffect, useState } from 'react';
 
 const Home = () => {
     const user = useSelector(selectUser);
-    const dispatch = useDispatch();
-    const [allChats, setAllChats] = useState([]);
     const currentChatId = useSelector(getCurrentChatId);
+    const dispatch = useDispatch();
+
+    // local state
+    const [allChats, setAllChats] = useState([]);
 
     // compare all chats with the current id ser press 
     useEffect(() => {
@@ -26,9 +30,7 @@ const Home = () => {
         if (chat) {
             const unsubscribe = getMessages(chat.id, (messages) => {
                 dispatch(setCurrentChatMessages(messages))
-                dispatch(setIsThereIsChat(true))
             });
-
             return () => unsubscribe();
         }
     }, [allChats, currentChatId, dispatch]);
@@ -43,8 +45,20 @@ const Home = () => {
             }
         }
         getALlContectedChats();
+    }, [user, dispatch]);
 
-    }, [user?.uid, dispatch]);
+    // get all app users
+    useEffect(() => {
+        async function getAllAppUsers() {
+            const allAppUsers = await getAppUsers();
+            if (allAppUsers.length > 0) {
+                const allUsers= allAppUsers.filter((u)=>u.uid !== user.uid)
+                dispatch(setAllAppUsers(allUsers))
+                dispatch(setLoginUser(allAppUsers.filter((u) => u.uid === user.uid)[0]))
+            }
+        }
+        getAllAppUsers();
+    }, [dispatch, user]);
 
     return (
         <div className={styles.container}>
@@ -59,3 +73,5 @@ const Home = () => {
 };
 
 export default Home;
+
+// Hoda@h123

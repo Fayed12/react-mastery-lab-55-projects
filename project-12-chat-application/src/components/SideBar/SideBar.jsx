@@ -35,7 +35,7 @@ const SideBar = () => {
         toast.loading("Logging out...", { id: "logging-out" });
         setTimeout(async () => {
             const result = await logout();
-            await updateUserField(user.uid, { online: false });
+            await updateUserField(user?.uid, { online: false });
             if (result) {
                 toast.success("Logged out successfully", { id: "logging-out" });
             }

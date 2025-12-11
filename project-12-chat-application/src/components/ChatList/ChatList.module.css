@@ -1,7 +1,6 @@
 .container {
     background-color: var(--sidebar-bg);
     height: 100%;
-    width: 350px;
     padding: 20px;
     border-right: 1px solid var(--border-color);
     display: flex;
@@ -9,6 +8,7 @@
     gap: 20px;
     transition: all 0.3s ease;
     border-radius: var(--border);
+    box-shadow: var(--shadow-soft);
 }
 
 @media screen and (max-width: 992px) {

@@ -1,4 +1,41 @@
 .container {
     padding: 10px;
-    border-top: 1px solid #ddd;
+    
+}
+
+form {
+    width: 100%;
+    display: flex;
+    gap: 10px;
+}
+
+form input {
+    flex: 1;
+    outline: none;
+    border: 1px solid var(--border-color);
+    padding: 10px;
+    border-radius: 10px;
+    background-color: transparent;
+    color: var(--text-primary);
+}
+
+form button {
+    border: none;
+    outline: none;
+    padding: 10px;
+    border-radius: 10px;
+    background-color: var(--btn-primary);
+    color: var(--text-primary);
+    width: 100px;
+    cursor: pointer;
+    font-size: 1rem;
+}
+
+form button:has(.empty) {
+    cursor: not-allowed;
+    background-color: rgb(89, 121, 250);
+}
+
+form button:has(.send):hover {
+    cursor: pointer;
 }
