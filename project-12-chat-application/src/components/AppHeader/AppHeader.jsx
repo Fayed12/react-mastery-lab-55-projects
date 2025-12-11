@@ -17,11 +17,19 @@ import { FaPlus } from "react-icons/fa6";
 // react
 import { useState } from 'react';
 
+//react router
+import { useNavigate } from 'react-router';
+
 const AppHeader = () => {
     const [openSearchPopup, setOpenSearchPopup] = useState(false);
     const user = useSelector(selectUser);
     const theme = useSelector(getTheme);
     const dispatch = useDispatch();
+    const navigate = useNavigate();
+
+    const handleOpenProfile = () => {
+        navigate("/profile");
+    };
     return (
         <>
             <div className={styles.container}>
@@ -39,8 +47,8 @@ const AppHeader = () => {
                             <MdDarkMode onClick={() => dispatch(setTheme("dark"))} />
                         )}
                     </div>
-                    <div className={styles.userContainer}>
-                        <span title={user?.displayName}><RxAvatar /></span>
+                    <div className={styles.userContainer} onClick={handleOpenProfile}>
+                        <span title={user?.displayName}><RxAvatar/></span>
                         <span>{user?.displayName}</span>
                     </div>
                 </div>

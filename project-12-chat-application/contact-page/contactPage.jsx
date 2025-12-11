@@ -1,7 +1,7 @@
 // local
-import MainInput from "../../components/ui/input/mainInput"
-import MainButton from "../../components/ui/button/mainButton"
-import styles from './ContactUs.module.css';
+import Input from "../../ui/input/input"
+import Button from "../../ui/button/button";
+import styles from './contactpage.module.css';
 
 // react hook form
 import { useForm } from "react-hook-form";
@@ -15,7 +15,7 @@ import toast from "react-hot-toast";
 // react
 import { useEffect } from "react";
 
-const ContactUs = () => {
+const ContactPage = () => {
     const { register, handleSubmit, reset, formState: { errors }, setFocus } = useForm();
 
     /* ================================================================================
@@ -71,18 +71,18 @@ const ContactUs = () => {
     return (
         <div className={styles.contact}>
             <h1>Contact Us</h1>
-            <p>contact us for any questions or if you have any suggestions</p>
+            <p>contact us for any questions</p>
             <form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
-                <MainInput name="name" type="text" placeholder="Your Name" register={{ ...register("name", { required: "Name is required", pattern: { value: /^[a-zA-Z ]+$/, message: "Name must contain only letters" } }) }} />
+                <Input name="name" type="text" placeholder="Your Name" register={{ ...register("name", { required: "Name is required", pattern: { value: /^[a-zA-Z ]+$/, message: "Name must contain only letters" } }) }} />
                 {errors.name && <p className="error">{errors.name.message}</p>}
 
-                <MainInput name="email" type="email" placeholder="example@gmail.com" register={{ ...register("email", { required: "Email is required", pattern: { value: /^[a-zA-Z0-9._%+-]+@gmail.com$/, message: "Email is invalid, use .com gmail only" } }) }} />
+                <Input name="email" type="email" placeholder="example@gmail.com" register={{ ...register("email", { required: "Email is required", pattern: { value: /^[a-zA-Z0-9._%+-]+@gmail.com$/, message: "Email is invalid, use .com gmail only" } }) }} />
                 {errors.email && <p className="error">{errors.email.message}</p>}
 
-                <MainInput name="phone" type="tel" placeholder="Phone Number" register={{ ...register("phone", { required: "Phone is required", pattern: { value: /^01[0-9]{9}$/, message: "Phone number must be 11 digits and start with 01" } }) }} />
+                <Input name="phone" type="tel" placeholder="Phone Number" register={{ ...register("phone", { required: "Phone is required", pattern: { value: /^01[0-9]{9}$/, message: "Phone number must be 11 digits and start with 01" } }) }} />
                 {errors.phone && <p className="error">{errors.phone.message}</p>}
 
-                <MainInput name="address" type="text" placeholder="Address" register={{ ...register("address") }} />
+                <Input name="address" type="text" placeholder="Address" register={{ ...register("address") }} />
 
                 <textarea
                     placeholder="Your Message"
@@ -92,12 +92,12 @@ const ContactUs = () => {
                 {errors.message && <p className="error">{errors.message.message}</p>}
 
                 <div className={styles.buttons}>
-                    <MainButton type="submit" children="Send" />
-                    <MainButton type="button" children="Reset" className={styles.resetButton} onclick={onReset} />
+                    <Button type="submit" content="Send" />
+                    <Button type="button" content="Reset" className={styles.resetButton} onClick={onReset} />
                 </div>
             </form>
         </div>
     );
 };
 
-export default ContactUs;
+export default ContactPage;

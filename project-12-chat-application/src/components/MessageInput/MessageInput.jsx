@@ -3,7 +3,6 @@ import styles from './MessageInput.module.css';
 import { sendMessage } from '../../fierbase-services/fireStore/addNewMessage';
 import { selectUser } from '../../redux/authSlice';
 import { getCurrentChatId } from '../../redux/chatsSlice';
-import { getCurrentChatMessages } from '../../redux/chatsSlice';
 
 // redux
 import { useSelector } from 'react-redux';
@@ -18,7 +17,6 @@ import { RiSendPlaneFill } from "react-icons/ri";
 const MessageInput = () => {
     const user = useSelector(selectUser);
     const currentChatId = useSelector(getCurrentChatId);
-    const currentChatMessages = useSelector(getCurrentChatMessages);
 
     // local state
     const [message, setMessage] = useState('');
@@ -26,11 +24,6 @@ const MessageInput = () => {
     
     // handle send new message
     async function handleSendMessage(e) {
-        // currentChatMessages.forEach((message) => {
-        //     if (message.system === true) {
-        //         return;
-        //     }
-        // })
         e.preventDefault();
         if (message.trim() === '') return;
         await sendMessage(currentChatId, user.uid, message.trim());
