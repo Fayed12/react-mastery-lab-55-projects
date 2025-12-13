@@ -14,7 +14,6 @@ import { RxAvatar } from "react-icons/rx";
 import { BsInfoLg } from "react-icons/bs";
 import { IoChatbubbles } from "react-icons/io5";
 import { FaUser } from "react-icons/fa";
-import { IoSettings } from "react-icons/io5";
 import { FaLink } from "react-icons/fa6";
 import { RiShutDownLine } from "react-icons/ri";
 import { LuPanelLeftOpen } from "react-icons/lu";
@@ -80,17 +79,6 @@ const SideBar = () => {
                         >
                             <FaUser className={styles.icon} />
                             <span>Profile</span>
-                        </NavLink>
-                    </li>
-                    <li title='Setting' aria-label='Setting'>
-                        <NavLink
-                            to="setting"
-                            className={({ isActive }) =>
-                                isActive ? `${styles.link} ${styles.active}` : styles.link
-                            }
-                        >
-                            <IoSettings className={styles.icon} />
-                            <span>Setting</span>
                         </NavLink>
                     </li>
                     <li title='Contact Us' aria-label='Contact Us'>

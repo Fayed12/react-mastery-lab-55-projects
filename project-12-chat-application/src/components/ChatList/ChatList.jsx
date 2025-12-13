@@ -7,7 +7,7 @@ import { selectUser } from '../../redux/authSlice';
 import { setContectedUsers } from '../../redux/usersSlice';
 import { setCurrentChatId, setCurrentChatMessages } from '../../redux/chatsSlice';
 import { getContectedUsersData } from '../../redux/usersSlice';
-import {getCurrentChatId} from "../../redux/chatsSlice.js";
+import { getCurrentChatId } from "../../redux/chatsSlice.js";
 
 // react
 import { useEffect, useState } from "react";
@@ -22,12 +22,12 @@ const ChatList = () => {
     // global state
     const user = useSelector(selectUser);
     const contectedUsers = useSelector(getContectedUsersData);
-    const currentChatId = useSelector(getCurrentChatId);
+    const currentChatId = useSelector(getCurrentChatId)
     const dispatch = useDispatch();
 
     // local state
     const [filteredUsers, setFilteredUsers] = useState(contectedUsers || []);
-    const [search, setSearch] = useState("");
+    const [search, setSearch] = useState("")
 
     // handle click chat
     const handleClickChat = (id) => {
@@ -61,9 +61,9 @@ const ChatList = () => {
                 <SearchUser onChange={(e) => setSearch(e.target.value)} search={search} users={contectedUsers} setFilteredUsers={setFilteredUsers} />
             </div>
             <div className={styles.chatList}>   
-                {filteredUsers?.map((item,index)=>{
+                {filteredUsers?.map((item, index) => {
                     return (
-                        <UserChatList key={index} data={item} loginUser={user} handleClickChat={handleClickChat}/>
+                        <UserChatList key={index} data={item} loginUser={user} handleClickChat={handleClickChat} />
                     )
                 })}
             </div>

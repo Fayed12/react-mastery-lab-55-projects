@@ -2,6 +2,7 @@
 import styles from './Profile.module.css';
 import MainButton from '../../components/ui/button/mainButton';
 import { getLoginUserData } from "../../redux/usersSlice"
+import updateUserField from '../../fierbase-services/fireStore/updateValueInUsers';
 
 // redux
 import { useSelector } from 'react-redux';
@@ -18,26 +19,11 @@ import { MdCancel } from "react-icons/md";
 // toast
 import toast from 'react-hot-toast';
 
-const initialValues = {
-    img: "",
-    email: "hoda@gmail.com",
-    online: true,
-    userName: "Mahmoud Said",
-    displayName: "hoda1",
-    country: "egypt",
-    phone: "01093650499"
-}
-
 const Profile = () => {
     const user = useSelector(getLoginUserData)
-    const [userData, setUserData] = useState(() => {
-        if (user) {
-            return {...user, img: ""}
-        }
-        return {}
-    });
-    console.log(    userData)
+    const [userData, setUserData] = useState({...user, img: ""});
     const [editMode, setEditMode] = useState({});
+    // console.log(user);
 
     // Toggle edit mode for a specific field
     const handleEditClick = (field) => {
@@ -53,16 +39,28 @@ const Profile = () => {
     // Save changes
     const handleSave = () => {
         setEditMode({});
-        toast.success("Profile updated successfully!");
-        // Here you would typically dispatch an action or call an API to update the user
+        setTimeout(async() => {
+            toast.loading("Updating profile...", { id: "update" });
+            const updatedUser = { ...userData };
+            delete updatedUser.img;
+            await updateUserField(user.uid, updatedUser);
+        }, 1000);
+        setTimeout(() => {
+            toast.success("Profile updated successfully!", {id: "update"});
+        }, 1200);
     };
 
     // Cancel changes
     const handleCancel = () => {
-        setUserData(user);
+        setUserData({...user, img: ""});
         setEditMode({});
-        toast('Changes cancelled', { icon: 'ℹ️' });
+        toast('Changes cancelled', { icon: 'ℹ️', id: "update" });
     };
+
+    // update user data if there is a change
+    useEffect(() => {
+        setUserData({...user, img: ""});
+    }, [user]);
     // Render a profile field
     const renderField = (label, name, value, type = "text") => {
         const isEditing = editMode[name];

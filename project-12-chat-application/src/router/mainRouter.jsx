@@ -16,8 +16,7 @@ const ForgotPassword = lazy(()=>import("../pages/Authentication/forgotPassword/f
 const App = lazy(()=>import("../App.jsx"))
 const HomeChats = lazy(() => import("../pages/Home-chats/Home"));
 const Profile = lazy(() => import("../pages/Profile/Profile"));
-const ContactUs = lazy(() => import("../pages/ContactUs/ContactUs"));
-const Setting = lazy(() => import("../pages/Setting/Setting"));
+const ContactUs = lazy(() => import("../pages/ContactUs/ContactUs"))
 const ExploreApp = lazy(()=>import("../pages/explore-app/exploreApp.jsx"))
 
 const router = createBrowserRouter([
@@ -41,10 +40,6 @@ const router = createBrowserRouter([
             {
                 path:"contactUs",
                 element:<Suspense fallback={<Loading/>}><ContactUs/></Suspense>
-            },
-            {
-                path:"setting",
-                element:<Suspense fallback={<Loading/>}><Setting/></Suspense>
             },
             {
                 path:"exploreApp",

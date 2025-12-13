@@ -6,7 +6,10 @@ import { setCurrentUserData } from '../../redux/chatsSlice';
 import {listenToChat} from '../../fierbase-services/fireStore/getChatData';
 
 // redux
-import { useSelector,useDispatch } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+
+// data
+import { format } from "date-fns";
 
 // react
 import { useEffect, useState } from 'react';
@@ -59,7 +62,7 @@ const UserChatList = ({data, loginUser, handleClickChat }) => {
                 <div className={styles.data}>
                     <div className={styles.dataHeader}>
                         <span>{data.userName}</span>
-                        <span className={`${styles.time} ${chatuserData?.seenStatus ? styles.seenTime : styles.unseenTime}`}>{currentDay === time ? `${chatuserData?.time?.split("T")[1].split(":")[0]}:${chatuserData?.time?.split("T")[1].split(":")[1]}` : time}</span>
+                        <span className={`${styles.time} `}>{currentDay === time ? `${format(chatuserData?.time, "h:mm aaa")}` : time}</span>
                     </div>
                     <div className={styles.dataFooter}>
                         <div>
@@ -73,11 +76,6 @@ const UserChatList = ({data, loginUser, handleClickChat }) => {
                             </span>
                             <span className={styles.lastMessage}>{chatuserData ? chatuserData?.lastMessage :""}</span>
                         </div>
-                        <span>{chatuserData?.senderId !== loginUser.uid &&
-                            (chatuserData?.seenStatus ||
-                                <span className={styles.unseen} title='unseen' aria-label='unseen'></span>
-                            )
-                        }</span>
                     </div>
                 </div>
             </div>
