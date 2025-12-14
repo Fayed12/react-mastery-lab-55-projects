@@ -42,3 +42,13 @@
     background-color: rgba(0, 0, 0, 0.3);
     border-radius: var(--border);
 }
+
+@media (width < 500px) {
+    .container{
+        padding: 5px;
+    }
+
+    .emptyContainer{
+        padding: 5px;
+    }
+}

@@ -1,11 +1,7 @@
 /* Main Container */
 .container {
     width: 100%;
-    height: 600px;
-    overflow-y: auto;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    height: 100dvh;
     color: var(--text-primary);
     padding: 10px;
 }
@@ -190,7 +186,40 @@
 
 @media (max-width: 600px) {
     .profileCard {
+        padding: 10px;
+    }
+
+    .avatarPlaceholder {
+        font-size: 3rem;
+        padding: 10px;
+    }
+
+    .avatarSection h2 {
+        font-size: 1rem;
+        font-weight: 500;
+    }
+
+    .online,
+    .offline {
+        font-size: 0.7rem;
+        font-weight: 500;
+        background-color: rgba(76, 217, 100, 0.1);
+        padding: 4px 12px;
+        border-radius: 20px;
+    }
+
+    .offline {
+        color: var(--text-muted);
+        font-size: 0.9rem;
+        font-weight: 500;
+        background-color: rgba(138, 143, 163, 0.1);
+        padding: 4px 12px;
+        border-radius: 20px;
+    }
+
+    .infoSection {
         padding: 20px;
+        gap: 10px;
     }
 
     .fieldRow {
@@ -211,8 +240,20 @@
         justify-content: flex-end;
         margin-top: -30px; /* Overlap nicely or adjust */
     }
+
+    .container .input {
+        font-size: 0.9rem !important;
+        padding:4px 10px  !important;
+        margin-bottom: 10px;
+    }
+
+    .footer{
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+    }
 }
 
-.container button{
+.container button {
     font-size: 0.9rem !important;
 }

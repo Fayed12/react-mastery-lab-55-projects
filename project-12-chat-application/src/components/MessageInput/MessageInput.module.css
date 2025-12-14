@@ -39,3 +39,22 @@ form button:has(.empty) {
 form button:has(.send):hover {
     cursor: pointer;
 }
+
+@media (width < 500px) {
+    form{
+        gap: 5px;
+    }
+
+    form input{
+        padding: 7px;
+        font-size: 0.7rem;
+    }
+
+    form input::placeholder{
+        font-size: 0.7rem;
+    }
+
+    form button{
+        width: 80px;
+    }
+}

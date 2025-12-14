@@ -136,4 +136,10 @@
         gap: 0px;
         justify-content: space-between;
     }
+
+    .content button{
+        padding: .4rem .7rem;
+        font-size: .5rem;
+        gap: 5px;
+    }
 }

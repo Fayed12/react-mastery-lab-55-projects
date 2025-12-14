@@ -17,7 +17,7 @@
     background-color: var(--bg-secondary);
     width: 90%;
     max-width: 500px;
-    height: 80vh;
+    height: 80dvh;
     padding: 25px;
     border-radius: var(--border);
     box-shadow: var(--shadow-soft);
@@ -145,5 +145,61 @@
     to {
         opacity: 1;
         transform: scale(1);
+    }
+}
+
+
+@media (width < 768px) {
+    .content {
+        padding: 15px;
+        gap: 10px;
+    }
+
+    .headerRow{
+        margin-bottom: 5px;
+    }
+
+    .headerRow h3 {
+        font-size: 1rem;
+    }
+
+    .closeBtn {
+        font-size: 1.2rem;
+    }
+
+    .searchContainer input{
+        font-size: .8rem !important;
+        padding: 10px !important;
+    }
+
+    .userContainer{
+        gap: 10px;
+    }
+
+    .user{
+        padding: 10px 3px;
+        border-radius: 10px;
+    }
+
+    .userInfoLeft{
+        gap: 5px;
+    }
+
+    .avatar{
+        font-size: 1.7rem;
+    }
+
+    .displayName{
+        font-size: .8rem;
+    }
+
+    .email{
+        font-size: .6rem;
+    }
+
+    .actionRight button{
+        padding: 10px;
+        font-size: 12px !important;
+        letter-spacing: .5px;
     }
 }

@@ -134,3 +134,57 @@
 .unseen {
     background-color: var(--accent-color, #3b82f6);
 }
+
+
+@media (max-width: 500px) {
+    .userChatItem {
+        width: 100%;
+        gap: 10px;
+        padding: 7px;
+    }
+
+    .image{
+        width: 35px;
+        height: 35px;
+        min-width: 35px;
+    }
+
+    .onlineStatus {
+        bottom: 0;
+        right: 0;
+        padding: 1px;
+    }
+
+    .online {
+        width: 8px;
+        height: 8px;
+    }
+
+    .data{
+        gap: 5px;
+    }
+
+    .dataHeader span:first-child {
+        font-size: 0.7rem;
+    }
+
+    .time {
+        font-size: 0.6rem;
+    }
+
+    .lastMessage{
+        font-size: 0.6rem;
+    }
+
+    .dataFooter div{
+        display: flex;
+    }
+
+    .arrow{
+        margin-right: 3px;
+    }
+
+    .arrow svg{
+        width: 12px;
+    }
+}

@@ -56,7 +56,7 @@
     --active-color: #f7f7f9;
 }
 
-.light{
+.light {
     /* ====== Main Background ====== */
     --bg-primary: #f5f7fa;
     --bg-secondary: #eeeaea;
@@ -107,15 +107,15 @@
     --active-color: #232631;
 }
 
-::-webkit-scrollbar{
+::-webkit-scrollbar {
     width: 6px;
 }
 
-::-webkit-scrollbar-track{
+::-webkit-scrollbar-track {
     background: transparent;
 }
 
-::-webkit-scrollbar-thumb{
+::-webkit-scrollbar-thumb {
     background: var(--btn-primary);
     border-radius: 3px;
 }
@@ -156,7 +156,7 @@ a {
 }
 
 /* start style main page */
-.all-page{
+.all-page {
     display: flex;
     gap: 25px;
     width: 100%;
@@ -165,21 +165,34 @@ a {
     background-color: var(--bg-tertiary);
 }
 
-.main-page{
+.main-page {
     flex: 1;
     display: flex;
     flex-direction: column;
     gap: 20px;
+    overflow: hidden;
 }
 
-.app-header{
+.app-header {
     width: 100%;
 }
 
-.app-content{
+.app-content {
     width: 100%;
     flex: 1;
 }
+
+@media (width< 768px) {
+    .all-page{
+        gap: 10px;
+        padding: 10px;
+    }
+
+    .main-page{
+        gap: 10px;
+    }
+}
+
 /* end style main page */
 
 /* start error */

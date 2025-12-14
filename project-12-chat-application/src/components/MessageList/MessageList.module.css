@@ -7,9 +7,16 @@
     padding: 5px;
     height: 400px;
     overflow-y: auto;
+    flex: 1;
 }
 
-.messages{
+@media (width <= 800px) {
+    .container {
+        height: 170px;
+    }
+}
+
+.messages {
     padding: 10px;
     height: 100%;
     display: flex;
@@ -39,14 +46,14 @@
     border-radius: var(--border);
 }
 
-.rightMessage{
+.rightMessage {
     display: flex;
     justify-content: flex-end;
     align-items: center;
     margin-bottom: 15px;
 }
 
-.leftMessage{
+.leftMessage {
     display: flex;
     justify-content: flex-start;
     align-items: center;
@@ -54,7 +61,7 @@
 }
 
 .leftMessage .textContainer,
-.rightMessage .textContainer{
+.rightMessage .textContainer {
     width: fit-content;
     padding: 10px;
     padding-bottom: 25px;
@@ -69,12 +76,12 @@
     font-size: 13px;
 }
 
-.rightMessage .textContainer{
+.rightMessage .textContainer {
     margin-right: 20px;
 }
 
 .leftMessage .textContainer::before,
-.rightMessage .textContainer::before{
+.rightMessage .textContainer::before {
     content: "";
     position: absolute;
     top: 0;
@@ -83,17 +90,17 @@
     background-color: var(--bg-secondary);
 }
 
-.leftMessage .textContainer::before{
+.leftMessage .textContainer::before {
     left: -12px;
     border-radius: 100% 0% 0% 100% / 0% 100% 0% 100%;
 }
 
-.rightMessage .textContainer::before{
+.rightMessage .textContainer::before {
     right: -12px;
     border-radius: 100% 0% 100% 0% / 0% 0% 100% 100%;
 }
 
-.timeContainer{
+.timeContainer {
     position: absolute;
     height: fit-content;
     bottom: 5px;
@@ -106,22 +113,61 @@
     gap: 5px;
 }
 
-.time{
+.time {
     display: flex;
     gap: 5px;
     color: var(--text-muted) !important;
 }
 
-.rightMessage .sender{
+.rightMessage .sender {
     color: var(--online-green);
     font-size: 12px;
 }
 
-.mainTime{
-    width: 100%;
-    display: block;
-    text-align: center;
-    margin-block: 20px;
-    font-size: 15px;
-    color: var(--text-muted);
+@media (width < 500px) {
+    .container {
+        padding: 5px;
+        border-radius: 10px;
+    }
+
+    .messages {
+        padding: 0px;
+    }
+
+    .rightMessage {
+        margin-bottom: 7px !important;
+    }
+
+    .leftMessage {
+        margin-bottom: 7px !important;
+    }
+
+    .leftMessage .textContainer,
+    .rightMessage .textContainer {
+        margin-bottom: 5px;
+        min-width: 100px;
+        max-width: 50%;
+        font-size: 10px;
+    }
+
+    .rightMessage .textContainer {
+        margin-right: 20px;
+    }
+
+    .leftMessage .textContainer::before,
+    .rightMessage .textContainer::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        width: 20px;
+        height: 15px;
+    }
+
+    .timeContainer {
+        font-size:8px;
+    }
+
+    .rightMessage .sender {
+        font-size: 10px;
+    }
 }

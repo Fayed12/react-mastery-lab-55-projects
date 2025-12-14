@@ -129,3 +129,35 @@
         grid-template-columns: 1fr;
     }
 }
+
+@media (width < 500px) {
+        .title {
+        font-size: 1.5rem;
+        width: 100%;
+    }
+
+    .subtitle {
+        font-size: .8rem;
+        margin-bottom: 10px;
+    }
+
+    .features {
+        grid-template-columns: 1fr;
+    }
+
+    .featureCard {
+        padding: 15px;
+    }
+
+    .featureCard svg{
+        font-size: 2rem;
+    }
+
+    .featureCard h3 {
+        font-size: .8rem;
+    }
+
+    .featureCard p {
+        font-size: .6rem;
+    }
+}

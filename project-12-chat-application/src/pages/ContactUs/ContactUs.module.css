@@ -19,6 +19,7 @@
     color: var(--text-muted);
     font-size: 0.95rem;
     margin-bottom: 10px;
+    text-align: center;
 }
 
 .form {
@@ -84,4 +85,19 @@
 .contact::-webkit-scrollbar-thumb {
     background-color: var(--border-color);
     border-radius: 3px;
+}
+
+@media (width <768px) {
+    .contact h1 {
+        font-size: 1.5rem;
+    }
+
+    .contact p {
+        font-size: 0.7rem;
+    }
+
+    .contact button{
+        padding: 10px;
+        font-size:1rem;
+    }
 }

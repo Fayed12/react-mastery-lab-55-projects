@@ -7,9 +7,9 @@ import AppHeader from "./components/AppHeader/AppHeader";
 import getAppUsers from "./fierbase-services/fireStore/getAllAppUsers";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
-import { setAllAppUsers } from "./redux/usersSlice";
+import { clearAllAppUsers, clearContectedUsers, clearLoginUser, setAllAppUsers } from "./redux/usersSlice";
 import { setLoginUser } from "./redux/usersSlice";
-import { getCurrentChatId, setAllContectedChats, setCurrentChatMessages } from "./redux/chatsSlice";
+import { getCurrentChatId, setAllContectedChats, setCurrentChatId, setCurrentChatMessages, setCurrentUserData, setIsThereIsChat } from "./redux/chatsSlice";
 import getMessages from "./fierbase-services/fireStore/getAllChatMessages";
 import getAllChats from "./fierbase-services/fireStore/getallChats";
 
@@ -17,9 +17,11 @@ import getAllChats from "./fierbase-services/fireStore/getallChats";
 import { useEffect, useState } from "react";
 
 // redux
-import { selectUser } from "./redux/authSlice";
+import { selectUser, setUser } from "./redux/authSlice";
 
-
+// firebase
+import { onAuthStateChanged } from "firebase/auth";
+import { auth } from "./fierbase-services/firebaseConfig";
 
 function App() {
 
@@ -67,7 +69,30 @@ function App() {
     }
     getAllAppUsers();
   }, [dispatch, user]);
-  return (
+
+  // clear data after logout
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      if (!user) {
+        dispatch(clearContectedUsers())
+        dispatch(clearAllAppUsers())
+        dispatch(clearLoginUser())
+        dispatch(setAllContectedChats([]))
+        dispatch(setCurrentChatId(null))
+        dispatch(setCurrentChatMessages(null))
+        dispatch(setIsThereIsChat(false))
+        dispatch(setCurrentUserData(null))
+        dispatch(setUser(null))
+      } else {
+        if (user) {
+          const { uid, email, displayName } = user;
+          dispatch(setUser({ uid, email, displayName }));
+        }
+      }
+    });
+    
+    return () => unsubscribe();
+  }, [dispatch]); return (
     <div className={`all-page`}>
       <div className="sidebar">
         <SideBar />

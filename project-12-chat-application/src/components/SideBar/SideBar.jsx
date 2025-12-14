@@ -2,8 +2,8 @@
 import styles from './SideBar.module.css';
 import MainButton from '../ui/button/mainButton';
 import { logout } from '../../fierbase-services/logout';
-import { selectUser } from '../../redux/authSlice';
-import { useSelector } from 'react-redux';
+import { selectUser, setUser } from '../../redux/authSlice';
+import { useDispatch, useSelector } from 'react-redux';
 import updateUserField from '../../fierbase-services/fireStore/updateValueInUsers';
 
 // react router
@@ -24,9 +24,12 @@ import toast from 'react-hot-toast';
 
 // react 
 import { useState } from 'react';
+import { clearAllAppUsers, clearContectedUsers, clearLoginUser } from '../../redux/usersSlice';
+import { setAllContectedChats, setCurrentChatId, setCurrentChatMessages, setCurrentUserData, setIsThereIsChat } from '../../redux/chatsSlice';
 
 const SideBar = () => {
     const user = useSelector(selectUser);
+    const dispatch = useDispatch();
     const [openSideBar, setOpenSideBar] = useState(true);
 
     // handle logout
@@ -37,9 +40,22 @@ const SideBar = () => {
             await updateUserField(user?.uid, { online: false });
             if (result) {
                 toast.success("Logged out successfully", { id: "logging-out" });
+
+                // set default user data
+                dispatch(clearContectedUsers())
+                dispatch(clearAllAppUsers())
+                dispatch(clearLoginUser())
+                dispatch(setAllContectedChats([]))
+                dispatch(setCurrentChatId(null))
+                dispatch(setCurrentChatMessages(null))
+                dispatch(setIsThereIsChat(false))
+                dispatch(setCurrentUserData(null))
+                dispatch(setUser(null))
             }
         }, 1500);
     }
+
+    
     return (
         <div className={openSideBar ? styles.container : styles.containerClose}>
             <div className={styles.logo}>

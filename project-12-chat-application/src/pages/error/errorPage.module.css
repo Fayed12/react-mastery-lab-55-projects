@@ -47,3 +47,27 @@
         transform: scale(1);
     }
 }
+
+
+@media (width< 768px) {
+.errorPage{
+    width: 80%;
+}
+
+    .errorPage h1 {
+        font-size: 4rem;
+    }
+
+    .errorPage h2 {
+        font-size: 1rem;
+    }
+
+    .errorPage p {
+        font-size: 0.8rem;
+    }
+
+    .errorPage button {
+        padding: 6px;
+        width: 100px;
+    }
+}

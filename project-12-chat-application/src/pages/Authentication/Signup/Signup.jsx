@@ -16,11 +16,11 @@ import { useEffect } from 'react';
 import toast from 'react-hot-toast';
 
 // react router
-import { Link } from 'react-router';
+import { Link,useNavigate } from 'react-router';
 
 const Signup = () => {
     const { register, handleSubmit, formState: { errors }, setFocus, watch, reset } = useForm();
-
+    const navigate = useNavigate();
 
     // handle submit
     const onSubmit = (data) => {
@@ -35,7 +35,8 @@ const Signup = () => {
         toast.loading("Creating user...", { id: "create-user" });
         setTimeout(async () => {
             await firebaseSignUp({ newUser, password: data.password })
-            toast.success("User created successfully");
+            toast.success("User created successfully", { id: "create-user" });
+            navigate("/login" , {replace: true});
             reset();
         }, 1000);
     };
@@ -166,4 +167,7 @@ const Signup = () => {
 
 export default Signup;
 
-// mona@M1
+// mosa!m@sM1
+// Hoda@h123
+// mariam1@mM
+// Jouda@j123

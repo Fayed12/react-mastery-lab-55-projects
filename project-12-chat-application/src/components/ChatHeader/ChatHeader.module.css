@@ -80,3 +80,29 @@
     color: white;
     transform: rotate(90deg);
 }
+
+@media (width < 500px) {
+    .phoneNumber {
+        display: none;
+    }
+
+    .leftSection {
+        gap: 10px;
+    }
+
+    .avatar {
+        font-size: 2rem;
+    }
+
+    .displayName {
+        font-size: 1rem;
+    }
+
+    .status {
+        font-size: 0.6rem;
+    }
+
+    .closeButton {
+        font-size: 1.2rem;
+    }
+}
