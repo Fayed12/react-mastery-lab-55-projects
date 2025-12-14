@@ -2,7 +2,7 @@
 import styles from './searchPopup.module.css';
 import SearchUser from "../SearchUser/SearchUser"
 import MainButton from '../ui/button/mainButton';
-import { getAllAppUsersData } from '../../redux/usersSlice';
+import { getAllAppUsersData, setContectedUsers } from '../../redux/usersSlice';
 import { setCurrentChatId, setIsThereIsChat } from '../../redux/chatsSlice';
 import { selectUser } from '../../redux/authSlice';
 import {createNewChat} from "../../fierbase-services/fireStore/addNewChat"
@@ -20,6 +20,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import { RxAvatar } from 'react-icons/rx';
 import { FaPlus } from 'react-icons/fa6';
 import { IoClose } from "react-icons/io5";
+
+// firebase 
+import { arrayUnion } from 'firebase/firestore';
 
 const SearchPopup = ({ closePopup }) => {
     const allAppUsers = useSelector(getAllAppUsersData);
@@ -49,13 +52,13 @@ const SearchPopup = ({ closePopup }) => {
             if (!loginUserData?.contactedUsers?.includes(user.uid)) {
                 const id = user.uid
                 await updateUserField(loginUser.uid, {
-                    contactedUsers: [...loginUserData.contactedUsers,id]
+                    contactedUsers: arrayUnion(id)
                 });
             }
             if (!user?.contactedUsers?.includes(loginUser.uid)) {
                 const id = loginUser.uid
                 await updateUserField(user.uid, {
-                    contactedUsers: [...user.contactedUsers,id]
+                    contactedUsers: arrayUnion(id)
                 });
             }
 
@@ -63,6 +66,13 @@ const SearchPopup = ({ closePopup }) => {
             dispatch(setCurrentChatId(chatId))
             dispatch(setIsThereIsChat(true))
             dispatch(setCurrentUserData(user))
+
+            dispatch(
+                setContectedUsers([
+                    ...loginUserData.contactedUsersData,
+                    user,
+                ])
+            );
 
             // close popup
             closePopup()

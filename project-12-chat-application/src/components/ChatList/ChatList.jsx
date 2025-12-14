@@ -5,7 +5,7 @@ import SearchUser from "../SearchUser/SearchUser"
 import getAllUsers from '../../fierbase-services/fireStore/getAllUsers';
 import { selectUser } from '../../redux/authSlice';
 import { setContectedUsers } from '../../redux/usersSlice';
-import { setCurrentChatId, setCurrentChatMessages } from '../../redux/chatsSlice';
+import { setCurrentChatId } from '../../redux/chatsSlice';
 import { getContectedUsersData } from '../../redux/usersSlice';
 import { getCurrentChatId } from "../../redux/chatsSlice.js";
 
@@ -33,11 +33,7 @@ const ChatList = () => {
     const handleClickChat = (id) => {
         if (currentChatId === id) return;
 
-        // reset messages first to avoid duplicate messages and empty messages
-        dispatch(setCurrentChatMessages(null))
-
-        // set current chat id
-        dispatch(setCurrentChatId(id))
+        dispatch(setCurrentChatId(id));
     }
 
     // fetch all users
@@ -51,6 +47,7 @@ const ChatList = () => {
         }
         getALlContectedUsers();
     }, [user?.uid, dispatch]);
+
     return (
         <div className={styles.container}>
             <div className={styles.header}>

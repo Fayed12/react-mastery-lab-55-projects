@@ -4,7 +4,6 @@ import ChatList from '../../components/ChatList/ChatList';
 import Chat from '../../components/chat/chat';
 import getMessages from '../../fierbase-services/fireStore/getAllChatMessages';
 import { getCurrentChatId, setCurrentChatMessages } from '../../redux/chatsSlice';
-import { getAllContectedChats } from '../../redux/chatsSlice';
 
 // react
 import { useEffect } from 'react';
@@ -14,22 +13,18 @@ import { useDispatch, useSelector } from 'react-redux';
 
 
 const Home = () => {
-
-    // redux
-    const allChats = useSelector(getAllContectedChats);
     const currentChatId = useSelector(getCurrentChatId);
     const dispatch = useDispatch();
 
     // get all cureent chat messages
     useEffect(() => {
-        const chat = allChats?.find((item) => item.id === currentChatId);
-        if (chat) {
-            const unsubscribe = getMessages(chat.id, (messages) => {
-                dispatch(setCurrentChatMessages(messages))
-            });
-            return () => unsubscribe();
-        }
-    }, [allChats, currentChatId, dispatch]);
+        if (!currentChatId) return;
+        const unsubscribe = getMessages(currentChatId, (messages) => {
+            dispatch(setCurrentChatMessages(messages));
+        });
+
+        return () => unsubscribe();
+    }, [currentChatId, dispatch]);
 
     return (
         <div className={styles.container}>

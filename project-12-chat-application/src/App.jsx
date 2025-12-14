@@ -9,12 +9,11 @@ import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import { clearAllAppUsers, clearContectedUsers, clearLoginUser, setAllAppUsers } from "./redux/usersSlice";
 import { setLoginUser } from "./redux/usersSlice";
-import { getCurrentChatId, setAllContectedChats, setCurrentChatId, setCurrentChatMessages, setCurrentUserData, setIsThereIsChat } from "./redux/chatsSlice";
-import getMessages from "./fierbase-services/fireStore/getAllChatMessages";
+import { setAllContectedChats, setCurrentChatId, setCurrentChatMessages, setCurrentUserData, setIsThereIsChat } from "./redux/chatsSlice";
 import getAllChats from "./fierbase-services/fireStore/getallChats";
 
 // react
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 
 // redux
 import { selectUser, setUser } from "./redux/authSlice";
@@ -26,37 +25,19 @@ import { auth } from "./fierbase-services/firebaseConfig";
 function App() {
 
   const user = useSelector(selectUser);
-  const currentChatId = useSelector(getCurrentChatId);
   const dispatch = useDispatch();
 
-  // local state
-  const [allChats, setAllChats] = useState([]);
-
-  // get all chats related to user
+  //  get all chats related to user
   useEffect(() => {
     async function getALlContectedChats() {
       const allContectedChats = await getAllChats(user?.uid);
       if (allContectedChats.length > 0) {
-        setAllChats(allContectedChats)
         dispatch(setAllContectedChats(allContectedChats))
       }
     }
     getALlContectedChats();
   }, [user, dispatch]);
 
-  // compare all chats with the current id ser press 
-  // get all cureent chat messages
-  useEffect(() => {
-    const chat = allChats.find((item) => item.id === currentChatId);
-    if (chat) {
-      const unsubscribe = getMessages(chat.id, (messages) => {
-        dispatch(setCurrentChatMessages(messages))
-      });
-      return () => unsubscribe();
-    }
-  }, [allChats, currentChatId, dispatch]);
-
-  // get all app users
   // get login user data
   useEffect(() => {
     async function getAllAppUsers() {
@@ -90,7 +71,7 @@ function App() {
         }
       }
     });
-    
+
     return () => unsubscribe();
   }, [dispatch]); return (
     <div className={`all-page`}>

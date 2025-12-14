@@ -21,7 +21,6 @@ const MessageInput = () => {
     // local state
     const [message, setMessage] = useState('');
 
-    
     // handle send new message
     async function handleSendMessage(e) {
         e.preventDefault();
@@ -29,11 +28,11 @@ const MessageInput = () => {
         await sendMessage(currentChatId, user.uid, message.trim());
         setMessage('');
     }
-    
+
     return (
         <div className={styles.container}>
             <form onSubmit={handleSendMessage}>
-            <input type="text" placeholder="Type a message..." name='message' value={message} onChange={(e) => setMessage(e.target.value)} />
+                <input type="text" placeholder="Type a message..." name='message' value={message} onChange={(e) => setMessage(e.target.value)} />
                 <button title='Send Message' type='submit'>{message.trim() === '' ? <span className={styles.empty}><TbActivityHeartbeat /></span> : <span className={styles.send}><RiSendPlaneFill /></span>}</button>
             </form>
         </div>
