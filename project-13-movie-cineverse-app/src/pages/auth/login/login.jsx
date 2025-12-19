@@ -2,6 +2,10 @@
 import MainInput from "../../../ui/input/mainInput";
 import MainButton from "../../../ui/button/mainButton";
 import styles from "./login.module.css";
+import signInWithFirebase from "../../../components/firebase/firebaseLoginWithEmail";
+import signInWithGoogle from "../../../components/firebase/firebaseLoginWithGoogle";
+import logoutWithFirebase from "../../../components/firebase/firebaseLogout";
+import { auth } from "../../../components/firebase/firebaseConfig";
 
 // react form
 import { useForm } from "react-hook-form";
@@ -11,9 +15,10 @@ import toast from "react-hot-toast";
 
 // react
 import { useEffect, useState } from "react";
-import { NavLink } from "react-router";
 
 // react router
+import { NavLink } from "react-router";
+
 
 function Login() {
     const [loading, setLoading] = useState(false);
@@ -32,11 +37,16 @@ function Login() {
         toast.loading("loading...", { id: "login" });
 
         // end loading and save value
-        setTimeout(() => {
+        setTimeout(async () => {
+            
+            if (auth.currentUser) {
+                await logoutWithFirebase();
+            }
+            
+            await signInWithFirebase({ email: data.email, password: data.password })
+            
             setLoading(false);
-            toast.success("ed", { id: "login" });
-            console.log(data);
-
+            toast.success("login successful", { id: "login" });
             // set value
             setValue("email", "");
             setValue("password", "");
@@ -98,8 +108,14 @@ function Login() {
                         isDisabled={loading}
                     />
                 </form>
+                    <MainButton
+                        type="button"
+                        content="logout"
+                        title="logout"
+                        clickEvent={logoutWithFirebase}
+                    />
                 <div className={styles.loginGoogle}>
-                    <p>login with google</p>
+                    <p onClick={()=>signInWithGoogle()}>login with google</p>
                 </div>
 
                 <div className={styles.signUp}>

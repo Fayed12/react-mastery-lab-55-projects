@@ -8,6 +8,7 @@ import { lazy, Suspense } from "react";
 // normal imports
 import LoadingPage from "../pages/loading-page/loadingPage";
 import ErrorPage from "../pages/error-page/errorPage";
+import ProtectedLogin from "./protectRouter";
 
 // lazy imports
 const App = lazy(() => import("../App"))

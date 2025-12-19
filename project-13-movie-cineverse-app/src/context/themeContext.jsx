@@ -1,7 +1,9 @@
-// context
-import { createContext, useMemo, useState } from "react";
+// react
+import { useMemo, useState } from "react";
 
-const ThemeContext = createContext();
+// local
+import { ThemeContext } from "./context";
+
 
 function ThemeProvider({ children }) {
     const [theme, setTheme] = useState("dark");
