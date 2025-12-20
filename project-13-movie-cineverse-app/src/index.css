@@ -21,6 +21,7 @@
   --text-secondary: #B0B0B0;
   --text-accent: #FF3D00;
   --text-link: #FF5722;
+  --text-muted:#999;
 
   /* Buttons */
   --btn-primary-bg: #FF3D00;
@@ -37,7 +38,7 @@
 }
 
 /* =================== Light Theme =================== */
-[data-theme="light"] {
+.light {
   /* Backgrounds */
   --bg-main: #F5F5F5;
   --bg-card: #FFFFFF;
@@ -48,6 +49,7 @@
   --text-secondary: #555555;
   --text-accent: #FF3D00;
   --text-link: #FF5722;
+  --text-muted:#999;
 
   /* Buttons */
   --btn-primary-bg: #FF3D00;
@@ -78,4 +80,11 @@ ul{
 
 a{
   text-transform: none;
+}
+
+.error {
+    color: var(--text-accent);
+    margin-top: -12px;
+    margin-left: 4px;
+    font-size: 12px;
 }

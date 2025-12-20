@@ -2,7 +2,7 @@
 import MainButton from "../../../ui/button/mainButton";
 import MainInput from "../../../ui/input/mainInput";
 import styles from "./signUp.module.css";
-import createUserWithEmail from "../../../components/firebase/firebaseSignUp";
+import createUserWithEmail from "../../../firebase/firebaseSignUp";
 
 // react form
 import { useForm } from "react-hook-form";

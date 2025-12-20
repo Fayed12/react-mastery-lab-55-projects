@@ -14,7 +14,7 @@ function ProtectedLogin({children}) {
         <Navigate to="/" replace={ true} />
     }
     
-    return {children}
+    return <>{children}</>;
 }
 
 export default ProtectedLogin

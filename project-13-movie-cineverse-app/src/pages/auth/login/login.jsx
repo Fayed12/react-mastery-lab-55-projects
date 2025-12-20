@@ -2,10 +2,8 @@
 import MainInput from "../../../ui/input/mainInput";
 import MainButton from "../../../ui/button/mainButton";
 import styles from "./login.module.css";
-import signInWithFirebase from "../../../components/firebase/firebaseLoginWithEmail";
-import signInWithGoogle from "../../../components/firebase/firebaseLoginWithGoogle";
-import logoutWithFirebase from "../../../components/firebase/firebaseLogout";
-import { auth } from "../../../components/firebase/firebaseConfig";
+import signInWithFirebase from "../../../firebase/firebaseLoginWithEmail";
+import signInWithGoogle from "../../../firebase/firebaseLoginWithGoogle";
 
 // react form
 import { useForm } from "react-hook-form";
@@ -38,10 +36,6 @@ function Login() {
 
         // end loading and save value
         setTimeout(async () => {
-            
-            if (auth.currentUser) {
-                await logoutWithFirebase();
-            }
             
             await signInWithFirebase({ email: data.email, password: data.password })
             
@@ -108,12 +102,6 @@ function Login() {
                         isDisabled={loading}
                     />
                 </form>
-                    <MainButton
-                        type="button"
-                        content="logout"
-                        title="logout"
-                        clickEvent={logoutWithFirebase}
-                    />
                 <div className={styles.loginGoogle}>
                     <p onClick={()=>signInWithGoogle()}>login with google</p>
                 </div>

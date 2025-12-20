@@ -1,0 +1,118 @@
+.allPage {
+    width: 100%;
+    min-height: 100dvh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--bg-main);
+    padding-inline: 20px;
+}
+
+.form {
+    width: 100%;
+    max-width: 450px;
+    background-color: var(--bg-card);
+    padding: 40px;
+    border-radius: 20px;
+    box-shadow: var(--card-shadow);
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    border: 1px solid var(--border-color);
+    animation: fadeIn 0.5s ease-out;
+}
+
+.form form {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.form form div a {
+    width: 100%;
+    color: var(--text-link);
+    font-size: 0.8rem;
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.3s;
+    display: inline-block;
+    margin-bottom: 8px;
+    text-align: right;
+}
+
+.form form div a:hover {
+    color: var(--text-accent);
+}
+
+.loginGoogle {
+    text-align: center;
+    font-size: 14px;
+    margin-top: 10px;
+    padding-top: 20px;
+    border-top: 1px solid var(--border-color);
+}
+
+.loginGoogle p {
+    color: var(--text-secondary);
+    cursor: pointer;
+    transition: all 0.3s;
+    font-weight: 600;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.loginGoogle p:hover {
+    color: var(--text-primary);
+    transform: scale(1.05);
+}
+
+.signUp {
+    text-align: center;
+    margin-top: 10px;
+}
+
+.signUp p {
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+}
+
+.signUp a {
+    color: var(--text-link);
+    text-decoration: none;
+    font-weight: 600;
+    margin-left: 5px;
+    transition: color 0.3s;
+}
+
+.signUp a:hover {
+    color: var(--text-accent);
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@media (max-width: 500px) {
+    .form {
+        padding: 15px;
+        width: 100%;
+    }
+    .form form div a {
+        font-size: 0.7rem;
+    }
+    .loginGoogle {
+        font-size: 12px;
+        padding-top: 15px;
+    }
+    .signUp p {
+        font-size: 0.8rem;
+    }
+}

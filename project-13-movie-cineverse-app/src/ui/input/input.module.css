@@ -1,0 +1,36 @@
+.inputContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    width: 100%;
+    margin-bottom: 16px;
+}
+
+.input {
+    width: 100%;
+    padding: 10px 15px;
+    border-radius: 12px;
+    border: 2px solid var(--border-color);
+    background-color: var(--bg-card);
+    color: var(--text-primary);
+    font-size: 1rem;
+    transition: all 0.3s ease;
+    outline: none;
+}
+
+.input::placeholder {
+    color: var(--text-muted);
+    font-size: 13px;
+}
+
+.input:hover {
+    border-color: var(--text-secondary);
+    background-color: var(--bg-hover);
+    box-shadow: var(--card-shadow);
+}
+
+.input:focus {
+    border-color: var(--text-accent);
+    box-shadow: 0 0 0 4px rgba(255, 61, 0, 0.1);
+    background-color: var(--bg-main);
+}

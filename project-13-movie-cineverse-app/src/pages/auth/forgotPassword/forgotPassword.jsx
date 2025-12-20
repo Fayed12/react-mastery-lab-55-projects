@@ -3,7 +3,7 @@ import toast from "react-hot-toast";
 import MainButton from "../../../ui/button/mainButton";
 import MainInput from "../../../ui/input/mainInput";
 import styles from "./forgotPassword.module.css";
-import sendEmailResetPassword from "../../../components/firebase/firebaseForgotPass";
+import sendEmailResetPassword from "../../../firebase/firebaseForgotPass";
 
 // react
 import { useEffect, useState } from "react";
@@ -14,9 +14,12 @@ import { useForm } from "react-hook-form";
 // react router
 import { useNavigate } from "react-router";
 
+// react icons
+import { IoMdArrowRoundBack } from "react-icons/io";
+
 function ForgotPassword() {
     const [loading, setLoading] = useState(false);
-    const [isSend, setIsSend]= useState(false)
+    const [isSend, setIsSend] = useState(false)
     const {
         register,
         setFocus,
@@ -29,20 +32,19 @@ function ForgotPassword() {
     // handle submit
     function onsubmit(data) {
         setLoading(true)
-        setIsSend(false)
-        toast.loading("loading...", {id:"forgot"})
+        toast.loading("loading...", { id: "forgot" })
 
         setTimeout(async () => {
             setLoading(false)
-            // setIsSend(true)
+            setIsSend(true)
             toast.success("email send successfully", { id: "forgot" })
 
-            await sendEmailResetPassword({email:data.email})
+            await sendEmailResetPassword({ email: data.email })
         }, 1000);
 
 
         // set value
-        setValue("email","")
+        setValue("email", "")
     }
 
     // focus when open popup
@@ -50,56 +52,61 @@ function ForgotPassword() {
         setFocus("email");
     }, [setFocus]);
 
+
     return (
         <div className={styles.forgotPassword}>
-            {!isSend ? (
-                <form onSubmit={handleSubmit(onsubmit)}>
-                    <MainInput
-                        type={"email"}
-                        name={"email"}
-                        placeholder={"your email..."}
-                        title={"email address"}
-                        register={register("email", {
-                            required: "Email is required",
-                            pattern: {
-                                value: /^[a-zA-Z0-9._%+-]+@gmail\.com$/,
-                                message:
-                                    "please enter your email only in ex@gmail.com",
-                            },
-                        })}
-                    />
-                    {errors.email && (
-                        <p className="error">{errors.email.message}</p>
-                    )}
+            <div className={styles.container}>
+                {!isSend ? (
+                    <form onSubmit={handleSubmit(onsubmit)}>
+                        <MainInput
+                            type={"email"}
+                            name={"email"}
+                            placeholder={"your email..."}
+                            title={"email address"}
+                            register={register("email", {
+                                required: "Email is required",
+                                pattern: {
+                                    value: /^[a-zA-Z0-9._%+-]+@gmail\.com$/,
+                                    message:
+                                        "please enter your email only in ex@gmail.com",
+                                },
+                            })}
+                        />
+                        {errors.email && (
+                            <p className="error">{errors.email.message}</p>
+                        )}
 
-                    <MainButton
-                        type="submit"
-                        content="send"
-                        title="send"
-                        isDisabled={loading}
-                    />
-                </form>
-            ) : (
-                <div>
-                    <p className={styles.send}>
-                        email send successfully, check your spam or resend it{" "}
-                    </p>
+                        <MainButton
+                            type="submit"
+                            content="send"
+                            title="send"
+                            isDisabled={loading}
+                        />
+                    </form>
+                ) : (
+                    <div>
+                        <p className={styles.send}>
+                            email send successfully, check your spam or resend it{" "}
+                        </p>
+                        <MainButton
+                            type="button"
+                            content="resend"
+                            title="resend"
+                            isDisabled={loading}
+                            clickEvent={() => setIsSend(false)}
+                        />
+                    </div>
+                )}
+                <div className={styles.backButton}>
                     <MainButton
                         type="button"
-                        content="resend"
-                        title="resend"
+                        content={<> <IoMdArrowRoundBack/> back</>}
+                        title="back"
                         isDisabled={loading}
-                        clickEvent={()=>setIsSend(false)}
+                        clickEvent={() => navigate("/login", { replace: true })}
                     />
                 </div>
-            )}
-            <MainButton
-                type="button"
-                content="back"
-                title="back"
-                isDisabled={loading}
-                clickEvent={() => navigate("/login", { replace: true })}
-            />
+            </div>
         </div>
     );
 }

@@ -1,10 +1,14 @@
 // prop type
 import PropTypes from "prop-types";
 
+// local
+import styles from "./input.module.css"
+
 function MainInput({ type, name, placeholder, title, register }) {
     return (
         <>
             <input
+                className={styles.input}
                 type={type}
                 name={name}
                 placeholder={placeholder}
