@@ -1,13 +1,11 @@
 // local
-import { auth } from "../firebase/firebaseConfig"
 import { db } from "../firebase/firebaseConfig"
 
 // firebase
 import { getDoc, doc } from "firebase/firestore"
 
-async function getUserData() {
+async function getUserData(user) {
     try {
-        const user = auth.currentUser;
         const docRef = doc(db, "users", user.uid);
         const docSnap = await getDoc(docRef);
         if (docSnap.exists()) {

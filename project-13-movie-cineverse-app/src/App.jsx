@@ -1,8 +1,7 @@
 // local
 import { UserContext } from "./context/context";
 import getUserData from "./firebase/getUserData";
-import NavBar from "./components/navBar/navBar";
-import Footer from "./components/footer/footer";
+import { ThemeContext } from "./context/context";
 
 // react
 import { useEffect, useContext } from "react";
@@ -15,37 +14,42 @@ import { auth } from "./firebase/firebaseConfig";
 import { Outlet } from "react-router";
 
 function App() {
-    const { setUserDetails } = useContext(UserContext);
-
+    const { setUserDetails, setLoading } = useContext(UserContext);
+    const { theme } = useContext(ThemeContext);
+    
     // listen to login user
     useEffect(() => {
-        const unsubscribe = onAuthStateChanged(auth, (user) => {
+        const unsubscribe = onAuthStateChanged(auth, async (user) => {
             if (user) {
-                async function getUser() {
-                    const userData = await getUserData();
-                    console.log(userData);
+                try {
+                    const userData = await getUserData(user);
                     setUserDetails(userData);
+                } catch (error) {
+                    console.log(error);
+                } finally {
+                    setLoading(false);
                 }
-                getUser();
             } else {
                 setUserDetails(null);
+                setLoading(false);
             }
         });
 
         return () => unsubscribe();
-    }, []);
+    }, [setUserDetails, setLoading]);
+
+    // set theme to body 
+    useEffect(() => {
+        if (theme=== "light") {
+            document.body.classList.remove("dark");
+            document.body.classList.add("light");
+        }else{
+            document.body.classList.remove("light");
+            document.body.classList.add("dark");
+        }
+    },[theme])
     return (
-        <div className="all-page">
-            <nav>
-                <NavBar />
-            </nav>
-            <main>
-                <Outlet />
-            </main>
-            <footer>
-                <Footer />
-            </footer>
-        </div>
+        <Outlet />
     );
 }
 

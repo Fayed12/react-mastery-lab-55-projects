@@ -1,0 +1,132 @@
+.homeContainer {
+    height: calc(100dvh - 140px);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--bg-main);
+    position: relative;
+    overflow: hidden;
+    text-align: center;
+}
+
+.heroSection {
+    z-index: 2;
+    max-width: 80%;
+    animation: fadeInUp 1s ease-out;
+}
+
+.welcomeTitle {
+    font-size: 2.4rem;
+    font-weight: 800;
+    color: var(--text-primary);
+    margin-bottom: 20px;
+    line-height: 1.2;
+}
+
+.userName {
+    color: var(--text-accent);
+    font-size: 2.8rem;
+    font-weight: 600;
+    text-transform: capitalize;
+}
+
+.appName {
+    background: linear-gradient(
+        90deg,
+        #ff3d00,
+        #ffea00
+    );
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.description {
+    font-size: 1rem;
+    color: var(--text-secondary);
+    margin-bottom: 40px;
+    line-height: 1.6;
+    max-width: 60%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.ctaContainer {
+    display: flex;
+    justify-content: center;
+}
+
+.ctaContainer button{
+    width: fit-content !important;
+}
+
+.backgroundBlur {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 600px;
+    height: 600px;
+    background: radial-gradient(
+        circle,
+        rgba(255, 61, 0, 0.15) 0%,
+        rgba(0, 0, 0, 0) 70%
+    );
+    z-index: 1;
+    border-radius: 50%;
+    animation: pulseBlur 3s infinite alternate;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes pulseBlur {
+    0% {
+        transform: translate(-50%, -50%) scale(0.8);
+        opacity: 0.5;
+    }
+    100% {
+        transform: translate(-50%, -50%) scale(1.5);
+        opacity: 0.8;
+    }
+}
+
+@media (width< 768px) {
+    .welcomeTitle {
+        font-size: 2rem;
+    }
+    .description {
+        font-size: 0.9rem;
+        max-width: 80%;
+    }
+    .userName{
+        font-size: 2.1rem;
+    }
+    .ctaContainer button{
+        font-size: .7rem  !important;
+    }
+}
+
+@media (width < 640px) {
+    .homeContainer {
+        height: calc(100dvh - 178px);
+    }
+    .welcomeTitle {
+        font-size: 1.5rem;
+    }
+    .description {
+        font-size: 0.7rem;
+        max-width: 100%;
+    }
+    .userName{
+        font-size: 1.7rem;
+    }
+}

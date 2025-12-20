@@ -1,8 +1,14 @@
+// local
+import styles from "./footer.module.css"
+
 function Footer() {
     return (
-        <>
-                <h1>footer</h1>
-        </>
+        <footer className={styles.footerContainer}>
+            <p className={styles.footerText}>
+                &copy; {new Date().getFullYear()} Cineverse. All rights reserved. designed by{" "}
+                <span className={styles.author}>Mohamed Fayed</span>
+            </p>
+        </footer>
     );
 }
 

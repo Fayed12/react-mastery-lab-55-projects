@@ -1,0 +1,99 @@
+.NavBar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px;
+    max-height: 80px;
+    background-color: var(--bg-main);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--border-color);
+    transition: all 0.3s ease;
+}
+
+.logo img {
+    width: 120px;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+}
+
+.logo img:hover {
+    transform: scale(1.05);
+}
+
+.nav {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.nav ul {
+    display: flex;
+    gap: 25px;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.nav ul li a {
+    text-decoration: none;
+    color: var(--text-secondary);
+    font-weight: 500;
+    font-size: 1rem;
+    transition: color 0.3s ease;
+    position: relative;
+}
+
+.nav ul li a::after {
+    content: "";
+    position: absolute;
+    width: 0;
+    height: 2px;
+    bottom: -4px;
+    left: 0;
+    background-color: var(--text-accent);
+    transition: width 0.3s ease;
+}
+
+.nav ul li a:hover,
+.nav ul li a[class*="active"] {
+    color: var(--text-primary);
+}
+
+.nav ul li a:hover::after,
+.nav ul li a[class*="active"]::after {
+    width: 100%;
+}
+
+.user {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.theme {
+    cursor: pointer;
+    font-size: 1.5rem;
+    color: var(--text-secondary);
+    transition: color 0.3s ease;
+}
+
+@media (width < 768px) {
+    .logo {
+        display: none;
+    }
+}
+
+@media (width < 640px) {
+    .NavBar{
+        flex-direction: column-reverse;
+        max-height: fit-content;
+        justify-content: center;
+        align-items: center;
+        gap: 15px;
+    }
+
+    .NavBar ul li a{
+        font-size: 0.7rem;
+    }
+}

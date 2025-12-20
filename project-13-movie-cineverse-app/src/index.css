@@ -88,3 +88,36 @@ a{
     margin-left: 4px;
     font-size: 12px;
 }
+
+button,
+input,
+textarea,
+a,
+li,
+img,
+span,
+svg{
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+/* start main page style */
+.all-page{
+  display: flex;
+  flex-direction: column;
+  height: 100dvh;
+}
+
+nav{
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+main{
+  flex: 1;
+}
+
+/* end main page style */

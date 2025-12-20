@@ -1,0 +1,36 @@
+.userButton {
+    padding: 5px;
+    border-radius: 50px;
+    border: 1px solid transparent;
+    transition: all 0.3s ease;
+}
+
+.avatar {
+    width: 40px !important;
+    height: 40px !important;
+    border: 2px solid var(--text-accent);
+    box-shadow: 0 0 10px rgba(255, 61, 0, 0.2);
+    transition: all 0.3s ease;
+}
+
+.userButton:hover .avatar {
+    box-shadow: 0 0 15px rgba(255, 61, 0, 0.5);
+}
+
+.userInfoText {
+    margin-left: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.userName {
+    color: var(--text-primary);
+    font-weight: 600 !important;
+    font-size: 0.9rem !important;
+}
+
+.userEmail {
+    color: var(--text-secondary) !important;
+    font-size: 0.75rem !important;
+}

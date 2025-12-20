@@ -1,0 +1,32 @@
+.footerContainer {
+    background-color: var(--bg-card);
+    padding: 20px 0;
+    height: 60px;
+    text-align: center;
+    border-top: 1px solid var(--border-color);
+    margin-top: auto; /* Push to bottom if flex column */
+}
+
+.footerText {
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+    margin: 0;
+}
+
+.author {
+    color: var(--text-accent);
+    font-weight: 600;
+    text-transform: capitalize;
+}
+
+@media (width <768px) {
+    .footerContainer p{
+        font-size: .8rem;
+    }
+}
+
+@media (width <425px) {
+    .footerContainer p{
+        font-size: .6rem;
+    }
+}

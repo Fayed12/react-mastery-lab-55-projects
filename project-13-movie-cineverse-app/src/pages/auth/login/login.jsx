@@ -4,6 +4,7 @@ import MainButton from "../../../ui/button/mainButton";
 import styles from "./login.module.css";
 import signInWithFirebase from "../../../firebase/firebaseLoginWithEmail";
 import signInWithGoogle from "../../../firebase/firebaseLoginWithGoogle";
+import { UserContext } from "../../../context/context";
 
 // react form
 import { useForm } from "react-hook-form";
@@ -12,14 +13,15 @@ import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 
 // react
-import { useEffect, useState } from "react";
+import { useEffect, useState,useContext } from "react";
 
 // react router
-import { NavLink } from "react-router";
+import { NavLink, useNavigate } from "react-router";
 
 
 function Login() {
     const [loading, setLoading] = useState(false);
+    const {userDetails} = useContext(UserContext);
     const {
         register,
         setFocus,
@@ -27,6 +29,7 @@ function Login() {
         handleSubmit,
         formState: { errors },
     } = useForm();
+    const navigate = useNavigate();
 
     // handle submit data to login
     function onsubmit(data) {
@@ -39,18 +42,33 @@ function Login() {
             
             await signInWithFirebase({ email: data.email, password: data.password })
             
+            navigate("/home", {replace: true})
             setLoading(false);
             toast.success("login successful", { id: "login" });
             // set value
             setValue("email", "");
             setValue("password", "");
+            
         }, 1500);
+    }
+
+    // handle google login
+    async function handleGoogleLogin() {
+        await signInWithGoogle();
+        navigate("/home", {replace: true})
     }
 
     // focus to email when open email
     useEffect(() => {
         setFocus("email");
     }, [setFocus]);
+
+    // go to home if user exist
+    useEffect(() => {
+        if (userDetails) {
+            navigate("/home", {replace: true})
+        }
+    }, [navigate, userDetails])
     return (
         <div className={styles.allPage}>
             <div className={styles.form}>
@@ -103,7 +121,7 @@ function Login() {
                     />
                 </form>
                 <div className={styles.loginGoogle}>
-                    <p onClick={()=>signInWithGoogle()}>login with google</p>
+                    <p onClick={()=>handleGoogleLogin()}>login with google</p>
                 </div>
 
                 <div className={styles.signUp}>
