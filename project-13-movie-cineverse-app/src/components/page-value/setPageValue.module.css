@@ -1,0 +1,48 @@
+.page {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 2rem;
+    position: sticky;
+    bottom: 20px;
+}
+
+.page div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1.5rem;
+    padding: 10px;
+    border-radius: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.174);
+    backdrop-filter: blur(10px);
+    width: fit-content;
+}
+
+.pageButton {
+    background-color: var(--btn-primary-bg);
+    color: var(--btn-secondary-text);
+    border: none;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    font-size: 1.5rem;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: all 0.3s ease;
+    box-shadow: var(--btn-shadow);
+}
+
+.pageButton:hover {
+    background-color: var(--btn-hover-bg);
+    color: var(--btn-hover-text);
+    transform: scale(1.1);
+}
+
+.pageNumber {
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: var(--text-primary);
+}

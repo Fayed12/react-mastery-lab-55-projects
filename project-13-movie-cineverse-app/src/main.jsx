@@ -5,8 +5,7 @@ import { createRoot } from "react-dom/client";
 import router from "./router/mainRouter.jsx";
 import "./index.css";
 import UserDetailsContext from "./context/userContext.jsx";
-
-// theme
+import DeatilsTypeProvider from "./context/detailsType.jsx";
 import ThemeProvider from "./context/themeContext.jsx";
 
 // toast
@@ -19,8 +18,10 @@ createRoot(document.getElementById("root")).render(
     <StrictMode>
         <UserDetailsContext>
             <ThemeProvider>
-                <Toaster />
-                <RouterProvider router={router} />
+                <DeatilsTypeProvider>
+                    <Toaster />
+                    <RouterProvider router={router} />
+                </DeatilsTypeProvider>
             </ThemeProvider>
         </UserDetailsContext>
     </StrictMode>

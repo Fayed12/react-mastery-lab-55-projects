@@ -1,10 +1,10 @@
 // axios
 import axios from "axios";
 
-// 🔑 Config
+// Config
 const API_KEY = import.meta.env.VITE_TMDB_API_KEY;
 const BASE_URL = `https://api.themoviedb.org/3`;
-export const BASE_IMAGE_URL = `https://image.tmdb.org/t/p/w500`;
+export const BASE_IMAGE_URL = `https://image.tmdb.org/t/p/original`;
 
 // Axios instance
 const axiosInstance = axios.create({
@@ -36,14 +36,6 @@ export const getMovieDetails = (id) =>
 export const getMovieCredits = (id) =>
     axiosInstance.get(`/movie/${id}/credits`).then(res => res.data);
 
-// Get movie videos (trailers)
-export const getMovieVideos = (id) =>
-    axiosInstance.get(`/movie/${id}/videos`).then(res => res.data);
-
-// Get similar movies
-export const getSimilarMovies = (id) =>
-    axiosInstance.get(`/movie/${id}/similar`).then(res => res.data);
-
 // -------------------- TV Shows --------------------
 
 // Get popular TV shows
@@ -66,23 +58,7 @@ export const getTVDetails = (id) =>
 export const getTVCredits = (id) =>
     axiosInstance.get(`/tv/${id}/credits`).then(res => res.data);
 
-// Get TV show videos (trailers)
-export const getTVVideos = (id) =>
-    axiosInstance.get(`/tv/${id}/videos`).then(res => res.data);
-
-// Get similar TV shows
-export const getSimilarTV = (id) =>
-    axiosInstance.get(`/tv/${id}/similar`).then(res => res.data);
-
 // -------------------- Search --------------------
-
-// Search movies
-export const searchMovies = (query, page = 1) =>
-    axiosInstance.get("/search/movie", { params: { query, page } }).then(res => res.data);
-
-// Search TV shows
-export const searchTV = (query, page = 1) =>
-    axiosInstance.get("/search/tv", { params: { query, page } }).then(res => res.data);
 
 // Multi-search (movies + tv + people)
 export const searchMulti = (query, page = 1) =>
@@ -100,18 +76,6 @@ export const getTVGenres = () =>
 
 // -------------------- Extras --------------------
 
-// Trending movies today
-export const getTrendingMovies = () =>
-    axiosInstance.get("/trending/movie/day").then(res => res.data);
-
-// Trending TV today
-export const getTrendingTV = () =>
-    axiosInstance.get("/trending/tv/day").then(res => res.data);
-
 // Get person details
 export const getPersonDetails = (id) =>
     axiosInstance.get(`/person/${id}`).then(res => res.data);
-
-// Get person combined credits
-export const getPersonCredits = (id) =>
-    axiosInstance.get(`/person/${id}/combined_credits`).then(res => res.data);

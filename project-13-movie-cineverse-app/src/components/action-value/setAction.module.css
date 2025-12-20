@@ -1,0 +1,64 @@
+
+.sortActions ul {
+    display: flex;
+    gap: 1rem;
+    background: var(--bg-card);
+    padding: 0.6rem;
+    border-radius: 50px;
+    box-shadow: var(--card-shadow);
+}
+
+.sortActions li {
+    padding: 0.5rem 1.5rem;
+    cursor: pointer;
+    border-radius: 25px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    color: var(--text-secondary);
+    text-transform: capitalize;
+}
+
+.sortActions li:hover,
+.sortActions li.active {
+    background-color: var(--btn-primary-bg);
+    color: var(--btn-primary-text);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(255, 61, 0, 0.3);
+}
+
+@media (width < 992px) {
+    .header {
+        flex-direction: column;
+        justify-content: center;
+        align-items: ce;
+    }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .sortActions ul {
+        gap: 0.7rem;
+        padding: 0.6rem 0.4rem;
+        border-radius: 30px;
+    }
+
+    .sortActions li {
+        padding: 0.4rem 1.2rem;
+        border-radius: 20px;
+        font-size: 0.8rem;
+    }
+}
+
+@media (width<500px) {
+    .sortActions ul {
+        gap: 0.1rem;
+        padding: 0.5rem 0.2rem;
+        border-radius: 20px;
+    }
+    .sortActions li {
+        padding: 0.2rem 1rem;
+        border-radius: 20px;
+        font-size: 0.7rem;
+    }
+}

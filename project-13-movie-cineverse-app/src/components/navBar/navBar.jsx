@@ -51,7 +51,7 @@ function NavBar() {
             </div>
             <div className={styles.user}>
                 <div className={styles.theme}>
-                    {theme ==="dark" ? <MdDarkMode onClick={() => setTheme("light")} /> : <MdLightMode onClick={() => setTheme("dark")} />}
+                    {theme !=="dark" ? <MdDarkMode onClick={() => setTheme("dark")} /> : <MdLightMode onClick={() => setTheme("light")} />}
                 </div>
                 <UserMenu/>
             </div>

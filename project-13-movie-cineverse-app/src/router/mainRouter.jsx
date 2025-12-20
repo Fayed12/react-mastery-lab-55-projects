@@ -16,9 +16,8 @@ import ProtectedLogin from "./protectRouter";
 const APPLayout = lazy(() => import("../appLayout"))
 const HomePage = lazy(() => import("../pages/home-page/homePage"));
 const MoviesPage = lazy(() => import("../pages/movies-page/moviesPage"))
-const MovieDetails = lazy(() => import("../pages/movieDetails-page/movieDetails"))
 const TvPage = lazy(() => import("../pages/tv-page/tvPage"))
-const TvDetailsPage = lazy(() => import("../pages/tvDetails-page/tvDetailsPage"))
+const CardDetails = lazy(()=> import("../pages/cardDetails-Page/cardDetails"))
 const SearchMovies = lazy(() => import("../pages/search-page/searchMovie"))
 const FavoritePage = lazy(() => import("../pages/favorite-page/favoritePage"))
 const SignUp = lazy(() => import("../pages/auth/signUp/signUp"))
@@ -59,26 +58,10 @@ const router = createBrowserRouter([
                     {
                         path: "movies",
                         element: <SuspenseContainer children={<MoviesPage />} />,
-                        children: [
-                            {
-                                path: "movieDetails/:id",
-                                element: (
-                                    <SuspenseContainer children={<MovieDetails />} />
-                                ),
-                            },
-                        ],
                     },
                     {
                         path: "tvs",
                         element: <SuspenseContainer children={<TvPage />} />,
-                        children: [
-                            {
-                                path: "tvDetails/:id",
-                                element: (
-                                    <SuspenseContainer children={<TvDetailsPage />} />
-                                ),
-                            },
-                        ],
                     },
                     {
                         path: "search",
@@ -87,6 +70,12 @@ const router = createBrowserRouter([
                     {
                         path: "favorite",
                         element: <SuspenseContainer children={<FavoritePage />} />,
+                    },
+                    {
+                        path: "details/:id",
+                        element: (
+                            <SuspenseContainer children={<CardDetails />} />
+                        ),
                     },
                 ],
             },

@@ -2,6 +2,7 @@
 import { UserContext } from "./context/context";
 import getUserData from "./firebase/getUserData";
 import { ThemeContext } from "./context/context";
+import { DeatilsType } from "./context/context";
 
 // react
 import { useEffect, useContext } from "react";
@@ -11,11 +12,13 @@ import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "./firebase/firebaseConfig";
 
 // react router
-import { Outlet } from "react-router";
+import { Outlet, useLocation } from "react-router";
 
 function App() {
+    const {setType } = useContext(DeatilsType);
     const { setUserDetails, setLoading } = useContext(UserContext);
     const { theme } = useContext(ThemeContext);
+    const location = useLocation()
     
     // listen to login user
     useEffect(() => {
@@ -47,7 +50,16 @@ function App() {
             document.body.classList.remove("light");
             document.body.classList.add("dark");
         }
-    },[theme])
+    }, [theme])
+    
+    // set page type
+        useEffect(() => {
+            if (location.pathname === "/tvs") {
+                setType("tv")
+            } else if (location.pathname === "/movies") {
+                setType("movies")
+            }
+        },[location,setType])
     return (
         <Outlet />
     );
