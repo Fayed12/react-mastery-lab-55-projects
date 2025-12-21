@@ -4,7 +4,7 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    min-height: 100vh;
+    height: 100dvh;
     background-color: var(--bg-main);
     gap: 2rem;
 }
@@ -46,7 +46,7 @@
 
 /* Main Details Page Container */
 .mainDetailsPage {
-    min-height: 100vh;
+    min-height: 100dvh;
     background-color: var(--bg-main);
     color: var(--text-primary);
     padding: 2rem;
@@ -68,26 +68,26 @@
     align-items: center;
     gap: 0.5rem;
     padding: 0.8rem 1.5rem;
-    background-color: var(--btn-secondary-bg);
+    background-color: var(--btn-primary-bg);
     color: var(--text-primary);
     border: 1px solid var(--border-color);
     border-radius: 8px;
     cursor: pointer;
     font-size: 1rem;
-    font-weight: 600;
+    font-weight: 500;
     transition: all 0.3s ease;
     margin-bottom: 2rem;
 }
 
 .backButton:hover {
-    background-color: var(--btn-primary-bg);
-    color: var(--btn-primary-text);
+    background-color: var(--btn-primary-text);
+    color: var(--btn-primary-bg);
     transform: translateX(-5px);
     box-shadow: var(--btn-shadow);
 }
 
 .backButton svg {
-    font-size: 1.2rem;
+    font-size: 1rem;
 }
 
 /* Hero Section with Background */
@@ -512,6 +512,7 @@
     border-radius: 12px;
     border: 1px solid var(--border-color);
     transition: all 0.3s ease;
+    cursor: pointer;
 }
 
 .creatorCard:hover {

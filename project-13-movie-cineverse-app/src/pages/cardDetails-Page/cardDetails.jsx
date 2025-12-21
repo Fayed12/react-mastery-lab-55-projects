@@ -3,325 +3,369 @@ import { getTVDetails } from "../../services/tmdbApi";
 import { getMovieDetails } from "../../services/tmdbApi";
 import { DeatilsType } from "../../context/context"
 import { BASE_IMAGE_URL } from "../../services/tmdbApi";
+import { getPersonDetails } from "../../services/tmdbApi";
+import CreatorInfo from "../../components/creator-Info/creatorInfo";
+import { Favorites } from "../../context/context";
 import styles from "./cardDetails.module.css"
+import updateUserData from "../../firebase/firbaseUpdateData";
+import { UserContext } from "../../context/context";
 
 // react 
 import { useEffect, useContext, useState } from "react";
 
 // react router
-import { useParams,useNavigate } from "react-router";
+import { useParams, useNavigate } from "react-router";
+
+// react icons
+import { FaArrowLeft, FaStar, FaCalendar, FaClock, FaLink, FaLanguage, FaBuilding, FaTv, FaMoneyBillWave, FaHeart, FaRegHeart } from "react-icons/fa";
 
 function CardDetails() {
     const { type } = useContext(DeatilsType);
-    const [data, setData] = useState(null)
-    const [loading, setLoading] = useState(false)
-    const { id } = useParams()
-    const navigate = useNavigate()
+    const { favData } = useContext(Favorites)
+    const { userDetails } = useContext(UserContext)
+
+    const [data, setData] = useState(null);
+    const [loading, setLoading] = useState(false);
+    const [openUserInfo, setOpenUserInfo] = useState(false)
+    const [creatorInfo, setCreatorInfo] = useState(null)
+    const [isFavorite, setIsFavorite] = useState(false);
+    const { id } = useParams();
+    const navigate = useNavigate();
+
+    // Toggle favorite handler
+    const toggleFavorite = async (id) => {
+        if (!isFavorite) {
+            const item = { type, id }
+            await updateUserData({ data: item, userId: userDetails.id, action: "add" })
+            setIsFavorite(true)
+        } else {
+            const item = { type, id }
+            await updateUserData({ data: item, userId: userDetails.id, action: "remove" })
+            setIsFavorite(false)
+        }
+    };
+
+    // handle click to user
+    function handleClickCreator(id) {
+        if (id) {
+            async function getData() {
+                const res = await getPersonDetails(id);
+                setCreatorInfo(res);
+                setOpenUserInfo(true)
+                console.log(res)
+            }
+            getData()
+        }
+    }
 
     // get data when open the page 
     useEffect(() => {
-        if (type === "tv") {
-            setLoading(true)
-            async function getData() {
-                const res = await getTVDetails(id);
-                setData(res)
+        async function getData() {
+            setLoading(true);
+            let res = null;
+            if (type === "tv") {
+                res = await getTVDetails(id);
+            } else if (type === "movies") {
+                res = await getMovieDetails(id);
             }
-            getData()
-            setLoading(false)
-        } else if (type === "movies") {
-            setLoading(true)
-            async function getData() {
-                const res = await getMovieDetails(id);
-                setData(res)
-            }
-            getData()
-            setLoading(false)
+            setData(res);
+            setLoading(false);
         }
-    }, [id, type])
+        getData();
+    }, [id, type]);
+
+    // set is fav or not when open page
+    useEffect(() => {
+        favData?.forEach((fav) => {
+            if (fav?.id === data?.id) {
+                setIsFavorite(true)
+            }
+        })
+    }, [favData, data])
 
     if (loading || data === null) {
         return (
-            <>
-                <div className={styles.loading}>
-                    <span>loading...</span>
-                    <span></span>
-                </div>
-            </>
-        )
+            <div className={styles.loading}>
+                <span>Loading...</span>
+                <span></span>
+            </div>
+        );
     }
 
+    const isMovie = type === "movies";
+    const title = isMovie ? data.title : data.name;
+    const releaseDate = isMovie ? data.release_date : data.first_air_date;
+    const runtime = isMovie ? data.runtime : (data.episode_run_time?.[0] || 0);
+
+    const formatCurrency = (value) => {
+        if (!value) return "N/A";
+        return new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(value);
+    };
+
+    const formatDate = (dateString) => {
+        if (!dateString) return "N/A";
+        return new Date(dateString).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+    };
+
     return (
-        <div className={styles.mainDetailsPage}>
-            <h1>details</h1>
-        </div>
-    )
+        <>
+            <div className={styles.mainDetailsPage}>
+                <button className={styles.backButton} onClick={() => navigate(-1)}>
+                    <FaArrowLeft /> Back
+                </button>
+
+                {/* Hero Section */}
+                <div className={styles.heroSection}>
+                    {data.backdrop_path && (
+                        <img
+                            src={`${BASE_IMAGE_URL}${data.backdrop_path}`}
+                            alt="Background"
+                            className={styles.backdropImage}
+                        />
+                    )}
+
+                    <div className={styles.heroContent}>
+                        <img
+                            src={data.poster_path ? `${BASE_IMAGE_URL}${data.poster_path}` : 'https://via.placeholder.com/300x450'}
+                            alt={title}
+                            className={styles.posterImage}
+                        />
+
+                        <div className={styles.heroInfo}>
+                            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '1rem' }}>
+                                <h1 className={styles.title}>{title}</h1>
+                                <button
+                                    onClick={() => toggleFavorite(data.id)}
+                                    style={{
+                                        background: 'none',
+                                        border: 'none',
+                                        cursor: 'pointer',
+                                        color: isFavorite ? '#e91e63' : 'var(--text-secondary)',
+                                        fontSize: '2rem',
+                                        transition: 'transform 0.2s',
+                                        display: 'flex',
+                                        alignItems: 'center'
+                                    }}
+                                    title={isFavorite ? "Remove from Favorites" : "Add to Favorites"}
+                                >
+                                    {isFavorite ? <FaHeart /> : <FaRegHeart />}
+                                </button>
+                            </div>
+                            {data.tagline && <p className={styles.tagline}>{data.tagline}</p>}
+
+                            <div className={styles.badges}>
+                                {data.adult && <span className={`${styles.badge} ${styles.adult}`}>18+</span>}
+                                {!data.adult && <span className={`${styles.badge} ${styles.safe}`}>PG-13</span>}
+                                <span className={`${styles.badge} ${styles.status}`}>{data.status}</span>
+                                <span className={`${styles.badge} ${styles.lang}`}>{data.original_language?.toUpperCase()}</span>
+                            </div>
+
+                            <div className={styles.statsRow}>
+                                <div className={styles.statItem}>
+                                    <FaStar />
+                                    <span className={styles.statValue}>{data.vote_average?.toFixed(1)}</span>
+                                    <span className={styles.statLabel}>({data.vote_count} votes)</span>
+                                </div>
+                                <div className={styles.statItem}>
+                                    <FaCalendar />
+                                    <span className={styles.statValue}>{formatDate(releaseDate)}</span>
+                                </div>
+                                {runtime > 0 && (
+                                    <div className={styles.statItem}>
+                                        <FaClock />
+                                        <span className={styles.statValue}>
+                                            {Math.floor(runtime / 60)}h {runtime % 60}m
+                                        </span>
+                                    </div>
+                                )}
+                            </div>
+
+                            <div className={styles.genresList}>
+                                {data.genres?.map(genre => (
+                                    <span key={genre.id} className={styles.genreTag}>
+                                        {genre.name}
+                                    </span>
+                                ))}
+                            </div>
+
+                            {data.homepage && (
+                                <a href={data.homepage} target="_blank" rel="noopener noreferrer" className={styles.homepageLink}>
+                                    <FaLink /> Visit Homepage
+                                </a>
+                            )}
+                        </div>
+                    </div>
+                </div>
+
+                {/* Content Section */}
+                <div className={styles.detailsContent}>
+
+                    {/* Overview */}
+                    <section className={styles.section}>
+                        <h2 className={styles.sectionTitle}>Overview</h2>
+                        <p className={styles.overview}>{data.overview}</p>
+                    </section>
+
+                    {/* Info Grid */}
+                    <section className={styles.section}>
+                        <h2 className={styles.sectionTitle}>Information</h2>
+                        <div className={styles.infoGrid}>
+                            <div className={styles.infoItem}>
+                                <span className={styles.infoLabel}><FaLanguage /> Original Name</span>
+                                <span className={styles.infoValue}>{isMovie ? data.original_title : data.original_name}</span>
+                            </div>
+                            {isMovie && (
+                                <>
+                                    <div className={styles.infoItem}>
+                                        <span className={styles.infoLabel}><FaMoneyBillWave /> Budget</span>
+                                        <span className={styles.infoValue}>{formatCurrency(data.budget)}</span>
+                                    </div>
+                                    <div className={styles.infoItem}>
+                                        <span className={styles.infoLabel}><FaMoneyBillWave /> Revenue</span>
+                                        <span className={styles.infoValue}>{formatCurrency(data.revenue)}</span>
+                                    </div>
+                                </>
+                            )}
+                            {!isMovie && (
+                                <>
+                                    <div className={styles.infoItem}>
+                                        <span className={styles.infoLabel}><FaTv /> Total Seasons</span>
+                                        <span className={styles.infoValue}>{data.number_of_seasons}</span>
+                                    </div>
+                                    <div className={styles.infoItem}>
+                                        <span className={styles.infoLabel}><FaTv /> Total Episodes</span>
+                                        <span className={styles.infoValue}>{data.number_of_episodes}</span>
+                                    </div>
+                                </>
+                            )}
+                            <div className={styles.infoItem}>
+                                <span className={styles.infoLabel}><FaBuilding /> Production Countries</span>
+                                <span className={styles.infoValue}>
+                                    {data.production_countries?.map(c => c.name).join(", ") || "N/A"}
+                                </span>
+                            </div>
+                        </div>
+                    </section>
+
+                    {/* TV Specific: Last Episode */}
+                    {!isMovie && data.last_episode_to_air && (
+                        <section className={styles.section}>
+                            <h2 className={styles.sectionTitle}>Last Episode Aired</h2>
+                            <div className={styles.episodeCard}>
+                                {data.last_episode_to_air.still_path && (
+                                    <img
+                                        src={`${BASE_IMAGE_URL}${data.last_episode_to_air.still_path}`}
+                                        alt={data.last_episode_to_air.name}
+                                        className={styles.episodeStill}
+                                    />
+                                )}
+                                <div className={styles.episodeDetails}>
+                                    <h3 className={styles.episodeName}>{data.last_episode_to_air.name}</h3>
+                                    <div className={styles.episodeMeta}>
+                                        <span>Season {data.last_episode_to_air.season_number}</span>
+                                        <span>Episode {data.last_episode_to_air.episode_number}</span>
+                                        <span>{formatDate(data.last_episode_to_air.air_date)}</span>
+                                    </div>
+                                    <p className={styles.episodeOverview}>{data.last_episode_to_air.overview}</p>
+                                </div>
+                            </div>
+                        </section>
+                    )}
+
+                    {/* Seasons Grid */}
+                    {!isMovie && data.seasons && (
+                        <section className={styles.section}>
+                            <h2 className={styles.sectionTitle}>Seasons</h2>
+                            <div className={styles.seasonsGrid}>
+                                {data.seasons.map(season => (
+                                    <div key={season.id} className={styles.seasonCard}>
+                                        <img
+                                            src={season.poster_path ? `${BASE_IMAGE_URL}${season.poster_path}` : 'https://via.placeholder.com/200x300'}
+                                            alt={season.name}
+                                            className={styles.seasonPoster}
+                                        />
+                                        <div className={styles.seasonInfo}>
+                                            <h3 className={styles.seasonName}>{season.name}</h3>
+                                            <div className={styles.seasonMeta}>
+                                                <span>{season.episode_count} Episodes</span>
+                                                {season.air_date && <span>• {season.air_date.split('-')[0]}</span>}
+                                            </div>
+                                            {season.vote_average > 0 && (
+                                                <div className={styles.seasonRating}>
+                                                    <FaStar /> {season.vote_average}
+                                                </div>
+                                            )}
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
+                        </section>
+                    )}
+
+                    {/* Creators */}
+                    {!isMovie && data.created_by?.length > 0 && (
+                        <section className={styles.section}>
+                            <h2 className={styles.sectionTitle}>Created By</h2>
+                            <div className={styles.creatorsList}>
+                                {data.created_by.map(creator => (
+                                    <div key={creator.id} className={styles.creatorCard} onClick={() => handleClickCreator(creator.id)}>
+                                        <img
+                                            src={creator.profile_path ? `${BASE_IMAGE_URL}${creator.profile_path}` : 'https://via.placeholder.com/100'}
+                                            alt={creator.name}
+                                            className={styles.creatorAvatar}
+                                        />
+                                        <span className={styles.creatorName}>{creator.name}</span>
+                                    </div>
+                                ))}
+                            </div>
+                        </section>
+                    )}
+
+                    {/* Collection (Movies) */}
+                    {isMovie && data.belongs_to_collection && (
+                        <section className={styles.section}>
+                            <h2 className={styles.sectionTitle}>Collection</h2>
+                            <div className={styles.collectionCard}>
+                                <img
+                                    src={data.belongs_to_collection.poster_path ? `${BASE_IMAGE_URL}${data.belongs_to_collection.poster_path}` : 'https://via.placeholder.com/150'}
+                                    alt={data.belongs_to_collection.name}
+                                    className={styles.collectionPoster}
+                                />
+                                <div className={styles.collectionInfo}>
+                                    <h3 className={styles.collectionName}>{data.belongs_to_collection.name}</h3>
+                                </div>
+                            </div>
+                        </section>
+                    )}
+
+                    {/* Production Companies */}
+                    <section className={styles.section}>
+                        <h2 className={styles.sectionTitle}>Production Companies</h2>
+                        <div className={styles.companiesList}>
+                            {data.production_companies?.map(company => (
+                                <div key={company.id} className={styles.companyItem}>
+                                    {company.logo_path ? (
+                                        <img
+                                            src={`${BASE_IMAGE_URL}${company.logo_path}`}
+                                            alt={company.name}
+                                            className={styles.companyLogo}
+                                        />
+                                    ) : (
+                                        // Placeholder for company without logo to keep layout consistent
+                                        <div style={{ height: '60px', display: 'flex', alignItems: 'center' }}>No Logo</div>
+                                    )}
+                                    <span className={styles.companyName}>{company.name}</span>
+                                    <span className={styles.companyCountry}>{company.origin_country}</span>
+                                </div>
+                            ))}
+                        </div>
+                    </section>
+                </div>
+            </div>
+            {openUserInfo && <CreatorInfo data={creatorInfo} closePopup={() => setOpenUserInfo(false)} />}
+        </>
+    );
 }
 
 export default CardDetails;
 
-// auther can be clicable
-// link to go to netflix
-
-const tvEx = {
-    "adult": false,
-    "backdrop_path": "/8zbAoryWbtH0DKdev8abFAjdufy.jpg",
-    "created_by": [
-        {
-            "id": 1179422,
-            "credit_id": "57599b039251410a99001cce",
-            "name": "Ross Duffer",
-            "original_name": "Ross Duffer",
-            "gender": 2,
-            "profile_path": "/kN1HdFViQkcJOQlNcvvFJIx9Uju.jpg"
-        },
-        {
-            "id": 1179419,
-            "credit_id": "57599b0e925141378a002c87",
-            "name": "Matt Duffer",
-            "original_name": "Matt Duffer",
-            "gender": 2,
-            "profile_path": "/kXO5CnSxC0znMAICGxnPeuGP73U.jpg"
-        }
-    ],
-    "episode_run_time": [],
-    "first_air_date": "2016-07-15",
-    "genres": [
-        {
-            "id": 10765,
-            "name": "Sci-Fi & Fantasy"
-        },
-        {
-            "id": 9648,
-            "name": "Mystery"
-        },
-        {
-            "id": 10759,
-            "name": "Action & Adventure"
-        }
-    ],
-    "homepage": "https://www.netflix.com/title/80057281",
-    "id": 66732,
-    "in_production": true,
-    "languages": [
-        "en"
-    ],
-    "last_air_date": "2025-11-26",
-    "last_episode_to_air": {
-        "id": 5607047,
-        "name": "Chapter Four: Sorcerer",
-        "overview": "The military tightens its grip on the town. Mike, Lucas and Robin orchestrate a daring escape. El comes face-to-face with the enemy.",
-        "vote_average": 8.859,
-        "vote_count": 71,
-        "air_date": "2025-11-26",
-        "episode_number": 4,
-        "episode_type": "mid_season",
-        "production_code": "",
-        "runtime": 87,
-        "season_number": 5,
-        "show_id": 66732,
-        "still_path": "/mp6nFiganZCbieJ0wSjIHz7bS8r.jpg"
-    },
-    "name": "Stranger Things",
-    "next_episode_to_air": {
-        "id": 5607048,
-        "name": "Chapter Five: Shock Jock",
-        "overview": "",
-        "vote_average": 0.0,
-        "vote_count": 0,
-        "air_date": "2025-12-25",
-        "episode_number": 5,
-        "episode_type": "standard",
-        "production_code": "",
-        "runtime": null,
-        "season_number": 5,
-        "show_id": 66732,
-        "still_path": null
-    },
-    "networks": [
-        {
-            "id": 213,
-            "logo_path": "/wwemzKWzjKYJFfCeiB57q3r4Bcm.png",
-            "name": "Netflix",
-            "origin_country": ""
-        }
-    ],
-    "number_of_episodes": 42,
-    "number_of_seasons": 5,
-    "origin_country": [
-        "US"
-    ],
-    "original_language": "en",
-    "original_name": "Stranger Things",
-    "overview": "When a young boy vanishes, a small town uncovers a mystery involving secret experiments, terrifying supernatural forces, and one strange little girl.",
-    "popularity": 516.6742,
-    "poster_path": "/cVxVGwHce6xnW8UaVUggaPXbmoE.jpg",
-    "production_companies": [
-        {
-            "id": 2575,
-            "logo_path": "/9YJrHYlcfHtwtulkFMAies3aFEl.png",
-            "name": "21 Laps Entertainment",
-            "origin_country": "US"
-        },
-        {
-            "id": 170090,
-            "logo_path": null,
-            "name": "Monkey Massacre Productions",
-            "origin_country": "US"
-        },
-        {
-            "id": 184664,
-            "logo_path": "/4qv40ryAKUzvwptbv13eXUAl1Wm.png",
-            "name": "Upside Down Pictures",
-            "origin_country": "US"
-        }
-    ],
-    "production_countries": [
-        {
-            "iso_3166_1": "US",
-            "name": "United States of America"
-        }
-    ],
-    "seasons": [
-        {
-            "air_date": "2016-07-15",
-            "episode_count": 8,
-            "id": 77680,
-            "name": "Season 1",
-            "overview": "Strange things are afoot in Hawkins, Indiana, where a young boy's sudden disappearance unearths a young girl with otherworldly powers.",
-            "poster_path": "/rbnuP7hlynAMLdqcQRCpZW9qDkV.jpg",
-            "season_number": 1,
-            "vote_average": 8.4
-        },
-        {
-            "air_date": "2017-10-27",
-            "episode_count": 9,
-            "id": 83248,
-            "name": "Stranger Things 2",
-            "overview": "It's been nearly a year since Will's strange disappearance. But life's hardly back to normal in Hawkins. Not even close.",
-            "poster_path": "/74nFJmiapxKuUBXRbSu6VqGGcuo.jpg",
-            "season_number": 2,
-            "vote_average": 8.1
-        },
-        {
-            "air_date": "2019-07-04",
-            "episode_count": 8,
-            "id": 115216,
-            "name": "Stranger Things 3",
-            "overview": "Budding romance. A brand-new mall. And rabid rats running toward danger. It's the summer of 1985 in Hawkins ... and one summer can change everything.",
-            "poster_path": "/sDms9g40ZBhjMIfX9YqqaqId8sK.jpg",
-            "season_number": 3,
-            "vote_average": 8.1
-        },
-        {
-            "air_date": "2022-05-27",
-            "episode_count": 9,
-            "id": 163313,
-            "name": "Stranger Things 4",
-            "overview": "Darkness returns to Hawkins just in time for spring break, igniting fresh terror, disturbing memories — and an ominous new threat.",
-            "poster_path": "/49WJfeN0moxb9IPfGn8AIqMGskD.jpg",
-            "season_number": 4,
-            "vote_average": 8.4
-        },
-        {
-            "air_date": "2025-11-26",
-            "episode_count": 8,
-            "id": 402292,
-            "name": "Stranger Things 5",
-            "overview": "The fall of 1987. Hawkins is scarred by rifts. Vecna has vanished and the government has placed the town under military quarantine, forcing Eleven back into hiding. To end this nightmare, they'll need everyone together, one last time.",
-            "poster_path": "/AaLrOh33YLkK1WLEB8Uml7FL8fm.jpg",
-            "season_number": 5,
-            "vote_average": 8.5
-        }
-    ],
-    "spoken_languages": [
-        {
-            "english_name": "English",
-            "iso_639_1": "en",
-            "name": "English"
-        }
-    ],
-    "status": "Returning Series",
-    "tagline": "One last adventure.",
-    "type": "Scripted",
-    "vote_average": 8.598,
-    "vote_count": 19596
-}
-
-const movieEx = {
-    "adult": false,
-    "backdrop_path": "/ufqytAlziHq5pljKByGJ8IKhtEZ.jpg",
-    "belongs_to_collection": {
-        "id": 382685,
-        "name": "Now You See Me Collection",
-        "poster_path": "/n2B51uCX5r960pFbEl9jMbTMuvq.jpg",
-        "backdrop_path": "/aaf233l8tO87BioeFnE2tsNIJkD.jpg"
-    },
-    "budget": 90000000,
-    "genres": [
-        {
-            "id": 53,
-            "name": "Thriller"
-        },
-        {
-            "id": 80,
-            "name": "Crime"
-        },
-        {
-            "id": 9648,
-            "name": "Mystery"
-        }
-    ],
-    "homepage": "https://nowyouseeme.movie",
-    "id": 425274,
-    "imdb_id": "tt4712810",
-    "origin_country": [
-        "US"
-    ],
-    "original_language": "en",
-    "original_title": "Now You See Me: Now You Don't",
-    "overview": "The original Four Horsemen reunite with a new generation of illusionists to take on powerful diamond heiress Veronika Vanderberg, who leads a criminal empire built on money laundering and trafficking. The new and old magicians must overcome their differences to work together on their most ambitious heist yet.",
-    "popularity": 441.1037,
-    "poster_path": "/oD3Eey4e4Z259XLm3eD3WGcoJAh.jpg",
-    "production_companies": [
-        {
-            "id": 1632,
-            "logo_path": "/cisLn1YAUuptXVBa0xjq7ST9cH0.png",
-            "name": "Lionsgate",
-            "origin_country": "US"
-        },
-        {
-            "id": 281285,
-            "logo_path": null,
-            "name": "Cohen Pictures",
-            "origin_country": "US"
-        },
-        {
-            "id": 221429,
-            "logo_path": "/7xNNmHcuDy0tOqZmsUMnZ6HcZ6E.png",
-            "name": "Media Capital Technologies",
-            "origin_country": "US"
-        }
-    ],
-    "production_countries": [
-        {
-            "iso_3166_1": "US",
-            "name": "United States of America"
-        }
-    ],
-    "release_date": "2025-11-12",
-    "revenue": 213327501,
-    "runtime": 112,
-    "spoken_languages": [
-        {
-            "english_name": "English",
-            "iso_639_1": "en",
-            "name": "English"
-        }
-    ],
-    "status": "Released",
-    "tagline": "Unlock the illusion.",
-    "title": "Now You See Me: Now You Don't",
-    "video": false,
-    "vote_average": 6.4,
-    "vote_count": 511
-}

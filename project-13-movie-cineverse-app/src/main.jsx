@@ -7,6 +7,7 @@ import "./index.css";
 import UserDetailsContext from "./context/userContext.jsx";
 import DeatilsTypeProvider from "./context/detailsType.jsx";
 import ThemeProvider from "./context/themeContext.jsx";
+import FavoritesProvider from "./context/favoritesContext.jsx";
 
 // toast
 import { Toaster } from "react-hot-toast";
@@ -19,8 +20,10 @@ createRoot(document.getElementById("root")).render(
         <UserDetailsContext>
             <ThemeProvider>
                 <DeatilsTypeProvider>
-                    <Toaster />
-                    <RouterProvider router={router} />
+                    <FavoritesProvider>
+                        <Toaster />
+                        <RouterProvider router={router} />
+                    </FavoritesProvider>
                 </DeatilsTypeProvider>
             </ThemeProvider>
         </UserDetailsContext>

@@ -32,10 +32,6 @@ export const getUpcomingMovies = (page = 1) =>
 export const getMovieDetails = (id) =>
     axiosInstance.get(`/movie/${id}`).then(res => res.data);
 
-// Get movie credits (cast & crew)
-export const getMovieCredits = (id) =>
-    axiosInstance.get(`/movie/${id}/credits`).then(res => res.data);
-
 // -------------------- TV Shows --------------------
 
 // Get popular TV shows
@@ -54,25 +50,11 @@ export const getOnTheAirTV = (page = 1) =>
 export const getTVDetails = (id) =>
     axiosInstance.get(`/tv/${id}`).then(res => res.data);
 
-// Get TV show credits
-export const getTVCredits = (id) =>
-    axiosInstance.get(`/tv/${id}/credits`).then(res => res.data);
-
 // -------------------- Search --------------------
 
 // Multi-search (movies + tv + people)
 export const searchMulti = (query, page = 1) =>
     axiosInstance.get("/search/multi", { params: { query, page } }).then(res => res.data);
-
-// -------------------- Genres --------------------
-
-// Get movie genres
-export const getMovieGenres = () =>
-    axiosInstance.get("/genre/movie/list").then(res => res.data);
-
-// Get TV genres
-export const getTVGenres = () =>
-    axiosInstance.get("/genre/tv/list").then(res => res.data);
 
 // -------------------- Extras --------------------
 

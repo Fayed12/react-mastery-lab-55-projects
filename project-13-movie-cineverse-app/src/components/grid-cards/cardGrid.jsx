@@ -2,19 +2,58 @@
 import styles from "./cardGrid.module.css"
 import { BASE_IMAGE_URL } from "../../services/tmdbApi"
 import { DeatilsType } from "../../context/context";
+import { Favorites } from "../../context/context";
+import updateUserData from "../../firebase/firbaseUpdateData";
+import { UserContext } from "../../context/context";
 
 // react icons
 import { TiInfoLarge } from "react-icons/ti";
+import { FaHeart, FaRegHeart } from "react-icons/fa";
 
 // react router
 import { useNavigate } from "react-router";
+import { useState } from "react";
+
+// react
+import { useContext } from "react";
 
 function CardGrid({ data }) {
     const navigate = useNavigate()
+    const { type } = useContext(DeatilsType)
+    const { favData } = useContext(Favorites)
+    const { userDetails } = useContext(UserContext)
+
+    const [favoritesData, setFavoriteData] = useState(() => {
+        let obj = {}
+        favData?.forEach((item) => {
+            obj = { ...obj, [item?.id]: true }
+        })
+
+        return obj
+    });
 
     // handle click to move to details page
     function handleMoveToDetails(id) {
         navigate(`/details/${id}`);
+    }
+
+    // handle toggle favorite
+    async function toggleFavorite(id) {
+        if (!favoritesData[id] || favoritesData[id] === undefined) {
+            setFavoriteData(prev => ({
+                ...prev,
+                [id]: true
+            }));
+            const item = { type, id }
+            await updateUserData({ data: item, userId: userDetails.id, action: "add" })
+        } else {
+            setFavoriteData(prev => ({
+                ...prev,
+                [id]: false
+            }));
+            const item = { type, id }
+            await updateUserData({ data: item, userId: userDetails.id, action: "remove" })
+        }
     }
 
     return (
@@ -44,8 +83,24 @@ function CardGrid({ data }) {
                                 <span className={`${styles.badge} ${styles.lang}`}>
                                     {movie.original_language}
                                 </span>
-                                <span className={`${styles.badge} ${styles.info}`} onClick={() => handleMoveToDetails(movie.id)}>
+                                <span className={`${styles.badge} ${styles.info}`} onClick={() => handleMoveToDetails(movie.id)} title="View Details">
                                     <TiInfoLarge />
+                                </span>
+                                <span
+                                    className={`${styles.badge}`}
+                                    onClick={() => toggleFavorite(movie.id)}
+                                    style={{
+                                        cursor: 'pointer',
+                                        color: favoritesData[movie.id] ? '#e91e63' : 'inherit',
+                                        backgroundColor: favoritesData[movie.id] ? 'rgba(233, 30, 99, 0.1)' : 'var(--bg-hover)',
+                                        border: favoritesData[movie.id] ? '1px solid #e91e63' : '1px solid var(--border-color)',
+                                        display: 'flex',
+                                        alignItems: 'center',
+                                        justifyContent: 'center'
+                                    }}
+                                    title={favoritesData[movie.id] ? "Remove from favoritesData" : "Add to favoritesData"}
+                                >
+                                    {favoritesData[movie.id] ? <FaHeart /> : <FaRegHeart />}
                                 </span>
                             </div>
 

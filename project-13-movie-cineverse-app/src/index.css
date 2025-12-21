@@ -103,6 +103,19 @@ svg{
   user-select: none;
 }
 
+::-webkit-scrollbar{
+  width: 5px;
+}
+
+::-webkit-scrollbar-track{
+  background-color: var(--bg-main);
+}
+
+::-webkit-scrollbar-thumb{
+  background-color: var(--btn-hover-bg);
+  border-radius: 10px;
+}
+
 /* start main page style */
 .all-page{
   display: flex;
