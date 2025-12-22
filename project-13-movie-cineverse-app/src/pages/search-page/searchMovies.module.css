@@ -1,0 +1,197 @@
+/* Main Container */
+.searchPageContainer {
+    padding: 2rem;
+    min-height: 100vh;
+    background-color: var(--bg-main);
+    color: var(--text-primary);
+}
+
+/* Search Bar Section */
+.searchSection {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 3rem;
+}
+
+.searchSection input {
+    width: 100%;
+    max-width: 400px;
+    padding: 0.8rem 1.2rem;
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+    background-color: var(--bg-card);
+    color: var(--text-primary);
+    font-size: 1rem;
+    outline: none;
+    transition: box-shadow 0.3s ease;
+}
+
+.searchSection input:focus {
+    box-shadow: 0 0 0 2px var(--btn-primary-bg);
+}
+
+/* Grid Layout */
+.gridContainer {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 2rem;
+    padding-bottom: 2rem;
+}
+
+/* Card Design */
+.card {
+    position: relative;
+    border-radius: 16px;
+    overflow: hidden;
+    background-color: var(--bg-card);
+    box-shadow: var(--card-shadow);
+    transition: transform 0.4s ease, box-shadow 0.4s ease;
+    cursor: pointer;
+    height: 450px; /* Fixed height for consistency */
+    display: flex;
+    flex-direction: column;
+}
+
+.card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.5);
+}
+
+/* Background Image with Blur */
+.cardBackground {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    background-position: center;
+    filter: blur(3px) brightness(0.4);
+    transition: filter 0.4s ease, transform 0.4s ease;
+    z-index: 0;
+}
+
+.card:hover .cardBackground {
+    filter: blur(2px) brightness(0.2);
+    transform: scale(1.05);
+}
+
+/* Content Wrapper */
+.cardContent {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 100%;
+    padding: 1.5rem;
+    text-align: center;
+    color: var(--text-primary);
+}
+
+/* Poster Image */
+.poster {
+    width: 160px;
+    height: 240px;
+    object-fit: cover;
+    border-radius: 12px;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.6);
+    margin-bottom: 1rem;
+    transition: transform 0.4s ease;
+    border: 2px solid rgba(255, 255, 255, 0.1);
+}
+
+.card:hover .poster {
+    transform: scale(1.05);
+}
+
+/* Details Section */
+.details {
+    margin-top: auto;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    background: rgba(
+        0,
+        0,
+        0,
+        0.6
+    ); /* Semi-transparent background for readability */
+    padding: 1rem;
+    border-radius: 12px;
+    backdrop-filter: blur(5px);
+}
+
+.title {
+    font-size: 1.2rem;
+    font-weight: 700;
+    margin-bottom: 0.2rem;
+    line-height: 1.3;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8);
+}
+
+.metaRow {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.8rem;
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+}
+
+.badge {
+    padding: 0.2rem 0.6rem;
+    border-radius: 20px;
+    background-color: var(--btn-primary-bg);
+    color: white;
+    font-size: 0.75rem;
+    font-weight: 600;
+}
+
+.adult {
+    background-color: #d32f2f;
+}
+
+.vote {
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+    color: #ffd700;
+    font-weight: bold;
+}
+
+.overview {
+    font-size: 0.85rem;
+    color: #ddd;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    margin-top: 0.5rem;
+    line-height: 1.4;
+    opacity: 0.9;
+}
+
+/* Pagination container */
+.pagination {
+    display: flex;
+    justify-content: center;
+    margin-top: 2rem;
+}
+
+/* Loader */
+.loading {
+    text-align: center;
+    padding: 4rem;
+    font-size: 1.5rem;
+}

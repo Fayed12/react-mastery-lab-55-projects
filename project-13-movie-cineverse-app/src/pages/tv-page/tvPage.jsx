@@ -58,7 +58,7 @@ function TvPage() {
                 <CardGrid data={data}/>
             </>
             
-            <SetPageValue setPage={setPage} page={page} toatPages={data?.total_pages}/>
+            <SetPageValue setPage={setPage} page={page} totalPages={data?.total_pages}/>
         </div>
     );
 }

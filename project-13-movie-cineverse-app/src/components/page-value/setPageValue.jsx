@@ -1,10 +1,10 @@
 // local
 import styles from "./setPageValue.module.css"
 
-function SetPageValue({ page, toatPages, setPage }) {
+function SetPageValue({ page, totalPages, setPage }) {
 
     function handleIncreasePageNumber() {
-        if (page >= toatPages) {
+        if (page >= totalPages) {
             return;
         } else {
             setPage(prev => prev + 1)
@@ -36,7 +36,7 @@ function SetPageValue({ page, toatPages, setPage }) {
                     <button
                         className={styles.pageButton}
                         onClick={handleIncreasePageNumber}
-                        disabled={page >= toatPages}
+                        disabled={page >= totalPages}
                     >
                         +
                     </button>

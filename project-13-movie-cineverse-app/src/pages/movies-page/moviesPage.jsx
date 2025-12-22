@@ -61,7 +61,7 @@ function MoviesPage() {
             <CardGrid data={data}/>
             </>
 
-            <SetPageValue setPage={setPage} toatPages={data?.total_pages} page={page}/>
+            <SetPageValue setPage={setPage} totalPages={data?.total_pages} page={page}/>
         </div>
     );
 }
