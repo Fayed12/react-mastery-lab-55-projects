@@ -13,7 +13,7 @@ import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 
 // react
-import { useEffect, useState,useContext } from "react";
+import { useEffect, useState, useContext } from "react";
 
 // react router
 import { NavLink, useNavigate } from "react-router";
@@ -21,7 +21,7 @@ import { NavLink, useNavigate } from "react-router";
 
 function Login() {
     const [loading, setLoading] = useState(false);
-    const {userDetails} = useContext(UserContext);
+    const { userDetails } = useContext(UserContext);
     const {
         register,
         setFocus,
@@ -32,30 +32,26 @@ function Login() {
     const navigate = useNavigate();
 
     // handle submit data to login
-    function onsubmit(data) {
+    async function onsubmit(data) {
         // start with loading
         setLoading(true);
         toast.loading("loading...", { id: "login" });
 
-        // end loading and save value
-        setTimeout(async () => {
-            
-            await signInWithFirebase({ email: data.email, password: data.password })
-            
-            navigate("/home", {replace: true})
-            setLoading(false);
-            toast.success("login successful", { id: "login" });
-            // set value
-            setValue("email", "");
-            setValue("password", "");
-            
-        }, 1500);
+        // await to sign in and load data
+        await signInWithFirebase({ email: data.email, password: data.password })
+
+        // end loading
+        setLoading(false);
+        toast.success("login successful", { id: "login" });
+
+        // set value
+        setValue("email", "");
+        setValue("password", "");
     }
 
     // handle google login
     async function handleGoogleLogin() {
         await signInWithGoogle();
-        navigate("/home", {replace: true})
     }
 
     // focus to email when open email
@@ -66,7 +62,7 @@ function Login() {
     // go to home if user exist
     useEffect(() => {
         if (userDetails) {
-            navigate("/home", {replace: true})
+            navigate("/home", { replace: true })
         }
     }, [navigate, userDetails])
     return (
@@ -121,7 +117,7 @@ function Login() {
                     />
                 </form>
                 <div className={styles.loginGoogle}>
-                    <p onClick={()=>handleGoogleLogin()}>login with google</p>
+                    <p onClick={() => handleGoogleLogin()}>login with google</p>
                 </div>
 
                 <div className={styles.signUp}>

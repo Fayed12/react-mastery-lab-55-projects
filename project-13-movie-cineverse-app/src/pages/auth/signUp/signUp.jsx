@@ -44,12 +44,8 @@ function SignUp() {
             const userData = {
                 name: data.name,
                 userName: data.userName,
-                address: data.address,
-                phone: data.phone,
                 email: data.email,
-                createdAt: new Date().toISOString(),
-                favMovies: [],
-                favTvShows: [],
+                favData: []
             };
             const password = data.password;
             const email = data.email;
@@ -62,8 +58,6 @@ function SignUp() {
             setValue("password", "");
             setValue("name", "");
             setValue("userName", "");
-            setValue("address", "");
-            setValue("phone", "");
             setValue("confirmPassword", "");
         }, 1500);
 
@@ -119,37 +113,6 @@ function SignUp() {
                         />
                         {errors.userName && (
                             <p className="error">{errors.userName.message}</p>
-                        )}
-
-                        <MainInput
-                            type={"text"}
-                            name={"address"}
-                            placeholder={"your address..."}
-                            title={"address"}
-                            register={register("address", {
-                                required: "address is required",
-                            })}
-                        />
-                        {errors.address && (
-                            <p className="error">{errors.address.message}</p>
-                        )}
-
-                        <MainInput
-                            type={"tel"}
-                            name={"phone"}
-                            placeholder={"your phone..."}
-                            title={"phone"}
-                            register={register("phone", {
-                                required: "phone is required",
-                                pattern: {
-                                    value: /^(010|011|012|015)[0-9]{8}$/,
-                                    message:
-                                        "Please enter a valid Egyptian mobile number (11 digits)",
-                                },
-                            })}
-                        />
-                        {errors.phone && (
-                            <p className="error">{errors.phone.message}</p>
                         )}
 
                         <MainInput
