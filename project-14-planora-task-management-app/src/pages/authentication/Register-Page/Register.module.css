@@ -1,3 +1,67 @@
-.title {
+.allSignUpPage {
+    height: 100vh;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: var(--bg-100);
+    padding: var(--space-md);
+}
+
+.SignUpForm {
+    width: 100%;
+    max-width: 500px;
+    background-color: var(--bg-50);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-lg);
+    padding: var(--space-xl);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-md);
+    animation: fadeIn 0.5s ease-out;
+}
+
+.SignUpForm form {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xs);
+}
+
+.signUp p {
+    text-align: center;
+    font-size: var(--text-sm);
+    color: var(--text-500);
+    margin-top: var(--space-sm);
+}
+
+.signUp a {
     color: var(--primary-600);
+    font-weight: 600;
+    transition: color 0.2s;
+}
+
+.signUp a:hover {
+    color: var(--primary-700);
+    text-decoration: underline;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@media (max-width: 480px) {
+    .SignUpForm {
+        padding: var(--space-md);
+    }
+    .allSignUpPage {
+        background-color: var(--bg-50);
+        padding-top: var(--space-xl);
+    }
 }

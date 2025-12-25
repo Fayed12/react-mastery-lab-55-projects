@@ -1,3 +1,10 @@
-.title {
-    color: var(--primary-600);
+.footerBottom {
+    border-top: 1px solid var(--border-200);
+    padding-top: var(--space-md);
+    text-align: center;
+}
+
+.footerBottom p {
+    color: var(--text-500);
+    font-size: var(--text-xs);
 }

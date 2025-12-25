@@ -1,9 +1,31 @@
-import styles from './MainInput.module.css';
+// prop type
+import PropTypes from "prop-types";
 
-const MainInput = () => {
+// local
+import styles from "./MainInput.module.css"
+
+function MainInput({ type, name, placeholder, title, register }) {
     return (
-        <h1 className={styles.title}>MainInput</h1>
+        <div className={styles.inputGroup}>
+            <input
+                className={styles.input}
+                type={type}
+                name={name}
+                placeholder={placeholder}
+                title={title}
+                aria-label={title}
+                {...register}
+            />
+        </div>
     );
+}
+
+
+MainInput.PropTypes = {
+    type: PropTypes.string,
+    name: PropTypes.string,
+    placeholder: PropTypes.string,
+    title: PropTypes.string,
 };
 
 export default MainInput;

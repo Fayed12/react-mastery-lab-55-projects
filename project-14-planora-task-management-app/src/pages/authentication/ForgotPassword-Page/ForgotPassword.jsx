@@ -1,9 +1,115 @@
-import styles from './ForgotPassword.module.css';
+// local
+import MainButton from "../../../ui/button/MainButton";
+import MainInput from "../../../ui/input/MainInput";
+import styles from "./ForgotPassword.module.css";
+import sendEmailResetPassword from "../../../firebase/auth/firebaseForgotPass";
 
-const ForgotPassword = () => {
+// toast
+import toast from "react-hot-toast";
+
+// react
+import { useEffect, useState } from "react";
+
+// react form
+import { useForm } from "react-hook-form";
+
+// react router
+import { useNavigate } from "react-router";
+
+// react icons
+import { IoMdArrowRoundBack } from "react-icons/io";
+
+function ForgotPassword() {
+    const [loading, setLoading] = useState(false);
+    const [isSend, setIsSend] = useState(false)
+    const {
+        register,
+        setFocus,
+        setValue,
+        handleSubmit,
+        formState: { errors },
+    } = useForm();
+    const navigate = useNavigate()
+
+    // handle submit
+    async function onsubmit(data) {
+        setLoading(true);
+        toast.loading("loading...", { id: "forgot" });
+
+        try {
+            await sendEmailResetPassword(data.email);
+            setIsSend(true);
+            toast.success("Email sent successfully", { id: "forgot" });
+            setValue("email", "");
+        } catch (err) {
+            toast.error(err.message || "Failed to send email", { id: "forgot" });
+        } finally {
+            setLoading(false);
+        }
+    }
+
+    // focus when open popup
+    useEffect(() => {
+        setFocus("email");
+    }, [setFocus]);
+
+
     return (
-        <h1 className={styles.title}>ForgotPassword</h1>
+        <div className={styles.forgotPassword}>
+            <div className={styles.container}>
+                {!isSend ? (
+                    <form onSubmit={handleSubmit(onsubmit)}>
+                        <MainInput
+                            type={"email"}
+                            name={"email"}
+                            placeholder={"your email..."}
+                            title={"email address"}
+                            register={register("email", {
+                                required: "Email is required",
+                                pattern: {
+                                    value: /^[a-zA-Z0-9._%+-]+@gmail\.com$/,
+                                    message:
+                                        "please enter your email only in ex@gmail.com",
+                                },
+                            })}
+                        />
+                        {errors.email && (
+                            <p className="error">{errors.email.message}</p>
+                        )}
+
+                        <MainButton
+                            type="submit"
+                            content="send"
+                            title="send"
+                            isDisabled={loading}
+                        />
+                    </form>
+                ) : (
+                    <div>
+                        <p className={styles.send}>
+                            email send successfully, check your spam or resend it{" "}
+                        </p>
+                        <MainButton
+                            type="button"
+                            content="resend"
+                            title="resend"
+                            isDisabled={loading}
+                            clickEvent={() => setIsSend(false)}
+                        />
+                    </div>
+                )}
+                <div className={styles.backButton}>
+                    <MainButton
+                        type="button"
+                        content={<> <IoMdArrowRoundBack /> back</>}
+                        title="back"
+                        isDisabled={loading}
+                        clickEvent={() => navigate("/login", { replace: true })}
+                    />
+                </div>
+            </div>
+        </div>
     );
-};
+}
 
 export default ForgotPassword;

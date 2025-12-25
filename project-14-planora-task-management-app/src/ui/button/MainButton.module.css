@@ -1,3 +1,44 @@
-.title {
-    color: var(--primary-600);
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: var(--btn-padding-y-md) var(--btn-padding-x-md);
+    background-color: var(--btn-primary-bg);
+    color: var(--btn-primary-text);
+    border: none;
+    border-radius: var(--radius-md);
+    font-size: var(--text-md);
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: var(--shadow-sm);
+    text-transform: capitalize;
+}
+
+.btn:hover:not(:disabled) {
+    background-color: var(--btn-primary-hover);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+}
+
+.btn:active:not(:disabled) {
+    transform: translateY(0);
+    box-shadow: var(--shadow-sm);
+}
+
+.btn:disabled {
+    background-color: var(--disabled-bg);
+    color: var(--disabled-text);
+    cursor: not-allowed;
+    opacity: 0.7;
+}
+
+/* Optional: Variant support if passing a prop for different styles later */
+.btn[data-variant="secondary"] {
+    background-color: var(--btn-secondary-bg);
+    color: var(--btn-secondary-text);
+}
+
+.btn[data-variant="secondary"]:hover:not(:disabled) {
+    background-color: var(--btn-secondary-hover);
 }

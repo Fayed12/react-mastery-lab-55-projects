@@ -43,12 +43,12 @@ Each task includes:
 * Status (Pending / Completed)
 * Priority (Low / Medium / High)
 * Due date
-* Labels (multiple) {optional}
+* Labels (multiple)
 * Category 
 * privacy ==> privet - global
-* role-based access {optional}
-* linked project {optional}
-* Subtasks {optional}
+* role-based access
+* linked project
+* Subtasks
 * Created & updated timestamps
 
 **Features:**
@@ -178,7 +178,6 @@ Each task includes:
 
 * Firebase Authentication
 * Firestore Database
-* Firebase Storage (attachments)
 
 ### Utilities
 
@@ -203,53 +202,48 @@ redux:
 
 ### User
 
-* id
+* id ==> default
 * name
 * email
-* img
 
 ### Task
 
-* id
-* UserId
-* role-based access ==> for users
+* id ==> default
+* UserId  ==> default
+* role-based access ==> for users  ==> optional
 * title
 * description
-* isCompleted
-* priority
-* dueDate
-* categoryId
+* isCompleted  ==> default == f
+* priority  ==> default == low
+* dueDate  ==> default == today
 * categories
 * labels[]
-* subTasks
-* created date
-* comments
-* privacy ==> [privet - global]
-* Attachments
+* created date  ==> default
+* comments  ==> default == []
+* privacy ==> [privet - global]  ==> default == privet
 
 ### project 
 
-* id
-* UserId ==> owner
-* role-based access ==> for users
+* id ==> default
+* UserId ==> owner ==> default
+* role-based access ==> for users ==> optional
 * title
 * description
-* isCompleted
-* priority
-* dueDate
-* linked tasks
-* created date
-* Attachments
-* progress bar
+* isCompleted ==> default == f
+* priority ==> default == low
+* dueDate ==> default == today
+* linked tasks ==> default == []
+* created date ==> default
+* progress bar ==> default 
 
 ### categories 
 
-* id
+* id ==> default
 * title
 * description
-* related tasks
+* related tasks ==> default
 * stars
-* created date
+* created date ==> default
 
 ---
 
@@ -300,6 +294,8 @@ src/
 * projects page contain categories section that can from it manage all categories in all tasks, user can create new category with [title - description - stars]
 
 * in project user can link other users to his project and give them access to edit or view only, you can remove or add
+
+* user can add his own categories but if no cats and he need to add one to task he must create one first 
 
 * EX: edit==> userIdOne, view ==> userIdTwo....
 

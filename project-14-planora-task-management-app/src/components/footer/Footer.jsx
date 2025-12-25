@@ -2,7 +2,9 @@ import styles from './Footer.module.css';
 
 const Footer = () => {
     return (
-        <h1 className={styles.title}>Footer</h1>
+        <div className={styles.footerBottom}>
+            <p>&copy; {new Date().getFullYear()} Planora. All rights reserved.</p>
+        </div>
     );
 };
 
