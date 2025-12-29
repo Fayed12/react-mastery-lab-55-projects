@@ -3,6 +3,7 @@ import styles from './Landing.module.css';
 import MainButton from '../../ui/button/MainButton';
 import Loading from '../Loading-Page/Loading';
 import Footer from '../../components/footer/Footer';
+import { getUserDetails } from '../../Redux/authUserSlice';
 
 // react router
 import { useNavigate } from 'react-router';
@@ -10,19 +11,28 @@ import { useNavigate } from 'react-router';
 // react 
 import { useState } from 'react';
 
+// redux
+import { useSelector } from 'react-redux';
+
 // icons
 import { FaTasks, FaProjectDiagram, FaCalendarAlt, FaUserShield, FaLock, FaChartLine } from 'react-icons/fa';
 import { BiTask } from 'react-icons/bi';
 
 export default function LandingPage() {
     const [loading, setLoading] = useState(false)
+    const userDetails = useSelector(getUserDetails)
     const navigate = useNavigate()
+    console.log(userDetails)
 
     // handle go to login page
     function handleGoToLogin() {
         setLoading(true)
         setTimeout(() => {
-            navigate("/login")
+            if (!userDetails) {
+                navigate("/login")
+            } else {
+                navigate("/dashboard")
+            }
         }, 1000);
         setTimeout(() => {
             setLoading(false)
@@ -44,8 +54,7 @@ export default function LandingPage() {
                         <li><a href="#about">About</a></li>
                         <li><a href="#message">Our Message</a></li>
                     </ul>
-
-                    <MainButton type="button" title="go to login" content="Login" clickEvent={() => handleGoToLogin()} isDisabled={loading} />
+                    <MainButton type="button" title={!userDetails ? "go to login" : "go to dashboard"} content={!userDetails ? "Login" : "Dashboard"} clickEvent={() => handleGoToLogin()} isDisabled={loading} />
                 </div>
             </nav>
             <div className={styles.landing}>
@@ -65,7 +74,7 @@ export default function LandingPage() {
                         </p>
 
                         <div className={styles.heroActions}>
-                            <MainButton type="button" title="go to login" content="Get Started" clickEvent={() => handleGoToLogin()} isDisabled={loading} />
+                            <MainButton type="button" title={!userDetails ? "go to login" : "go to dashboard"} content="Get started" clickEvent={() => handleGoToLogin()} isDisabled={loading} />
                         </div>
                     </div>
                 </section>
@@ -152,7 +161,7 @@ export default function LandingPage() {
                             </ul>
                         </div>
                     </div>
-                    <Footer/>
+                    <Footer />
                 </footer>
             </div>
             {loading && <Loading />}

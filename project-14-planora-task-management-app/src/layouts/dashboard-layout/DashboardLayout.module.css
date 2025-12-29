@@ -1,0 +1,23 @@
+.dashboardLayout {
+    width: 100%;
+    height: 100dvh;
+    max-height: 100dvh;
+    overflow: hidden;
+    position: relative;
+    display: flex;
+}
+
+.dashboardLayout .sideBar {
+    height: 100%;
+}
+
+.dashboardLayout .mainContent{
+    flex: 1;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.dashboardLayout .mainContent .content{
+    flex: 1;
+}

@@ -2,6 +2,7 @@
 import { auth } from './firebase/firebaseConfig';
 import { getUserDetails } from './Redux/authUserSlice';
 import { setDataError, setDataLoading, setUserData } from './Redux/authUserSlice';
+import { getThemeValue } from './Redux/themeSlice';
 
 // react router
 import { Outlet } from 'react-router'
@@ -19,11 +20,10 @@ import { useEffect } from 'react';
 import { useNavigate } from 'react-router';
 
 function App() {
-
+    const themeValue = useSelector(getThemeValue)
     const userDetails = useSelector(getUserDetails)
     const dispatch = useDispatch()
     const navigate = useNavigate()
-    console.log(userDetails)
     // set user data when login user changed
     useEffect(() => {
         dispatch(setDataLoading());
@@ -57,6 +57,15 @@ function App() {
                 navigate("/dashboard", {replace: true})
         }
     }, [userDetails, navigate])
+
+    // handle theme based on theme value
+    useEffect(() => {
+        if (themeValue === "dark") {
+            document.body.classList.add("dark")
+        } else {
+            document.body.classList.remove("dark")
+        }
+    },[themeValue])
 
     return (
         <>

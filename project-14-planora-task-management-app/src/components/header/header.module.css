@@ -1,0 +1,128 @@
+.header {
+    background-color: rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--border-100);
+    position: sticky;
+    top: 0;
+    z-index: 40;
+    padding: var(--space-xs) var(--space-lg);
+    transition: background-color 0.3s ease;
+}
+
+.header {
+    background-color: var(--bg-50);
+}
+
+.container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 60px;
+    max-width: 100%;
+    margin: 0 auto;
+}
+
+.link {
+    display: flex;
+    align-items: center;
+    font-size: var(--text-sm);
+    color: var(--text-500);
+    font-weight: 500;
+}
+
+.openCloseMenu span{
+    font-size: var(--text-xl) !important;
+    color: var(--text-700);
+    cursor: pointer !important;
+    background-color: var(--bg-100);
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center  !important;
+    padding: var(--space-xs) !important;
+}
+
+.openCloseMenu span:hover{
+    background-color: var(--bg-200) !important;
+}
+
+.link span {
+    text-transform: capitalize;
+    display: inline-block;
+    padding: var(--space-2xs) var(--space-xs);
+    border-radius: var(--radius-sm);
+    transition: color 0.3s ease, background-color 0.3s ease;
+}
+
+.link span:hover {
+    color: var(--primary-600);
+    background-color: var(--bg-100);
+    cursor: default;
+}
+
+/* Actions Right Side */
+.Actions {
+    display: flex;
+    align-items: center;
+    gap: var(--space-md);
+    margin-left: auto; /* Push to right */
+    margin-right: var(--space-lg);
+}
+
+.Actions span {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    color: var(--text-500);
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    background-color: transparent;
+    background-color: var(--bg-200);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.Actions span:hover {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    color: var(--primary-600);
+    transform: translateY(-2px);
+}
+
+.Actions span svg {
+    font-size: 1.25rem;
+}
+
+/* User Info */
+.userInfo {
+    padding-left: var(--space-md);
+    border-left: 1px solid var(--border-200);
+    display: flex;
+    align-items: center;
+}
+
+/* Responsive */
+@media (max-width: 640px) {
+    .header {
+        padding: var(--space-xs);
+    }
+
+    .link {
+        font-size: var(--text-xs);
+        white-space: nowrap;
+        text-overflow: ellipsis;
+    }
+
+    .Actions {
+        gap: var(--space-xs);
+        margin-right: var(--space-sm);
+    }
+}
+
+
+@media (width > 1024px) {
+    .openCloseMenu{
+        display: none;
+    }
+}

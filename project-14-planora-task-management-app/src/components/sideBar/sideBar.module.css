@@ -1,0 +1,263 @@
+.sideBar {
+    width: 260px;
+    height: 100%;
+    background-color: var(--bg-50);
+    border-right: 1px solid var(--border-100);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    position: sticky;
+    top: 0;
+    left: 0;
+    z-index: 50;
+    padding: var(--space-md);
+    box-shadow: var(--shadow-sm);
+    overflow: hidden;
+}
+
+.sideBar.close {
+    width: 80px;
+    padding: var(--space-md) var(--space-xs);
+}
+
+/* Logo Section */
+.logo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-sm);
+    padding-bottom: var(--space-xs);
+    margin-bottom: var(--space-lg);
+    overflow: hidden;
+    white-space: nowrap;
+    border-bottom: 1px solid var(--border-100);
+}
+
+.logo img {
+    width: 60px;
+    object-fit: contain;
+    transition: transform 0.3s ease;
+}
+
+.logo h1 {
+    font-size: var(--text-lg);
+    font-weight: 700;
+    color: var(--text-900);
+    opacity: 1;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.sideBar.close .logo h1 {
+    display: none;
+}
+
+.sideBar.close .logo {
+    justify-content: center;
+}
+
+.sideBar.close .logo img {
+    transform: scale(1.1);
+}
+
+/* Navigation Menu */
+.container {
+    flex: 1;
+    overflow-y: auto;
+    margin-bottom: var(--space-md);
+}
+
+.container::-webkit-scrollbar {
+    width: 4px;
+}
+
+.container ul {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xs);
+}
+
+.container li a {
+    display: flex;
+    align-items: center;
+    gap: var(--space-md);
+    padding: var(--space-sm) var(--space-md);
+    border-radius: var(--radius-md);
+    color: var(--text-500);
+    text-decoration: none;
+    transition: all 0.3s ease;
+    font-weight: 500;
+    font-size: var(--text-md);
+    position: relative;
+    overflow: hidden;
+}
+
+.container li a:hover {
+    background-color: var(--bg-100);
+    color: var(--text-700);
+}
+
+.container li a.active {
+    background-color: var(--primary-100) !important;
+    color: var(--text-700) !important;
+    font-weight: 600;
+}
+
+.container li a:active::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    height: 70%;
+    width: 3px;
+    background-color: var(--primary-600);
+    border-radius: 0 var(--radius-xs) var(--radius-xs) 0;
+}
+
+.container li a svg {
+    font-size: 1.25rem;
+    min-width: 1.25rem;
+    transition: transform 0.2s ease;
+}
+
+.container li a:hover svg {
+    transform: scale(1.1);
+}
+
+.sideBar.close .container li a {
+    justify-content: center;
+    padding: var(--space-sm);
+}
+
+.text {
+    white-space: nowrap;
+    opacity: 1;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.sideBar.close .text {
+    opacity: 0;
+    width: 0;
+    overflow: hidden;
+    transform: translateX(20px);
+}
+
+/* Footer Section */
+.footer {
+    padding-top: var(--space-md);
+    border-top: 1px solid var(--border-100);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-sm);
+    color: var(--text-500);
+    font-size: var(--text-sm);
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+.footer button {
+    background: transparent;
+    border: 1px solid var(--bg-200);
+    color: var(--error-500);
+    padding: var(--space-sm);
+    border-radius: var(--radius-md);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.footer button:hover {
+    background-color: var(--bg-100) !important;
+    transform: translateY(-2px);
+}
+
+.sideBar.close .footer {
+    justify-content: center;
+}
+
+.sideBar.close .footer span {
+    display: none;
+}
+
+/* Toggle Button */
+.openClose {
+    position: absolute;
+    bottom: 80px;
+    right: -10px;
+    width: 35px;
+    height: 35px;
+    font-size: var(--text-xl);
+    background-color: var(--bg-50);
+    border: 1px solid var(--border-200);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: var(--shadow-sm);
+    color: var(--text-500);
+    transition: all 0.3s ease;
+    z-index: 60;
+}
+
+.sideBar:hover .openClose {
+    transform: translateX(-10px);
+}
+
+.openClose:hover {
+    background-color: var(--primary-50);
+    color: var(--primary-600);
+    transform: scale(1.1);
+}
+
+@media (max-width: 1024px) {
+    .sideBar {
+        width: 80px;
+        position: fixed;
+        left: -100%;
+        z-index: 1000;
+    }
+
+    .overlay{
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.197);
+        backdrop-filter: blur(5px);
+        position: absolute;
+        left: 0;
+        top: 0;
+        z-index: 999;
+    }
+
+    .sideBar.openMenu{
+        left: 0px;
+    }
+
+    .sideBar .text,
+    .sideBar .logo h1 {
+        display: none;
+    }
+
+    .sideBar .logo {
+        justify-content: center;
+    }
+
+    .sideBar .container li a {
+        justify-content: center;
+        padding: var(--space-sm);
+    }
+
+    .sideBar .footer {
+        justify-content: center;
+    }
+    .sideBar .footer span {
+        display: none;
+    }
+    .openClose {
+        display: none;
+    }
+}
