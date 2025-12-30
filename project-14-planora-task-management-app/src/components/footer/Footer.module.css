@@ -2,6 +2,9 @@
     border-top: 1px solid var(--border-200);
     padding-block: var(--space-sm);
     text-align: center;
+    position: relative;
+    z-index: 100;
+    background-color: var(--bg-50);
 }
 
 .footerBottom p {

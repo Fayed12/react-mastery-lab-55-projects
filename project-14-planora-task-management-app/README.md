@@ -191,9 +191,9 @@ Each task includes:
 redux:
 
 * AuthSlice
+* ThemeSlice
 * TasksSlice
 * CategoriesSlice
-* UI / ThemeSlice
 * and more
 
 ---
@@ -272,16 +272,16 @@ src/
 
 ## system flow
 
-* when open the website user will see landing page that explore app services and features with nav and footer components
+* when open the website user will see landing page that explore app services and features with nav and footer components ✅
   * this landing contain [home - features - about - our message]
 
-* in nav bar user can signUp or login 
+* in nav bar user can signUp or login ✅
   * user can login with email and email 
   * user can create new account with [id - name - email ]
 
-* if user login with correct email and password, he see the main dashboard home, it contain welcome message and get started button
+* if user login with correct email and password, he see the main dashboard home, it contain welcome message and get started button ✅
 
-* user go to tasks page, it contain title and table with all tasks, and below of the table user can create new task , this page only contain tasks over view and can make it done or not
+* user go to tasks page, it contain title and cards with all tasks, and below of the cards user can go to tasks management and do all crud , this page only contain tasks over view and can make it done or not
 
 * user can write in task [title -  Description - Status - Priority - due data - labels - category - privacy - role-based access - subtasks], user can set privacy if global all users can show this task to make comments or not on this task, subtasks will contain only title and description
 
@@ -307,4 +307,4 @@ src/
 
 * can enhance to add file section to tasks and projects 
 
-* the website wil contain notifications 
+* the website will contain notifications 

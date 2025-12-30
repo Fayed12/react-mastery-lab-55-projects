@@ -1,3 +1,206 @@
-.title {
-    color: var(--primary-600);
+/* Main Container */
+.taskPage {
+    padding: var(--space-xl);
+    min-height: 100vh;
+    background-color: var(--bg-100);
+    position: relative;
+    max-width: 1600px;
+    margin: 0 auto;
+}
+
+/* Header */
+.headerTitle {
+    text-align: center;
+    margin-bottom: var(--space-xl);
+    animation: slideDown 0.6s ease-out;
+}
+
+.headerTitle h1 {
+    font-size: var(--text-3xl);
+    color: var(--text-900);
+    margin-bottom: var(--space-xs);
+    font-weight: 800;
+}
+
+.headerTitle p {
+    color: var(--text-500);
+    font-size: var(--text-md);
+}
+
+.absoluteButton {
+    position: absolute;
+    top: var(--space-xl);
+    right: var(--space-xl);
+    z-index: 10;
+}
+
+/* Charts Grid */
+.chartsGrid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-lg);
+    margin-bottom: var(--space-2xl);
+    animation: fadeIn 0.8s ease-out;
+}
+
+.pieChart,
+.barChart,
+.heBarChart,
+.lineChart {
+    background-color: var(--bg-50);
+    padding: var(--space-lg);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-sm);
+    border: 1px solid var(--border-100);
+    min-height: 350px;
+}
+
+/* Filter Bar */
+.filterBar {
+    background-color: var(--bg-50);
+    padding: var(--space-md);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-sm);
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-md);
+    align-items: center;
+    margin-bottom: var(--space-xl);
+    border: 1px solid var(--border-100);
+    animation: slideUp 0.6s ease-out;
+}
+
+.searchBar {
+    flex: 1;
+    min-width: 250px;
+}
+
+.searchBar input {
+    width: 100%;
+    padding: var(--space-sm) var(--space-md);
+    border: 1px solid var(--border-200);
+    border-radius: var(--radius-md);
+    background-color: var(--bg-100);
+    color: var(--text-900);
+    transition: all 0.2s;
+}
+
+.searchBar input:focus {
+    outline: none;
+    border-color: var(--primary-500);
+    box-shadow: 0 0 0 3px var(--primary-100);
+}
+
+.filterContent,
+.sorted {
+    display: flex;
+    gap: var(--space-sm);
+}
+
+select {
+    padding: var(--space-sm) var(--space-md);
+    border: 1px solid var(--border-200);
+    border-radius: var(--radius-md);
+    background-color: var(--bg-100);
+    color: var(--text-700);
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+select:hover {
+    border-color: var(--primary-400);
+}
+
+/* Tasks Grid */
+.tasksGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: var(--space-lg);
+    animation: slideUp 0.8s ease-out 0.2s backwards;
+}
+
+/* Empty State */
+.emptyBox {
+    min-height: 80vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-md);
+    text-align: center;
+    color: var(--text-500);
+}
+
+.emptyBox h1 {
+    font-size: var(--text-2xl);
+    color: var(--text-900);
+}
+
+/* Animations */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+    .chartsGrid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 768px) {
+    .taskPage {
+        padding: var(--space-md);
+    }
+
+    .absoluteButton {
+        position: relative;
+        top: 0;
+        right: 0;
+        margin-bottom: var(--space-lg);
+        text-align: center;
+        display: flex;
+        justify-content: center;
+    }
+
+    .filterBar {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .filterContent,
+    .sorted {
+        flex-wrap: wrap;
+    }
+
+    select {
+        flex: 1;
+    }
 }
