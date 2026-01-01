@@ -1,11 +1,15 @@
 /* Main Container */
-.taskPage {
+.allPage{
     padding: var(--space-xl);
-    min-height: 100vh;
     background-color: var(--bg-100);
     position: relative;
+}
+
+.taskPage {
     max-width: 1600px;
     margin: 0 auto;
+    padding-block:var(--space-lg) ;
+    height: 100%;
 }
 
 /* Header */
@@ -13,6 +17,8 @@
     text-align: center;
     margin-bottom: var(--space-xl);
     animation: slideDown 0.6s ease-out;
+    border-bottom: 1px solid var(--border-200);
+    padding-bottom: var(--space-sm);
 }
 
 .headerTitle h1 {
@@ -34,6 +40,11 @@
     z-index: 10;
 }
 
+.absoluteButton button{
+    display: flex;
+    gap: 10px;
+}
+
 /* Charts Grid */
 .chartsGrid {
     display: grid;
@@ -47,20 +58,28 @@
 .barChart,
 .heBarChart,
 .lineChart {
-    background-color: var(--bg-50);
+    background-color: var(--primary-200);
     padding: var(--space-lg);
     border-radius: var(--radius-lg);
     box-shadow: var(--shadow-sm);
     border: 1px solid var(--border-100);
     min-height: 350px;
+    width: 100%;
+}
+
+.pieChart *:focus,
+.barChart *:focus,
+.heBarChart *:focus,
+.lineChart *:focus{
+    outline: none !important;
 }
 
 /* Filter Bar */
 .filterBar {
-    background-color: var(--bg-50);
+    background-color: var(--bg-100);
     padding: var(--space-md);
     border-radius: var(--radius-lg);
-    box-shadow: var(--shadow-sm);
+    box-shadow: var(--shadow-md) inset, var(--shadow-md);
     display: flex;
     flex-wrap: wrap;
     gap: var(--space-md);
@@ -80,7 +99,7 @@
     padding: var(--space-sm) var(--space-md);
     border: 1px solid var(--border-200);
     border-radius: var(--radius-md);
-    background-color: var(--bg-100);
+    background-color: var(--bg-50);
     color: var(--text-900);
     transition: all 0.2s;
 }
@@ -97,18 +116,25 @@
     gap: var(--space-sm);
 }
 
+.filterContent div,
+.sorted div{
+    display: flex;
+    gap: var(--space-sm);
+}
+
 select {
     padding: var(--space-sm) var(--space-md);
     border: 1px solid var(--border-200);
     border-radius: var(--radius-md);
-    background-color: var(--bg-100);
+    background-color: var(--bg-50);
     color: var(--text-700);
     cursor: pointer;
-    transition: all 0.2s;
+    transition: all 0.4s;
 }
 
 select:hover {
     border-color: var(--primary-400);
+    background-color: var(--bg-100);
 }
 
 /* Tasks Grid */
@@ -121,7 +147,7 @@ select:hover {
 
 /* Empty State */
 .emptyBox {
-    min-height: 80vh;
+    height: 100%;
     display: flex;
     flex-direction: column;
     align-items: center;

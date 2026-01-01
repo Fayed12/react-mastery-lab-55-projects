@@ -30,16 +30,20 @@ const BarChartComponent = ({ tasks = [], isAnimationActive = true }) => {
     return (
         <div>
             <div className={styles.title}>
+                <div>
                 <h3>Priority</h3>
+                </div>
             </div>
 
-            <div className={styles.barCharts} style={{ width: "100%", height: 350 }}>
+            <div className={styles.chart}>
                 <ResponsiveContainer width="100%" height="100%">
                     <BarChart data={data} barSize={40}>
                         <CartesianGrid strokeDasharray="3 3" />
                         <XAxis dataKey="name" />
                         <YAxis allowDecimals={false} />
-                        <Tooltip />
+                        <Tooltip cursor={{
+                            fill: "var(--primary-300)"
+                        }} />
                         <Legend />
 
                         <Bar

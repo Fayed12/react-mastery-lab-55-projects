@@ -13,6 +13,8 @@
     transition: all 0.3s ease;
     box-shadow: var(--shadow-sm);
     text-transform: capitalize;
+    display: flex;
+    gap: 10px;
 }
 
 .btn:hover:not(:disabled) {

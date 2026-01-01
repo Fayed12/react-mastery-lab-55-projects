@@ -33,16 +33,20 @@ function LineChartComponent({ tasks = [] }) {
     return (
         <div className={styles.chartContainer}>
             <div className={styles.title}>
+                <div>
                 <h3>Tasks Timeline</h3>
+                </div>
             </div>
 
-            <div style={{ width: "100%", height: 350 }}>
+            <div className={styles.chart} >
                 <ResponsiveContainer width="100%" height="100%">
                     <LineChart data={monthlyData} margin={{ top: 20, right: 20, left: 0, bottom: 20 }}>
                         <CartesianGrid strokeDasharray="3 3" />
                         <XAxis dataKey="month" />
                         <YAxis allowDecimals={false} />
-                        <Tooltip />
+                        <Tooltip cursor={{
+                            fill: "var(--primary-300)"
+                        }} />
                         <Line type="monotone" dataKey="value" stroke="#64748b" strokeWidth={2} dot={{ r: 4 }} />
                     </LineChart>
                 </ResponsiveContainer>

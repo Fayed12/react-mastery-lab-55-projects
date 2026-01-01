@@ -5,7 +5,7 @@ import { RechartsDevtools } from "@recharts/devtools";
 // local
 import styles from "./charts.module.css"
 
-const COLORS = ["#22c55e", "#f59e0b"]; // Success, Warning
+const COLORS = ["var(--primary-400)", "var(--primary-700)"]; // Success, Warning
 
 function PieChartComponent({ tasks = [], isAnimationActive = true }) {
     const completedCount = tasks.filter(task => task.isCompleted).length;
@@ -26,14 +26,16 @@ function PieChartComponent({ tasks = [], isAnimationActive = true }) {
     return (
         <div>
             <div className={styles.title}>
-                <h3>Task Progress</h3>
-                <p>
-                    Total Tasks: {tasks.length}
-                </p>
+                <div>
+                    <h3>Task Progress</h3>
+                    <p>
+                        Total Tasks: {tasks.length}
+                    </p>
+                </div>
             </div>
 
             <div className={styles.chart}>
-                <ResponsiveContainer width="100%" aspect={1}>
+                <ResponsiveContainer width="100%" height={350} aspect={1}>
                     <PieChart>
                         <Pie
                             data={data}
@@ -51,7 +53,9 @@ function PieChartComponent({ tasks = [], isAnimationActive = true }) {
                             ))}
                         </Pie>
 
-                        <Tooltip />
+                        <Tooltip cursor={{
+                            fill: "var(--primary-300)"
+                        }} />
                         {window.innerWidth > 480 && <Legend />}
                         <RechartsDevtools />
 
@@ -60,7 +64,7 @@ function PieChartComponent({ tasks = [], isAnimationActive = true }) {
                             y="46%"
                             textAnchor="middle"
                             dominantBaseline="middle"
-                            style={{ fontSize: "clamp(20px, 4vw, 28px)", fontWeight: "bold" }}
+                            style={{ fontSize: "clamp(20px, 4vw, 28px)", fontWeight: "bold", fill:"var(--text-500)" }}
                         >
                             {percentage}%
                         </text>
@@ -70,7 +74,7 @@ function PieChartComponent({ tasks = [], isAnimationActive = true }) {
                             y="53%"
                             textAnchor="middle"
                             dominantBaseline="middle"
-                            style={{ fontSize: "clamp(12px, 3vw, 14px)", fill: "#777" }}
+                            style={{ fontSize: "clamp(12px, 3vw, 14px)", fill: "var(--text-400)" }}
                         >
                             Completed
                         </text>

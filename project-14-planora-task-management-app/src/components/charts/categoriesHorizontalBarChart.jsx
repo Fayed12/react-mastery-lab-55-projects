@@ -1,4 +1,6 @@
 // local
+import styles from "./charts.module.css"
+
 import {
     BarChart,
     Bar,
@@ -8,6 +10,7 @@ import {
     Tooltip,
     ResponsiveContainer
 } from "recharts";
+
 
 const HorizontalBarChart = ({ categories = [] }) => {
     if (!categories.length) return null;
@@ -19,11 +22,13 @@ const HorizontalBarChart = ({ categories = [] }) => {
 
     return (
         <div>
-            <div>
-                <h3>Categories</h3>
+            <div className={styles.title}>
+                <div>
+                    <h3>Categories</h3>
+                </div>
             </div>
 
-            <div style={{ width: "100%", height: 350 }}>
+            <div className={styles.chart}>
                 <ResponsiveContainer width="100%" height="100%">
                     <BarChart
                         data={data}
@@ -40,7 +45,9 @@ const HorizontalBarChart = ({ categories = [] }) => {
                             width={100}
                         />
 
-                        <Tooltip />
+                        <Tooltip cursor={{
+                            fill: "var(--primary-300)"
+                        }} />
 
                         <Bar
                             dataKey="value"
