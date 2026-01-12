@@ -1,13 +1,15 @@
 /* Card Container */
 .card {
+    width: 100%;
+    height: fit-content;
     background-color: var(--bg-50);
     border: 1px solid var(--border-100);
     border-radius: var(--radius-lg);
     padding: var(--space-md);
+    box-shadow: var(--shadow-sm);
     display: flex;
     flex-direction: column;
     gap: var(--space-sm);
-    box-shadow: var(--shadow-sm);
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     position: relative;
     overflow: hidden;
@@ -24,8 +26,11 @@
 .header {
     display: flex;
     justify-content: space-between;
-    align-items: flex-start;
+    align-items: center;
     gap: var(--space-xs);
+    padding-bottom: var(--space-xs);
+    margin-bottom: var(--space-xs);
+    border-bottom: 1px solid var(--border-200);
 }
 
 .checkboxWrapper {
@@ -60,7 +65,7 @@
     align-items: center;
     gap: 4px;
     font-size: var(--text-xs);
-    font-weight: 700;
+    font-weight: 500;
     text-transform: uppercase;
     padding: 4px 8px;
     background-color: var(--bg-100);
@@ -71,7 +76,7 @@
 .body {
     display: flex;
     flex-direction: column;
-    gap: var(--space-xs);
+    gap: var(--space-sm);
 }
 
 .description {
@@ -92,10 +97,10 @@
 
 .label {
     font-size: 10px;
-    padding: 2px 8px;
+    padding: 4px 10px;
     background-color: var(--primary-100);
     color: var(--primary-700);
-    border-radius: var(--radius-xl);
+    border-radius: var(--radius-sm);
     text-transform: capitalize;
 }
 
@@ -129,35 +134,39 @@
     gap: var(--space-xs);
 }
 
-.actionBtn {
+.actionBtn button{
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 28px;
-    height: 28px;
     border: none;
     border-radius: var(--radius-sm);
     background-color: transparent;
     color: var(--text-500);
     cursor: pointer;
     transition: all 0.2s;
+    padding: var(--btn-padding-y-sm) var(--btn-padding-x-sm);
 }
 
-.actionBtn:hover {
-    background-color: var(--bg-200);
-    color: var(--primary-600);
+.infoBtn button:hover {
+    background-color: var(--info-500) !important;
+    color: white !important;
 }
 
-.deleteBtn:hover {
-    background-color: var(--error-500);
-    color: white;
+.editBtn button:hover {
+    background-color: var(--warning-500) !important;
+    color: white !important;
+}
+
+.deleteBtn button:hover {
+    background-color: var(--error-500) !important;
+    color: white !important;
 }
 
 /* Animation */
 @keyframes fadeIn {
     from {
         opacity: 0;
-        transform: scale(0.95);
+        transform: scale(0.9);
     }
     to {
         opacity: 1;

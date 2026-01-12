@@ -22,7 +22,6 @@ export default function LandingPage() {
     const [loading, setLoading] = useState(false)
     const userDetails = useSelector(getUserDetails)
     const navigate = useNavigate()
-    console.log(userDetails)
 
     // handle go to login page
     function handleGoToLogin() {
