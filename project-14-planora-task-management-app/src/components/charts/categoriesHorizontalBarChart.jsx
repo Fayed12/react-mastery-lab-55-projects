@@ -17,7 +17,7 @@ const HorizontalBarChart = ({ categories = [] }) => {
 
     const data = categories.map(category => ({
         name: category?.title,
-        value: category?.relatedTasks.length
+        value: category?.linkedTasks.length
     }));
 
     return (

@@ -1,7 +1,7 @@
 /* Main Container */
 .allPage{
     padding: var(--space-lg);
-    background-color: var(--bg-100);
+    background-color: var(--bg-50);
     position: relative;
 }
 

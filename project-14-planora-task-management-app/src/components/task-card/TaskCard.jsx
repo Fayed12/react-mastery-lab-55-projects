@@ -30,7 +30,8 @@ const TaskCard = ({ task }) => {
         priority,
         dueDate,
         privacy,
-        description
+        description,
+        categories
     } = task;
 
     // Helper to get priority color
@@ -64,12 +65,15 @@ const TaskCard = ({ task }) => {
             <div className={styles.card}>
                 <div className={styles.header}>
                     <div className={styles.checkboxWrapper}>
-                        <input
-                            type="checkbox"
-                            checked={isCompleted}
-                            className={styles.checkbox}
-                            onChange={() => handleUpdateTaskData()}
-                        />
+                        {new Date() < new Date(task.dueDate).getTime() && (
+                            <input
+                                type="checkbox"
+                                checked={isCompleted}
+                                className={styles.checkbox}
+                                onChange={() => handleUpdateTaskData()}
+                            />
+                        )}
+
                         <span className={`${styles.title} ${isCompleted ? styles.completed : ''}`}>
                             {title}
                         </span>
@@ -89,6 +93,16 @@ const TaskCard = ({ task }) => {
                             </span>
                         ))}
                     </div>
+
+                    {categories && categories.length > 0 && (
+                        <div className={styles.categories}>
+                            {categories.map((category, index) => (
+                                <span key={index} className={styles.category}>
+                                    {category}
+                                </span>
+                            ))}
+                        </div>
+                    )}
                 </div>
 
                 <div className={styles.footer}>
@@ -109,10 +123,13 @@ const TaskCard = ({ task }) => {
 
                     <ActionsButtons openDetailsPopup={openDetailsPopup} setOpenDetailsPopup={setOpenDetailsPopup} />
                 </div>
-                <div className={styles.addComment}>
-                    <input type="text" placeholder='add comment' value={commentValue} onChange={(e) => setCommentValue(e.target.value)} />
-                    <MainButton title='add comment' type='button' content={!commentValue ? <TbActivityHeartbeat /> : <IoIosSend />} clickEvent={() => handleAddComment()()} />
-                </div>
+                {new Date() < new Date(task.dueDate).getTime() && (
+                    <div className={styles.addComment}>
+                        <input type="text" placeholder='add comment' value={commentValue} onChange={(e) => setCommentValue(e.target.value)} />
+                        <MainButton title='add comment' type='button' content={!commentValue ? <TbActivityHeartbeat /> : <IoIosSend />} clickEvent={() => handleAddComment()()} />
+                    </div>
+                )}
+
             </div>
             {openDetailsPopup && <TaskDetails taskData={task} onClose={() => setOpenDetailsPopup(false)} />}
         </>

@@ -8,6 +8,7 @@ import updateData from '../../firebase/updateExistingData';
 import Pagination from '../../components/Pagination-footer/Pagination';
 import ActionsButtons from '../../components/actions-buttons/actionsButtons';
 import TaskDetails from '../../components/task-details/taskDetails';
+import CreateNewItem from '../../components/create-new-item/createNewItem';
 
 // redux
 import { useSelector } from 'react-redux';
@@ -15,16 +16,11 @@ import { useSelector } from 'react-redux';
 // react
 import { useState } from 'react';
 
-// react router
-import { useNavigate } from 'react-router';
-
 // react icons
 import {
     MdGridView,
     MdViewList,
     MdAdd,
-    MdNavigateBefore,
-    MdNavigateNext,
     MdFlag,
     MdDateRange,
     MdLock
@@ -37,7 +33,7 @@ const TaskManagement = () => {
     const [tasksAfterFilter, setTasksAfterFilter] = useState(tasksData)
     const [openDetailsPopup, setOpenDetailsPopup] = useState(false)
     const [selectedTask, setSelectedTask] = useState(null)
-    const navigate = useNavigate()
+    const [openCreateNewTask, setOpenCreateNewTask] =useState(false)
 
     // State for UI controls
     const [viewMode, setViewMode] = useState('grid');
@@ -58,6 +54,7 @@ const TaskManagement = () => {
                             type='button'
                             title="Create Task"
                             content={<><MdAdd /> New Task</>}
+                            clickEvent={()=>setOpenCreateNewTask(!openCreateNewTask)}
                         />
 
                         <div className={styles.viewToggle}>
@@ -92,7 +89,7 @@ const TaskManagement = () => {
                 <div className={styles.workspace}>
                     {!tasksAfterFilter || tasksAfterFilter.length === 0 ?
                         (
-                            <EmptyBox title={"Tasks"} navigateFunc={() => navigate("/dashboard/taskManagement")} />
+                            <EmptyBox title={"Tasks"} navigateFunc={() => setOpenCreateNewTask(!openCreateNewTask)} />
                         ) :
                         (
                             viewMode === 'grid' ? (
@@ -106,7 +103,7 @@ const TaskManagement = () => {
                                     {tasksAfterFilter.map(task => (
                                         <div key={task.id} className={styles.listRow}>
                                             <div className={styles.rowHeader}>
-                                                <input type="checkbox" checked={task.isCompleted} className={styles.rowCheckbox} onChange={() => updateData("tasks", task.id, { isCompleted: !task.isCompleted })} />
+                                                {new Date() < new Date(task.dueDate).getTime() && <input type="checkbox" checked={task.isCompleted} className={styles.rowCheckbox} onChange={() => updateData("tasks", task.id, { isCompleted: !task.isCompleted })} />}
                                                 <span className={`${styles.rowTitle} ${task.isCompleted ? styles.completed : ''}`}>
                                                     {task.title}
                                                 </span>
@@ -147,6 +144,7 @@ const TaskManagement = () => {
 
             </div>
             {openDetailsPopup && <TaskDetails taskData={selectedTask} onClose={() => setOpenDetailsPopup(false)} />}
+            {openCreateNewTask && <CreateNewItem itemName={"task"} closeFunc={ ()=>setOpenCreateNewTask(!openCreateNewTask)} />}
         </>
     );
 };

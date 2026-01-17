@@ -5,7 +5,7 @@ import { db } from "./firebaseConfig"
 import toast from "react-hot-toast"
 
 // firebase
-import { addDoc, collection } from "firebase/firestore"
+import { addDoc, collection} from "firebase/firestore"
 
 async function createDocument(collectionName, newData) {
     if (!collectionName || typeof collectionName !== "string") {
@@ -15,7 +15,7 @@ async function createDocument(collectionName, newData) {
     try {
         const ref = collection(db, collectionName)
 
-        const res = await addDoc(ref, newData)
+        const res = await addDoc(ref,newData)
 
         toast.success("Created successfully", { id: "new-data" });
 

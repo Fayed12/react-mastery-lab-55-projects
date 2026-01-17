@@ -208,42 +208,45 @@ redux:
 
 ### Task
 
-* id ==> default
-* UserId  ==> default
-* role-based access ==> for users  ==> optional
-* title
-* description
-* isCompleted  ==> default == f
-* priority  ==> default == low
-* dueDate  ==> default == today
-* categories
-* labels[]
-* created date  ==> default
-* comments  ==> default == []
-* privacy ==> [privet - global]  ==> default == privet
+* id ==> default ✅
+* UserId  ==> default ✅
+* role-based access ==> for users  ==> optional ✅
+* title ✅
+* description ✅
+* isCompleted  ==> default == f ✅
+* priority  ==> default == low ✅
+* dueDate  ==> default == today ✅
+* created date  ==> default ✅
+* privacy ==> [privet - global]  ==> default == privet ✅
+* categories ✅
+* labels[] ✅
+* comments  ==> default == [] ✅
 
 ### project 
 
-* id ==> default
-* UserId ==> owner ==> default
-* role-based access ==> for users ==> optional
-* title
-* description
-* isCompleted ==> default == f
-* priority ==> default == low
-* dueDate ==> default == today
-* linked tasks ==> default == []
-* created date ==> default
-* progress bar ==> default 
+* id ==> default ✅
+* UserId ==> owner ==> default ✅
+* role-based access ==> for users ==> optional ✅
+* title ✅
+* description ✅
+* isCompleted ==> default == f ✅
+* priority ==> default == low ✅
+* dueDate ==> default == today ✅
+* created date ==> default ✅
+* privacy ==> [privet - global]  ==> default == privet ✅
+* comments  ==> default == [] ✅
+* linked tasks ==> default == [] ✅
+* progress bar ==> default ✅
 
 ### categories 
 
-* id ==> default
-* title
-* description
-* related tasks ==> default
-* stars
-* created date ==> default
+* id ==> default ✅
+* userId ✅
+* title ✅
+* description ✅
+* related tasks ==> default ✅
+* stars ✅
+* created date ==> default ✅
 
 ---
 
@@ -270,7 +273,7 @@ src/
 * AI task prioritization
 * Offline mode
 
-## system flow
+## system flow/ requirements
 
 * when open the website user will see landing page that explore app services and features with nav and footer components ✅
   * this landing contain [home - features - about - our message]
@@ -285,7 +288,7 @@ src/
 
 * user can write in task [title -  Description - Status - Priority - due data - labels - category - privacy - role-based access - subtasks], user can set privacy if global all users can show this task to make comments or not on this task, subtasks will contain only title and description
 
-* for managing the tasks he van go to tasks management page, user can  create new one or edit or remove task, make it complete or not
+* for managing the tasks he can go to tasks management page, user can  create new one or edit or remove task, make it complete or not ✅
 
 * user can go to projects page that contains, grid cards with all projects, user can make it done or not, project is the big task that contain some of related or small tasks
 
@@ -304,7 +307,5 @@ src/
 * user can go to calender page to see in easy way his upcoming and soon tasks in calender
 
 * Profile page,Where the user can edit gis profile image and other data
-
-* can enhance to add file section to tasks and projects 
 
 * the website will contain notifications 

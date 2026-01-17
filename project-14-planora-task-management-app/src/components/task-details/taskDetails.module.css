@@ -349,7 +349,6 @@
 /* Edit Comment Mode */
 .editComment {
     display: flex;
-    flex-direction: column;
     gap: var(--space-xs);
     width: 100%;
 }

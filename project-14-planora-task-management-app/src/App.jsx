@@ -3,9 +3,11 @@ import { auth, db } from './firebase/firebaseConfig';
 import { getUserDetails } from './Redux/authUserSlice';
 import { setDataError, setDataLoading, setUserData } from './Redux/authUserSlice';
 import { getThemeValue } from './Redux/themeSlice';
-import { setTasksData } from './Redux/tasksSlice';
+import { getTasksData, setTasksData } from './Redux/tasksSlice';
 import { setCategoriesData } from './Redux/categoriesSlice';
 import { setProjectsData } from './Redux/projectsSlice';
+import updateData from "./firebase/updateExistingData"
+import { setAllUsersData } from './Redux/authUserSlice';
 
 // react router
 import { Outlet } from 'react-router'
@@ -26,6 +28,7 @@ import { useNavigate } from 'react-router';
 function App() {
     const themeValue = useSelector(getThemeValue)
     const userDetails = useSelector(getUserDetails)
+    const tasksData = useSelector(getTasksData)
     const dispatch = useDispatch()
     const navigate = useNavigate()
 
@@ -105,6 +108,22 @@ function App() {
         }
     }, [dispatch, userDetails?.id])
 
+    // check deuDate to make it complete dynamically
+    useEffect(() => {
+        if (!tasksData || tasksData.length === 0) {
+            return
+        }
+        tasksData?.map((task) => {
+            if (new Date() > new Date(task.dueDate).getTime()) {
+                updateData("tasks", task.id, { isCompleted: true })
+                return
+            } else {
+                return
+            }
+        })
+
+    }, [tasksData])
+
     // go to app if user is logged in and user data is exit
     useEffect(() => {
         if (userDetails) {
@@ -120,6 +139,20 @@ function App() {
             document.body.classList.remove("dark")
         }
     }, [themeValue])
+
+    // handle get all users form database 
+    useEffect(() => {
+        const qUsers = query(collection(db, "users"));
+
+        const unsubscribeTasks = onSnapshot(qUsers, (snapshot) => {
+            const users = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+
+            dispatch(setAllUsersData(users))
+        })
+
+        return () => unsubscribeTasks()
+
+    }, [dispatch])
 
     return (
         <>
