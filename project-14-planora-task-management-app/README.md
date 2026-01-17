@@ -281,7 +281,7 @@ src/
 
 * if user login with correct email and password, he see the main dashboard home, it contain welcome message and get started button ✅
 
-* user go to tasks page, it contain title and cards with all tasks, and below of the cards user can go to tasks management and do all crud , this page only contain tasks over view and can make it done or not
+* user go to tasks page, it contain title and cards with all tasks, and below of the cards user can go to tasks management and do all crud , this page only contain tasks over view and can make it done or not ✅
 
 * user can write in task [title -  Description - Status - Priority - due data - labels - category - privacy - role-based access - subtasks], user can set privacy if global all users can show this task to make comments or not on this task, subtasks will contain only title and description
 

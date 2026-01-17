@@ -2,7 +2,7 @@
 .card {
     width: 100%;
     height: fit-content;
-    background-color: var(--bg-50);
+    background-color: var(--bg-100);
     border: 1px solid var(--border-100);
     border-radius: var(--radius-lg);
     padding: var(--space-md);
@@ -106,7 +106,6 @@
 
 /* Footer */
 .footer {
-    margin-top: auto;
     padding-top: var(--space-sm);
     border-top: 1px solid var(--border-100);
     display: flex;
@@ -117,7 +116,7 @@
 .metaInfo {
     display: flex;
     align-items: center;
-    gap: var(--space-md);
+    gap: var(--space-sm);
 }
 
 .metaItem {
@@ -128,38 +127,35 @@
     color: var(--text-500);
 }
 
-/* Actions */
-.actions {
-    display: flex;
-    gap: var(--space-xs);
-}
-
-.actionBtn button{
+/* Add Comment Section */
+.addComment {
     display: flex;
     align-items: center;
-    justify-content: center;
-    border: none;
-    border-radius: var(--radius-sm);
-    background-color: transparent;
-    color: var(--text-500);
-    cursor: pointer;
+    gap: var(--space-sm);
+    margin-top: var(--space-xs);
+    padding-top: var(--space-sm);
+    border-top: 1px dashed var(--border-200);
+}
+
+.addComment input {
+    flex: 1;
+    background-color: var(--bg-50);
+    border: 1px solid var(--border-200);
+    border-radius: var(--radius-md);
+    padding: 8px 12px;
+    font-size: var(--text-sm);
+    color: var(--text-900);
     transition: all 0.2s;
-    padding: var(--btn-padding-y-sm) var(--btn-padding-x-sm);
+    outline: none;
 }
 
-.infoBtn button:hover {
-    background-color: var(--info-500) !important;
-    color: white !important;
+.addComment input:focus {
+    border-color: var(--primary-500);
+    box-shadow: 0 0 0 3px var(--primary-100);
 }
 
-.editBtn button:hover {
-    background-color: var(--warning-500) !important;
-    color: white !important;
-}
-
-.deleteBtn button:hover {
-    background-color: var(--error-500) !important;
-    color: white !important;
+.addComment input::placeholder {
+    color: var(--text-400);
 }
 
 /* Animation */

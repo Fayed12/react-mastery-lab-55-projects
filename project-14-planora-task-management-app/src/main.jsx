@@ -15,7 +15,11 @@ import router from './router/mainRoute.jsx'
 createRoot(document.getElementById('root')).render(
   <StrictMode>
     <Provider store={store}>
-      <Toaster />
+      <Toaster toastOptions={{
+        style: {
+          position:"relative",
+          zIndex: 10000
+      }}}/>
       <RouterProvider router={router} />
     </Provider>
   </StrictMode>,

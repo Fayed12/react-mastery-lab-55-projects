@@ -15,9 +15,11 @@ async function createDocument(collectionName, newData) {
     try {
         const ref = collection(db, collectionName)
 
-        await addDoc(ref, newData)
+        const res = await addDoc(ref, newData)
 
         toast.success("Created successfully", { id: "new-data" });
+
+        return res
     } catch (err) {
         toast.error("something went wrong!", { id: "new-data" })
         console.error("createDocument error:", err);

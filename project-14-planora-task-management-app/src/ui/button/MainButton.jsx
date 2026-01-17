@@ -4,9 +4,19 @@ import styles from './MainButton.module.css';
 // prop types
 import PropTypes from 'prop-types';
 
-const MainButton = ({ type = "button", title = "", clickEvent, isDisabled = false, content }) => {
+const MainButton = ({ type = "button", title = "", clickEvent, isDisabled = false, content, action }) => {
     return (
-        <button className={styles.btn} aria-label={title} type={type} title={title} onClick={clickEvent} disabled={isDisabled}>{content}</button>
+        <button
+            className={styles.btn}
+            aria-label={title}
+            type={type}
+            title={title}
+            onClick={clickEvent}
+            disabled={isDisabled}
+            data-variant={action}
+        >
+            {content}
+        </button>
     );
 };
 

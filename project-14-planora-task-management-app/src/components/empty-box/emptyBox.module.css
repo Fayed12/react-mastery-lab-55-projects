@@ -1,0 +1,15 @@
+.emptyBox {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-md);
+    text-align: center;
+    color: var(--text-500);
+}
+
+.emptyBox h1 {
+    font-size: var(--text-2xl);
+    color: var(--text-900);
+}

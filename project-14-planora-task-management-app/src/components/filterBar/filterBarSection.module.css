@@ -1,0 +1,62 @@
+/* Filter Bar */
+.filterBar {
+    background-color: var(--bg-100);
+    padding: var(--space-xs);
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-md) inset, var(--shadow-md);
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-xs);
+    align-items: center;
+    margin-bottom: var(--space-sm);
+    border: 1px solid var(--border-100);
+    animation: slideUp 0.6s ease-out;
+}
+
+.searchBar {
+    flex: 1;
+    min-width: 250px;
+}
+
+.searchBar input {
+    width: 100%;
+    padding: var(--space-sm) var(--space-md);
+    border: 1px solid var(--border-200);
+    border-radius: var(--radius-md);
+    background-color: var(--bg-50);
+    color: var(--text-900);
+    transition: all 0.2s;
+}
+
+.searchBar input:focus {
+    outline: none;
+    border-color: var(--primary-500);
+    box-shadow: 0 0 0 3px var(--primary-100);
+}
+
+.filterContent,
+.sorted {
+    display: flex;
+    gap: var(--space-sm);
+}
+
+.filterContent div,
+.sorted div{
+    display: flex;
+    gap: var(--space-sm);
+}
+
+select {
+    padding: var(--space-xs) var(--space-sm);
+    border: 1px solid var(--border-200);
+    border-radius: var(--radius-md);
+    background-color: var(--bg-50);
+    color: var(--text-700);
+    cursor: pointer;
+    transition: all 0.4s;
+}
+
+select:hover {
+    border-color: var(--primary-400);
+    background-color: var(--bg-100);
+}

@@ -1,6 +1,6 @@
 /* Main Container */
 .allPage{
-    padding: var(--space-xl);
+    padding: var(--space-lg);
     background-color: var(--bg-100);
     position: relative;
 }
@@ -74,92 +74,12 @@
     outline: none !important;
 }
 
-/* Filter Bar */
-.filterBar {
-    background-color: var(--bg-100);
-    padding: var(--space-md);
-    border-radius: var(--radius-lg);
-    box-shadow: var(--shadow-md) inset, var(--shadow-md);
-    display: flex;
-    flex-wrap: wrap;
-    gap: var(--space-md);
-    align-items: center;
-    margin-bottom: var(--space-xl);
-    border: 1px solid var(--border-100);
-    animation: slideUp 0.6s ease-out;
-}
-
-.searchBar {
-    flex: 1;
-    min-width: 250px;
-}
-
-.searchBar input {
-    width: 100%;
-    padding: var(--space-sm) var(--space-md);
-    border: 1px solid var(--border-200);
-    border-radius: var(--radius-md);
-    background-color: var(--bg-50);
-    color: var(--text-900);
-    transition: all 0.2s;
-}
-
-.searchBar input:focus {
-    outline: none;
-    border-color: var(--primary-500);
-    box-shadow: 0 0 0 3px var(--primary-100);
-}
-
-.filterContent,
-.sorted {
-    display: flex;
-    gap: var(--space-sm);
-}
-
-.filterContent div,
-.sorted div{
-    display: flex;
-    gap: var(--space-sm);
-}
-
-select {
-    padding: var(--space-sm) var(--space-md);
-    border: 1px solid var(--border-200);
-    border-radius: var(--radius-md);
-    background-color: var(--bg-50);
-    color: var(--text-700);
-    cursor: pointer;
-    transition: all 0.4s;
-}
-
-select:hover {
-    border-color: var(--primary-400);
-    background-color: var(--bg-100);
-}
-
 /* Tasks Grid */
 .tasksGrid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
     gap: var(--space-lg);
     animation: slideUp 0.8s ease-out 0.2s backwards;
-}
-
-/* Empty State */
-.emptyBox {
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: var(--space-md);
-    text-align: center;
-    color: var(--text-500);
-}
-
-.emptyBox h1 {
-    font-size: var(--text-2xl);
-    color: var(--text-900);
 }
 
 /* Animations */

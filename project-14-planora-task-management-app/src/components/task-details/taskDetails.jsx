@@ -2,16 +2,26 @@
 import styles from "./taskDetails.module.css"
 import MainButton from "../../ui/button/MainButton";
 import { getUserDetails } from "../../Redux/authUserSlice";
+import updateData from "../../firebase/updateExistingData";
 
 // redux
 import { useSelector } from "react-redux";
 
+// react 
+import { useState } from "react";
+
 // react icons
-import { MdClose, MdCalendarToday, MdFlag, MdPerson, MdCategory, MdLabel, MdAccessTime, MdLock, MdPublic, MdCheckCircle, MdRadioButtonUnchecked } from "react-icons/md";
+import { MdClose, MdCalendarToday, MdFlag, MdPerson, MdCategory, MdLabel, MdAccessTime, MdLock, MdPublic, MdEdit, MdDelete } from "react-icons/md";
+import { FaSave } from "react-icons/fa";
+import { IoIosCloseCircleOutline } from "react-icons/io";
+
 
 function TaskDetails({ taskData, onClose }) {
     const userDetails = useSelector(getUserDetails);
+    const [openEditCommentId, setOpenEditCommentId] = useState(null)
+    const [newCommentValue, setNewCommentValue] = useState("")
 
+    // get all task comments and update it by send all comments again
 
     if (!taskData) return null;
 
@@ -51,6 +61,26 @@ function TaskDetails({ taskData, onClose }) {
             day: 'numeric'
         });
     };
+
+    // handle edit comment
+    async function handleEditComment(id) {
+        if (!newCommentValue) {
+            console.error("there is no value")
+            return;
+        }
+
+        const allUpdatedComments = comments?.map((comment) => comment.id === id ? { ...comment, content: newCommentValue } : comment)
+        await updateData("tasks", taskData.id, { comments: allUpdatedComments })
+
+        setOpenEditCommentId(null)
+    }
+
+    // handle delete comment
+    async function handleDeleteComment(id) {
+        const allUpdatedComments = comments?.filter((comment) => comment.id !== id)
+
+        await updateData("tasks", taskData.id, { comments: allUpdatedComments })
+    }
 
     return (
         <div className={styles.overlay} onClick={onClose}>
@@ -167,13 +197,63 @@ function TaskDetails({ taskData, onClose }) {
                     <div className={styles.commentsSection}>
                         <h3 className={styles.sectionHeader}>Comments ({comments?.length || 0})</h3>
                         {comments && comments.length > 0 ? (
-                            <ul style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+                            <div className={styles.commentsContainer}>
                                 {comments.map((comment, index) => (
-                                    <li key={index} style={{ padding: '0.75rem', backgroundColor: 'var(--bg-100)', borderRadius: 'var(--radius-sm)' }}>
-                                        <p style={{ fontSize: '0.875rem', color: 'var(--text-700)' }}>{comment.text || comment}</p>
-                                    </li>
+                                    <div className={styles.commentBox} key={index}>
+                                        <div className={styles.userAvatar}>
+                                            <span>{comment.senderName.split(" ").at(0).slice(0, 1).toUpperCase()}{comment.senderName.split(" ").at(1).slice(0, 1).toUpperCase()}</span>
+                                        </div>
+                                        <div className={styles.content}>
+                                            {openEditCommentId !== comment.id ? (
+                                                <div className={styles.commentContentWrapper}>
+                                                    <p className={styles.commentText}>{comment.content}</p>
+                                                    {userDetails.id === comment.senderId && (
+                                                        <div className={styles.commentActions}>
+                                                            <button
+                                                                className={styles.actionBtn}
+                                                                onClick={() => { setOpenEditCommentId(comment.id); setNewCommentValue(comment.content) }}
+                                                                title="Edit"
+                                                            >
+                                                                <MdEdit />
+                                                            </button>
+                                                            <button
+                                                                className={styles.actionBtn}
+                                                                onClick={() => handleDeleteComment(comment.id)}
+                                                                title="Delete"
+                                                            >
+                                                                <MdDelete />
+                                                            </button>
+                                                        </div>
+                                                    )}
+                                                </div>
+                                            ) : (
+                                                <div className={styles.editComment}>
+                                                    <input
+                                                        type="text"
+                                                        value={newCommentValue}
+                                                        onChange={(e) => setNewCommentValue(e.target.value)}
+                                                        autoFocus
+                                                    />
+                                                    <div className={styles.editActions}>
+                                                        <MainButton
+                                                            title='Save'
+                                                            content={<FaSave />}
+                                                            clickEvent={() => handleEditComment(comment.id)}
+                                                            variant="primary"
+                                                        />
+                                                        <MainButton
+                                                            title='Cancel'
+                                                            content={<IoIosCloseCircleOutline />}
+                                                            clickEvent={() => setOpenEditCommentId(null)}
+                                                            variant="secondary"
+                                                        />
+                                                    </div>
+                                                </div>
+                                            )}
+                                        </div>
+                                    </div>
                                 ))}
-                            </ul>
+                            </div>
                         ) : (
                             <p className={styles.noComments}>No comments yet.</p>
                         )}
