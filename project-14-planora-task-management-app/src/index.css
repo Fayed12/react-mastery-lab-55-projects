@@ -229,4 +229,5 @@ li {
     color: var(--error-500);
     margin: 0;
     font-size: var(--text-xs);
+    /* margin-top: var(--space-2xs); */
 }

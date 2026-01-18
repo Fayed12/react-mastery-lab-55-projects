@@ -3,6 +3,7 @@ import styles from './TaskCard.module.css';
 import TaskDetails from '../task-details/taskDetails';
 import updateData from '../../firebase/updateExistingData';
 import { getUserDetails } from '../../Redux/authUserSlice';
+import deleteItem from '../../firebase/deleteDocument';
 
 // redux
 import { useSelector } from 'react-redux';
@@ -18,7 +19,7 @@ import { IoIosSend } from "react-icons/io";
 import toast from 'react-hot-toast';
 import MainButton from '../../ui/button/MainButton';
 
-const TaskCard = ({ task }) => {
+const TaskCard = ({ setEditTaskData, setOpenCreateNewTask, openCreateNewTask, setFromAction, task }) => {
     const [openDetailsPopup, setOpenDetailsPopup] = useState(false)
     const userDetails = useSelector(getUserDetails)
     const [commentValue, setCommentValue] = useState("")
@@ -58,6 +59,11 @@ const TaskCard = ({ task }) => {
         await updateData("tasks", task.id, { comments: [...task.comments, { senderName: userDetails?.name, senderId: userDetails?.id, content: commentValue, id: crypto.randomUUID(), createdTime: new Date().toISOString() }] })
         toast.success("comment added successfully", { id: "send comment" })
         setCommentValue("")
+    }
+
+    // handle delete task
+    function handleDeleteTask() {
+        deleteItem("tasks", task.id)
     }
 
     return (
@@ -121,7 +127,7 @@ const TaskCard = ({ task }) => {
                         </div>
                     </div>
 
-                    <ActionsButtons openDetailsPopup={openDetailsPopup} setOpenDetailsPopup={setOpenDetailsPopup} />
+                    <ActionsButtons task={task} setEditTaskData={setEditTaskData} openCreateNewTask={openCreateNewTask} setOpenCreateNewTask={setOpenCreateNewTask} setFromAction={setFromAction} deleteItem={() => handleDeleteTask()} openDetailsPopup={openDetailsPopup} setOpenDetailsPopup={setOpenDetailsPopup} />
                 </div>
                 {new Date() < new Date(task.dueDate).getTime() && (
                     <div className={styles.addComment}>

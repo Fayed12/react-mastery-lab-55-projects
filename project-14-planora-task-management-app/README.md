@@ -286,7 +286,7 @@ src/
 
 * user go to tasks page, it contain title and cards with all tasks, and below of the cards user can go to tasks management and do all crud , this page only contain tasks over view and can make it done or not ✅
 
-* user can write in task [title -  Description - Status - Priority - due data - labels - category - privacy - role-based access - subtasks], user can set privacy if global all users can show this task to make comments or not on this task, subtasks will contain only title and description
+* user can write in task [title -  Description - Status - Priority - due data - labels - category - privacy - role-based access - subtasks], user can set privacy subtasks will contain only title and description , global is related to edit or view only  
 
 * for managing the tasks he can go to tasks management page, user can  create new one or edit or remove task, make it complete or not ✅
 

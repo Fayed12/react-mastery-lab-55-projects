@@ -1,0 +1,195 @@
+/* createNewItem.module.css */
+
+/* Overlay with blur effect */
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    animation: fadeIn 0.3s ease-out forwards;
+}
+
+/* Popup Container */
+.createNewItem {
+    width: 90%;
+    max-width: 650px;
+    max-height: 90vh;
+    background-color: var(--bg-50);
+    border-radius: var(--radius-lg);
+    box-shadow:
+        var(--shadow-lg),
+        0 0 0 1px var(--border-100);
+    padding: var(--space-lg);
+    position: relative;
+    overflow-y: auto;
+    opacity: 0;
+    transform: scale(0.95) translateY(10px);
+    animation: popupOpen 0.4s cubic-bezier(0.16, 1, 0.3, 1) 0.1s forwards;
+}
+
+/* Close Button Wrapper */
+.absoluteCloseBtn {
+    position: absolute;
+    top: var(--space-md);
+    right: var(--space-md);
+    z-index: 10;
+}
+
+/* Header Section */
+.header {
+    margin-bottom: var(--space-md);
+    text-align: center;
+}
+
+.header h2 {
+    font-size: var(--text-2xl);
+    font-weight: 700;
+    color: var(--text-900);
+    margin-bottom: var(--space-xs);
+    color: var(--text-500);
+    text-transform: capitalize;
+}
+
+.header p {
+    font-size: var(--text-xs);
+    color: var(--text-400);
+}
+
+/* Form Layout */
+.form {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-sm);
+}
+
+.form form {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-md);
+}
+
+/* Flex Groups */
+.flexUserOptions,
+.flexRoleBased,
+.flexCategories {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-md);
+}
+
+.dueDate,
+.linkedTasks,
+.stars {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xs);
+}
+
+/* Select Elements Styling Override Wrapper */
+.priority select,
+.Privacy select {
+    width: 100%;
+    padding: var(--space-sm) var(--space-md);
+    border: 1px solid var(--border-200);
+    border-radius: var(--radius-md);
+    background-color: var(--bg-50);
+    color: var(--text-700);
+    font-size: var(--text-sm);
+    outline: none;
+    transition: all 0.2s ease;
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%236b7280'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M19 9l-7 7-7-7'%3E%3C/path%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 0.75rem center;
+    background-size: 1rem;
+}
+
+.priority select:focus,
+.Privacy select:focus {
+    border-color: var(--primary-500);
+    box-shadow: 0 0 0 2px var(--primary-100);
+}
+
+/* Button Container */
+.flexButtonContainer {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: var(--space-md);
+    margin-top: var(--space-md);
+    padding-top: var(--space-md);
+    border-top: 1px solid var(--border-100);
+}
+
+/* Animations */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes popupOpen {
+    from {
+        opacity: 0;
+        transform: scale(0.95) translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+    }
+}
+
+/* Scrollbar within popup */
+.createNewItem::-webkit-scrollbar {
+    width: 6px;
+}
+
+.createNewItem::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.createNewItem::-webkit-scrollbar-thumb {
+    background-color: var(--border-200);
+    border-radius: var(--radius-xl);
+}
+
+.createNewItem::-webkit-scrollbar-thumb:hover {
+    background-color: var(--text-400);
+}
+
+/* Responsive */
+@media (max-width: 640px) {
+    .createNewItem {
+        width: 95%;
+        padding: var(--space-md);
+        height: 95vh;
+    }
+
+    .flexUserOptions,
+    .flexRoleBased,
+    .flexCategories {
+        grid-template-columns: 1fr;
+    }
+
+    .flexButtonContainer {
+        flex-direction: column-reverse;
+        width: 100%;
+    }
+
+    .flexButtonContainer > * {
+        width: 100%;
+        justify-content: center;
+    }
+}

@@ -10,7 +10,7 @@ import { MdVisibility } from "react-icons/md";
 import { MdEdit } from "react-icons/md";
 import { MdDelete } from "react-icons/md";
 
-function ActionsButtons({ task = {}, setSelectedTask = () => { }, openDetailsPopup, setOpenDetailsPopup }) {
+function ActionsButtons({ setEditTaskData, setOpenCreateNewTask, openCreateNewTask, setFromAction, deleteItem, task = {}, setSelectedTask = () => { }, openDetailsPopup, setOpenDetailsPopup }) {
     const locationPath = useLocation().pathname
 
     return (
@@ -22,10 +22,10 @@ function ActionsButtons({ task = {}, setSelectedTask = () => { }, openDetailsPop
                 {locationPath === "/dashboard/taskManagement" && (
                     <>
                         <div className={`${styles.actionBtn} ${styles.editBtn}`}>
-                            <MainButton title='edit task' content={<><MdEdit /></>} />
+                            <MainButton title='edit task' content={<><MdEdit /></>} clickEvent={() => { setOpenCreateNewTask(!openCreateNewTask); setFromAction("editItem");  setEditTaskData(task)}} />
                         </div>
                         <div className={`${styles.actionBtn} ${styles.deleteBtn}`}>
-                            <MainButton title='delete task' content={<><MdDelete /></>} />
+                            <MainButton title='delete task' content={<><MdDelete /></>} clickEvent={deleteItem}/>
                         </div>
                     </>
                 )}

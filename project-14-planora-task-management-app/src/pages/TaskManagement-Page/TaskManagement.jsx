@@ -8,7 +8,7 @@ import updateData from '../../firebase/updateExistingData';
 import Pagination from '../../components/Pagination-footer/Pagination';
 import ActionsButtons from '../../components/actions-buttons/actionsButtons';
 import TaskDetails from '../../components/task-details/taskDetails';
-import CreateNewItem from '../../components/create-new-item/createNewItem';
+import CreateNewItem from '../../components/create-edit-new-item/createEditNewItem';
 
 // redux
 import { useSelector } from 'react-redux';
@@ -26,6 +26,7 @@ import {
     MdLock
 } from 'react-icons/md';
 import EmptyBox from '../../components/empty-box/emptyBox';
+import deleteItem from '../../firebase/deleteDocument';
 
 const TaskManagement = () => {
     const tasksData = useSelector(getTasksData);
@@ -33,11 +34,18 @@ const TaskManagement = () => {
     const [tasksAfterFilter, setTasksAfterFilter] = useState(tasksData)
     const [openDetailsPopup, setOpenDetailsPopup] = useState(false)
     const [selectedTask, setSelectedTask] = useState(null)
-    const [openCreateNewTask, setOpenCreateNewTask] =useState(false)
+    const [openCreateNewTask, setOpenCreateNewTask] = useState(false)
+    const [formAction, setFromAction] = useState("")
+    const [editTaskData,setEditTaskData] = useState({})
 
     // State for UI controls
     const [viewMode, setViewMode] = useState('grid');
     const [currentPage, setCurrentPage] = useState(1);
+
+    // handle delete task
+    function handleDeleteTask(id) {
+        deleteItem("tasks", id)
+    }
 
     return (
         <>
@@ -54,7 +62,7 @@ const TaskManagement = () => {
                             type='button'
                             title="Create Task"
                             content={<><MdAdd /> New Task</>}
-                            clickEvent={()=>setOpenCreateNewTask(!openCreateNewTask)}
+                            clickEvent={() => { setOpenCreateNewTask(!openCreateNewTask);  setFromAction("addNewItem")}}
                         />
 
                         <div className={styles.viewToggle}>
@@ -89,13 +97,13 @@ const TaskManagement = () => {
                 <div className={styles.workspace}>
                     {!tasksAfterFilter || tasksAfterFilter.length === 0 ?
                         (
-                            <EmptyBox title={"Tasks"} navigateFunc={() => setOpenCreateNewTask(!openCreateNewTask)} />
+                            <EmptyBox title={"Tasks"} navigateFunc={() => { setOpenCreateNewTask(!openCreateNewTask); setFromAction("addNewItem") }} />
                         ) :
                         (
                             viewMode === 'grid' ? (
                                 <div className={styles.grid}>
-                                    {tasksAfterFilter.map(task => (
-                                        <TaskCard key={task.id} task={task} />
+                                    {(tasksAfterFilter.slice(0, (10 * currentPage))).map(task => (
+                                        <TaskCard setEditTaskData={setEditTaskData} key={task.id} task={task} openCreateNewTask={openCreateNewTask} setOpenCreateNewTask={setOpenCreateNewTask} setFromAction={setFromAction} />
                                     ))}
                                 </div>
                             ) : (
@@ -123,7 +131,7 @@ const TaskManagement = () => {
                                                 <MdLock />
                                                 {task.privacy}
                                             </div>
-                                            <ActionsButtons task={task} setSelectedTask={setSelectedTask} openDetailsPopup={openDetailsPopup} setOpenDetailsPopup={setOpenDetailsPopup} />
+                                            <ActionsButtons setEditTaskData={setEditTaskData} openCreateNewTask={openCreateNewTask} setOpenCreateNewTask={setOpenCreateNewTask} setFromAction={setFromAction} deleteItem={()=>handleDeleteTask(task.id)} task={task} setSelectedTask={setSelectedTask}  openDetailsPopup={openDetailsPopup} setOpenDetailsPopup={setOpenDetailsPopup} />
                                         </div>
                                     ))}
                                 </div>
@@ -133,7 +141,7 @@ const TaskManagement = () => {
                 </div>
 
                 {/* Pagination Footer */}
-                {tasksData.length >= 10 ? (
+                {tasksData.length > 10 ? (
                     <Pagination allData={tasksData} setCurrentPage={setCurrentPage} currentPage={currentPage} />
                 ) :
                     (
@@ -143,8 +151,9 @@ const TaskManagement = () => {
                     )}
 
             </div>
+            {/* this details is exist for the row grid show not to the card */}
             {openDetailsPopup && <TaskDetails taskData={selectedTask} onClose={() => setOpenDetailsPopup(false)} />}
-            {openCreateNewTask && <CreateNewItem itemName={"task"} closeFunc={ ()=>setOpenCreateNewTask(!openCreateNewTask)} />}
+            {openCreateNewTask && <CreateNewItem formAction={formAction} itemName={"task"} closeFunc={ ()=>setOpenCreateNewTask(!openCreateNewTask)} taskEditDefaultData={editTaskData} />}
         </>
     );
 };

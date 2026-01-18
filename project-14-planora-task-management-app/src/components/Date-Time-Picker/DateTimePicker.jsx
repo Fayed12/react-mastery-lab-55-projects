@@ -8,28 +8,28 @@ import "react-datepicker/dist/react-datepicker.css";
 // data fns
 import { format } from "date-fns";
 
-const DateTimePicker = ({ field, label, placeholder}) => {
+const DateTimePicker = ({ field, placeholder }) => {
     return (
-        <div style={{ marginBottom: "1rem" }}>
-            {label && <label style={{ display: "block", marginBottom: "4px" }}>{label}</label>}
+        <div className={styles.datePickerContainer}>
 
             <DatePicker
                 {...field}
                 selected={field.value}
                 onChange={(date) => {
-                    const formattedDate = format(date, "yyyy-MM-dd");
-                    field.onChange(formattedDate);
+                    // check if date is valid before formatting
+                    if (date) {
+                        const formattedDate = format(date, "yyyy-MM-dd");
+                        field.onChange(formattedDate);
+                    } else {
+                        field.onChange(null);
+                    }
                 }}
                 timeIntervals={15}
                 dateFormat="yyyy-MM-dd"
                 minDate={new Date()}
                 placeholderText={placeholder || "Select date & time"}
-                className="react-datepicker-input"
+                wrapperClassName={styles.datePickerWrapper}
             />
-
-            {field?.error && (
-                <p style={{ color: "red", marginTop: "4px" }}>{field.error.message}</p>
-            )}
         </div>
     );
 };

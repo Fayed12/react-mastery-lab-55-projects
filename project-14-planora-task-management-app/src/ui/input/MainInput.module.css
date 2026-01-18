@@ -29,6 +29,7 @@
 .input::placeholder {
     color: var(--text-400);
     opacity: 0.8;
+    font-size: var(--text-sm);
 }
 
 .input:hover {

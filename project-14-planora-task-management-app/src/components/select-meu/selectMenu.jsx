@@ -1,13 +1,14 @@
 // local
 import styles from "./selectMenu.module.css"
+import { customStyles } from "./selectStyles";
 
 import AsyncSelect from "react-select/async";
 
-const UserSelect = ({ data, field}) => {
+const UserSelect = ({ data, field }) => {
 
     // function to filter options based on input
     const loadOptions = (inputValue) => {
-        if (!inputValue) return []; 
+        if (!inputValue) return [];
 
         const filtered = data
             .filter(user =>
@@ -17,24 +18,30 @@ const UserSelect = ({ data, field}) => {
             .map(user => ({
                 value: user.id,
                 label: user.email,
-                name:user.name
+                name: user.name
             }));
 
         return Promise.resolve(filtered);
     };
 
     return (
-        <AsyncSelect
-            {...field}
-            value={field.value}
-            onChange={field.onChange}
-            loadOptions={loadOptions}
-            cacheOptions
-            isMulti
-            defaultOptions={false}
-            placeholder="Search user email...."
-            isClearable= {true}
-        />
+        <div className={styles.selectContainer}>
+            <AsyncSelect
+                {...field}
+                value={field.value}
+                onChange={field.onChange}
+                loadOptions={loadOptions}
+                cacheOptions
+                isMulti
+                defaultOptions={false}
+                placeholder="Search user email...."
+                isClearable={true}
+                styles={customStyles}
+                classNames={{
+                    container: () => styles.selectWrapper
+                }}
+            />
+        </div>
     );
 };
 

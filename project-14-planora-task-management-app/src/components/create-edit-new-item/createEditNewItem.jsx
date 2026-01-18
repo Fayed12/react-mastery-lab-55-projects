@@ -1,13 +1,14 @@
-// local
-import styles from "./createNewItem.module.css"
+import styles from "./createEditNewItem.module.css"
 import MainInput from "../../ui/input/MainInput"
 import MainButton from "../../ui/button/MainButton"
 import UserSelect from "../select-meu/selectMenu";
+import { customStyles } from "../select-meu/selectStyles";
 import { getAllUsersData, getUserDetails } from "../../Redux/authUserSlice";
 import { getCategoriesData } from "../../Redux/categoriesSlice";
 import { getTasksData } from "../../Redux/tasksSlice";
 import DateTimePicker from "../Date-Time-Picker/DateTimePicker";
 import createDocument from "../../firebase/addNewData";
+import updateData from "../../firebase/updateExistingData";
 
 // react hook form
 import { useForm, Controller } from "react-hook-form";
@@ -24,12 +25,17 @@ import { useEffect } from "react";
 import { IoMdAdd } from "react-icons/io";
 import { TbCancel } from "react-icons/tb";
 import { AiOutlineCloseCircle } from "react-icons/ai";
+import { MdEdit } from "react-icons/md";
 
-function CreateNewItem({ itemName, closeFunc }) {
+// toast
+import toast from "react-hot-toast";
+
+function CreateNewItem({ taskEditDefaultData, formAction, itemName, closeFunc }) {
     const userDetails = useSelector(getUserDetails)
     const allUsers = useSelector(getAllUsersData)
     const Categories = useSelector(getCategoriesData)
     const tasksData = useSelector(getTasksData)
+    console.log(taskEditDefaultData)
 
     // categories options
     const categoriesOptions = Categories.map((cat) => {
@@ -38,8 +44,54 @@ function CreateNewItem({ itemName, closeFunc }) {
 
     // tasks options
     const tasksOptions = tasksData.map((task) => {
-        return { value: task.id, label: task.title }
+        return { value: task.id, label: task.title, description: task.description, userId: task.userId }
     })
+
+    const defaultValues = formAction === "editItem" ? {
+        title: taskEditDefaultData?.title,
+        description: taskEditDefaultData?.description,
+        priority: taskEditDefaultData?.priority,
+        privacy: taskEditDefaultData?.privacy,
+
+        editorUser: taskEditDefaultData?.editors?.map(user => ({
+            value: user.id,
+            label: user.email,
+            name: user.name
+        })),
+        viewerUser: taskEditDefaultData?.viewers?.map(user => ({
+            value: user.id,
+            label: user.email,
+            name: user.name
+        })),
+        labels: taskEditDefaultData?.labels?.map((cat) => {
+            return { value: cat, label: cat }
+        }),
+
+        categories: taskEditDefaultData?.categories?.map((cat) => {
+            return { value: cat, label: cat }
+        }),
+        // projectLinkedTasks: taskEditDefaultData?.map((task) => {
+        //     return { value: task.id, label: task.title, description: task.description, userId: task.userId }
+        // }),
+        // categoriesLinkedTasks: taskEditDefaultData?.map((task) => {
+        //     return { value: task.id, label: task.title, description: task.description, userId: task.userId }
+        // }),
+        // stars: taskEditDefaultData?,
+        dueDate: taskEditDefaultData?.dueDate,
+    } : {
+        title: "",
+        description: "",
+        priority: "",
+        privacy: "",
+        editorUser: [],
+        viewerUser: [],
+        labels: [],
+        categories: [],
+        projectLinkedTasks: [],
+        categoriesLinkedTasks: [],
+        stars: 0,
+        dueDate: null,
+    }
 
     const {
         register,
@@ -49,21 +101,7 @@ function CreateNewItem({ itemName, closeFunc }) {
         control,
         formState: { errors },
     } = useForm({
-        defaultValues: {
-            title: "",
-            description: "",
-            priority: "",
-            privacy: "",
-            editorUser: [],
-            viewerUser: [],
-            labels: [],
-            categories: [],
-            projectLinkedTasks: [],
-            categoriesLinkedTasks: [],
-            stars: 0,
-            dueDate: null,
-        }
-
+        defaultValues
     });
 
     // handle reset form
@@ -71,7 +109,7 @@ function CreateNewItem({ itemName, closeFunc }) {
         setValue("title", "");
         setValue("description", "");
         setValue("priority", "");
-        setValue("privacy", "null");
+        setValue("privacy", "");
         setValue("editorUser", []);
         setValue("viewerUser", []);
         setValue("labels", []);
@@ -101,10 +139,6 @@ function CreateNewItem({ itemName, closeFunc }) {
                 viewers: mapUsers(itemData.viewerUser),
             };
 
-            // do not forget id
-            // do not forget id
-            // do not forget id
-            // do not forget id
             const newTask = {
                 userId: userDetails.id,
                 access,
@@ -118,20 +152,27 @@ function CreateNewItem({ itemName, closeFunc }) {
                 categories: Array.isArray(itemData.categories)
                     ? itemData.categories.map(cat => cat.label)
                     : [],
-
                 labels: Array.isArray(itemData.labels)
                     ? itemData.labels.map(lab => lab.label)
                     : [],
                 comments: [],
             }
 
-            async function addNewTask() {
-                await createDocument("tasks", newTask)
-                handleResetFrom()
+            if (formAction === "editItem") {
+                updateData("tasks", taskEditDefaultData.id, newTask)
                 closeFunc()
+                toast.success("edited successfully", {id:"edit"})
             }
 
-            addNewTask()
+            if (formAction === "addNewItem") {
+                async function addNewTask() {
+                    await createDocument("tasks", newTask)
+                    handleResetFrom()
+                    closeFunc()
+                }
+
+                addNewTask()
+            }
         }
         // if (itemName === "project") {
 
@@ -146,6 +187,13 @@ function CreateNewItem({ itemName, closeFunc }) {
         e.stopPropagation();
     };
 
+    // // handle update item
+    // function handleUpdateItem() {
+    //     if (itemName === "task") {
+    //         updateData("tasks", taskEditDefaultData.id,)
+    //     }
+    // }
+
     // focus to email when open email
     useEffect(() => {
         setFocus("title");
@@ -157,7 +205,7 @@ function CreateNewItem({ itemName, closeFunc }) {
                     <MainButton title="closePopup" type="button" content={<><AiOutlineCloseCircle /></>} clickEvent={closeFunc} />
                 </div>
                 <div className={styles.header}>
-                    <h2>Create new {itemName.toUpperCase()}</h2>
+                    <h2>Create new {itemName}</h2>
                     <p>here you can create new tasks or project and categories, Enjoy the experience now</p>
                 </div>
                 <div className={styles.form}>
@@ -278,6 +326,7 @@ function CreateNewItem({ itemName, closeFunc }) {
                                                                 placeholder="select category..."
                                                                 isSearchable
                                                                 isClearable
+                                                                styles={customStyles}
                                                             />
                                                         )}
                                                     />
@@ -297,6 +346,7 @@ function CreateNewItem({ itemName, closeFunc }) {
                                                                 isMulti
                                                                 placeholder="Type and press enter to add labels..."
                                                                 isClearable
+                                                                styles={customStyles}
                                                             />
                                                         )}
                                                     />
@@ -318,6 +368,7 @@ function CreateNewItem({ itemName, closeFunc }) {
                                                             placeholder="select task...."
                                                             isSearchable
                                                             isClearable
+                                                            styles={customStyles}
                                                         />
                                                     )}
                                                 />
@@ -344,6 +395,7 @@ function CreateNewItem({ itemName, closeFunc }) {
                                                     isSearchable
                                                     isClearable
                                                     isMulti
+                                                    styles={customStyles}
                                                 />
                                             )}
                                         />
@@ -366,8 +418,21 @@ function CreateNewItem({ itemName, closeFunc }) {
                         }
 
                         <div className={styles.flexButtonContainer}>
-                            <MainButton title="add new task" type="submit" content={<>Add <span><IoMdAdd /></span></>} />
-                            <MainButton title="cancel" type="button" content={<>cancel <span><TbCancel /></span></>} clickEvent={() => handleResetFrom()} />
+                            {
+                                formAction === "addNewItem" && (
+                                    <>
+                                        <MainButton title="cancel" type="button" content={<>cancel <span><TbCancel /></span></>} clickEvent={() => handleResetFrom()} />
+                                        <MainButton title="add new task" type="submit" content={<>Add <span><IoMdAdd /></span></>} />
+                                    </>
+                                )
+                            }
+                            {
+                                formAction === "editItem" && (
+                                    <>
+                                        <MainButton title="edit item" type="submit" content={<>save changes <span><MdEdit /></span></>} />
+                                    </>
+                                )
+                            }
                         </div>
                     </form>
                 </div>
