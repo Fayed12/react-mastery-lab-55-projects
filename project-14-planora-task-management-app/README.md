@@ -309,3 +309,5 @@ src/
 * Profile page,Where the user can edit gis profile image and other data
 
 * the website will contain notifications 
+
+<!-- ali password ==> Ali@ALi12 -->

@@ -223,6 +223,10 @@
     font-weight: 700;
 }
 
+.actions{
+    min-width: 120px;
+}
+
 /* Responsiveness */
 @media (max-width: 768px) {
     .header {

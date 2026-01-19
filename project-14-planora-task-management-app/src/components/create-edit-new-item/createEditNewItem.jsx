@@ -9,6 +9,7 @@ import { getTasksData } from "../../Redux/tasksSlice";
 import DateTimePicker from "../Date-Time-Picker/DateTimePicker";
 import createDocument from "../../firebase/addNewData";
 import updateData from "../../firebase/updateExistingData";
+import useUserRole from "../../hooks/userUserRole";
 
 // react hook form
 import { useForm, Controller } from "react-hook-form";
@@ -19,7 +20,9 @@ import CreatableSelect from "react-select/creatable";
 
 // redux
 import { useSelector } from "react-redux";
-import { useEffect } from "react";
+
+// react
+import { useEffect, useState } from "react";
 
 // react icons
 import { IoMdAdd } from "react-icons/io";
@@ -35,8 +38,12 @@ function CreateNewItem({ taskEditDefaultData, formAction, itemName, closeFunc })
     const allUsers = useSelector(getAllUsersData)
     const Categories = useSelector(getCategoriesData)
     const tasksData = useSelector(getTasksData)
-    console.log(taskEditDefaultData)
+    const { userRole } = useUserRole(taskEditDefaultData?.access, userDetails?.id)
 
+    const [selectUsersData, setSelectedUsersData] = useState(() => {
+        const res = allUsers.filter((user) => user.id !== userDetails.id)
+        return res;
+    })
     // categories options
     const categoriesOptions = Categories.map((cat) => {
         return { value: cat.id, label: cat.title }
@@ -53,23 +60,19 @@ function CreateNewItem({ taskEditDefaultData, formAction, itemName, closeFunc })
         priority: taskEditDefaultData?.priority,
         privacy: taskEditDefaultData?.privacy,
 
-        editorUser: taskEditDefaultData?.editors?.map(user => ({
+        editorUser: taskEditDefaultData?.access?.editors?.map(user => ({
             value: user.id,
-            label: user.email,
-            name: user.name
+            label: user.email
         })),
-        viewerUser: taskEditDefaultData?.viewers?.map(user => ({
+        viewerUser: taskEditDefaultData?.access?.viewers?.map(user => ({
             value: user.id,
-            label: user.email,
-            name: user.name
+            label: user.email
         })),
-        labels: taskEditDefaultData?.labels?.map((cat) => {
-            return { value: cat, label: cat }
+        labels: taskEditDefaultData?.labels?.map((lab) => {
+            return { value: lab, label: lab }
         }),
 
-        categories: taskEditDefaultData?.categories?.map((cat) => {
-            return { value: cat, label: cat }
-        }),
+        category: { value: taskEditDefaultData?.category?.id, label: taskEditDefaultData?.category?.name },
         // projectLinkedTasks: taskEditDefaultData?.map((task) => {
         //     return { value: task.id, label: task.title, description: task.description, userId: task.userId }
         // }),
@@ -86,7 +89,7 @@ function CreateNewItem({ taskEditDefaultData, formAction, itemName, closeFunc })
         editorUser: [],
         viewerUser: [],
         labels: [],
-        categories: [],
+        category: null,
         projectLinkedTasks: [],
         categoriesLinkedTasks: [],
         stars: 0,
@@ -99,10 +102,39 @@ function CreateNewItem({ taskEditDefaultData, formAction, itemName, closeFunc })
         setValue,
         handleSubmit,
         control,
+        watch,
         formState: { errors },
     } = useForm({
         defaultValues
     });
+
+    // watch privacy input to handle roll based access
+    // eslint-disable-next-line react-hooks/incompatible-library
+    const watchPrivacy = watch("privacy")
+
+    // watch category input to handle roll based access
+    const watchCategory = watch("category")
+
+    // watch editors users and viewers, if user select any user in editors he can not select this user again
+    const watchEditor = watch("editorUser")
+    const watchViewers = watch("viewerUser")
+
+    // let selectUsersData =
+    useEffect(() => {
+        if (!allUsers || !userDetails) return;
+
+        let availableUsers = allUsers.filter(user => user.id !== userDetails.id);
+
+        const selectedIds = [
+            ...(watchEditor?.map(u => u.value) || []),
+            ...(watchViewers?.map(u => u.value) || [])
+        ];
+
+        availableUsers = availableUsers.filter(user => !selectedIds.includes(user.id));
+
+        setSelectedUsersData(availableUsers);
+
+    }, [allUsers, userDetails, watchEditor, watchViewers]);
 
     // handle reset form
     function handleResetFrom() {
@@ -113,7 +145,7 @@ function CreateNewItem({ taskEditDefaultData, formAction, itemName, closeFunc })
         setValue("editorUser", []);
         setValue("viewerUser", []);
         setValue("labels", []);
-        setValue("categories", []);
+        setValue("category", null);
         setValue("projectLinkedTasks", []);
         setValue("categoriesLinkedTasks", []);
         setValue("stars", 0);
@@ -129,7 +161,7 @@ function CreateNewItem({ taskEditDefaultData, formAction, itemName, closeFunc })
 
                 return users.map(user => ({
                     id: user.value,
-                    email: user.label,
+                    email: user.label
                 }));
             }
 
@@ -149,24 +181,30 @@ function CreateNewItem({ taskEditDefaultData, formAction, itemName, closeFunc })
                 dueDate: itemData.dueDate,
                 createdAt: new Date().toISOString(),
                 privacy: itemData.privacy,
-                categories: Array.isArray(itemData.categories)
-                    ? itemData.categories.map(cat => cat.label)
-                    : [],
+                category: { name: itemData?.category?.label, id: itemData?.category?.value },
                 labels: Array.isArray(itemData.labels)
                     ? itemData.labels.map(lab => lab.label)
                     : [],
                 comments: [],
             }
 
+            const cat = Categories?.filter((cat) => cat.title === watchCategory.label)
+
             if (formAction === "editItem") {
-                updateData("tasks", taskEditDefaultData.id, newTask)
+                if (userRole === "owner") {
+                    updateData("tasks", taskEditDefaultData.id, newTask)
+                } else if (userRole === "editor") {
+                    updateData("tasks", taskEditDefaultData.id, { ...newTask, access: taskEditDefaultData?.access, userId: taskEditDefaultData?.userId })
+                }
+                updateData("categories", cat[0].id, { ...cat[0], linkedTasks: [...cat[0].linkedTasks, { title: newTask.title }] })
                 closeFunc()
-                toast.success("edited successfully", {id:"edit"})
+                toast.success("edited successfully", { id: "edit" })
             }
 
             if (formAction === "addNewItem") {
                 async function addNewTask() {
                     await createDocument("tasks", newTask)
+                    updateData("categories", cat[0].id, { ...cat[0], linkedTasks: [...cat[0].linkedTasks, { title: newTask.title }] })
                     handleResetFrom()
                     closeFunc()
                 }
@@ -205,8 +243,8 @@ function CreateNewItem({ taskEditDefaultData, formAction, itemName, closeFunc })
                     <MainButton title="closePopup" type="button" content={<><AiOutlineCloseCircle /></>} clickEvent={closeFunc} />
                 </div>
                 <div className={styles.header}>
-                    <h2>Create new {itemName}</h2>
-                    <p>here you can create new tasks or project and categories, Enjoy the experience now</p>
+                    <h2>{formAction === "editItem" ? `Edit ${itemName}` : `Create new ${itemName}`}</h2>
+                    <p>{formAction === "editItem" ? `here you can edit your ${itemName}, enjoy the experience now` : `here you can create new ${itemName}, enjoy the experience now`}</p>
                 </div>
                 <div className={styles.form}>
                     <form onSubmit={handleSubmit(handleSubmitTheForm)}>
@@ -275,45 +313,53 @@ function CreateNewItem({ taskEditDefaultData, formAction, itemName, closeFunc })
                                             )}
                                         </div>
 
-                                        <div className={styles.Privacy}>
-                                            <select name='privacy' {...register("privacy", {
-                                                required: "privacy is required",
-                                            })}>
-                                                <option value="" disabled>Privacy</option>
-                                                <option value="private">Private</option>
-                                                <option value="global">Global</option>
-                                            </select>
-                                            {errors.privacy && (
-                                                <p className="error">{errors.privacy.message}</p>
-                                            )}
-                                        </div>
-                                    </div>
-                                    <div className={styles.flexRoleBased}>
-                                        <div className={styles.editor}>
-                                            <Controller
-                                                name="editorUser"
-                                                control={control}
-                                                render={({ field }) => (
-                                                    <UserSelect data={allUsers} field={field} />
+                                        {(userRole === "owner" || !userRole) && (
+                                            <div className={styles.Privacy}>
+                                                <select name='privacy' {...register("privacy", {
+                                                    required: "privacy is required",
+                                                })}>
+                                                    <option value="" disabled>Privacy</option>
+                                                    <option value="private">Private</option>
+                                                    <option value="global">Global</option>
+                                                </select>
+                                                {errors.privacy && (
+                                                    <p className="error">{errors.privacy.message}</p>
                                                 )}
-                                            />
-                                        </div>
-                                        <div className={styles.viewer}>
-                                            <Controller
-                                                name="viewerUser"
-                                                control={control}
-                                                render={({ field }) => (
-                                                    <UserSelect data={allUsers} field={field} />
-                                                )}
-                                            />
-                                        </div>
+                                            </div>
+                                        )}
+
                                     </div>
+                                    {(userRole === "owner" || !userRole) && (
+                                        watchPrivacy !== "private" && (
+                                            <div className={styles.flexRoleBased}>
+                                                <div className={styles.editor}>
+                                                    <Controller
+                                                        name="editorUser"
+                                                        control={control}
+                                                        render={({ field }) => (
+                                                            <UserSelect data={selectUsersData} field={field} fieldName="editors" />
+                                                        )}
+                                                    />
+                                                </div>
+                                                <div className={styles.viewer}>
+                                                    <Controller
+                                                        name="viewerUser"
+                                                        control={control}
+                                                        render={({ field }) => (
+                                                            <UserSelect data={selectUsersData} field={field} fieldName="viewers" />
+                                                        )}
+                                                    />
+                                                </div>
+                                            </div>
+                                        )
+                                    )}
+
                                     {
                                         itemName === "task" && (
                                             <div className={styles.flexCategories}>
                                                 <div className={styles.Categories}>
                                                     <Controller
-                                                        name="categories"
+                                                        name="category"
                                                         control={control}
                                                         isMulti
                                                         rules={{ required: "Please select at least one category" }}
@@ -330,8 +376,8 @@ function CreateNewItem({ taskEditDefaultData, formAction, itemName, closeFunc })
                                                             />
                                                         )}
                                                     />
-                                                    {errors.categories && (
-                                                        <p className="error">{errors.categories.message}</p>
+                                                    {errors.category && (
+                                                        <p className="error">{errors.category.message}</p>
                                                     )}
                                                 </div>
                                                 <div className={styles.labels}>

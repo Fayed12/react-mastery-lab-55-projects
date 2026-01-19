@@ -3,12 +3,12 @@
     justify-content: center;
     align-items: center;
     flex-direction: column;
-    margin-block:var(--space-lg) ;
+    margin-block: var(--space-lg);
     padding-bottom: var(--space-lg);
     border-bottom: 1px solid var(--border-200);
 }
 
-.title div{
+.title div {
     background-color: var(--bg-100);
     padding: var(--space-sm) var(--space-2xl);
     border-radius: var(--radius-sm);
@@ -18,13 +18,13 @@
     flex-direction: column;
 }
 
-.title h3{
+.title h3 {
     font-size: var(--text-xl);
     font-weight: 600;
     color: var(--text-700);
 }
 
-.title p{
+.title p {
     margin-top: var(--space-sm);
     font-size: var(--text-sm);
     font-weight: 400;
@@ -32,7 +32,7 @@
 }
 
 /* chart style */
-.chart{
+.chart {
     width: 100%;
     height: 350px;
     max-height: 350px;
@@ -41,7 +41,7 @@
     align-items: center;
 }
 
-:global(.recharts-default-tooltip){
+:global(.recharts-default-tooltip) {
     background-color: var(--primary-600) !important;
     color: var(--primary-200) !important;
     padding: var(--space-sm) var(--space-lg) !important;
@@ -49,10 +49,10 @@
     border: none !important;
 }
 
-:global(.recharts-default-tooltip) p{
-        color: var(--primary-200) !important;
+:global(.recharts-default-tooltip) p {
+    color: var(--primary-200) !important;
 }
 
-:global(.recharts-default-tooltip) ul li:first-child{
-        color: var(--primary-300) !important;
+:global(.recharts-default-tooltip) ul li:first-child {
+    color: var(--primary-300) !important;
 }

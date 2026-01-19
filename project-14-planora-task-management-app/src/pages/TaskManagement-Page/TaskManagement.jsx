@@ -36,7 +36,7 @@ const TaskManagement = () => {
     const [selectedTask, setSelectedTask] = useState(null)
     const [openCreateNewTask, setOpenCreateNewTask] = useState(false)
     const [formAction, setFromAction] = useState("")
-    const [editTaskData,setEditTaskData] = useState({})
+    const [editTaskData, setEditTaskData] = useState({})
 
     // State for UI controls
     const [viewMode, setViewMode] = useState('grid');
@@ -62,7 +62,7 @@ const TaskManagement = () => {
                             type='button'
                             title="Create Task"
                             content={<><MdAdd /> New Task</>}
-                            clickEvent={() => { setOpenCreateNewTask(!openCreateNewTask);  setFromAction("addNewItem")}}
+                            clickEvent={() => { setOpenCreateNewTask(!openCreateNewTask); setFromAction("addNewItem") }}
                         />
 
                         <div className={styles.viewToggle}>
@@ -131,7 +131,9 @@ const TaskManagement = () => {
                                                 <MdLock />
                                                 {task.privacy}
                                             </div>
-                                            <ActionsButtons setEditTaskData={setEditTaskData} openCreateNewTask={openCreateNewTask} setOpenCreateNewTask={setOpenCreateNewTask} setFromAction={setFromAction} deleteItem={()=>handleDeleteTask(task.id)} task={task} setSelectedTask={setSelectedTask}  openDetailsPopup={openDetailsPopup} setOpenDetailsPopup={setOpenDetailsPopup} />
+                                            <div className={styles.actions}>
+                                                <ActionsButtons setEditTaskData={setEditTaskData} openCreateNewTask={openCreateNewTask} setOpenCreateNewTask={setOpenCreateNewTask} setFromAction={setFromAction} deleteItem={() => handleDeleteTask(task.id)} task={task} setSelectedTask={setSelectedTask} openDetailsPopup={openDetailsPopup} setOpenDetailsPopup={setOpenDetailsPopup} />
+                                            </div>
                                         </div>
                                     ))}
                                 </div>
@@ -153,7 +155,7 @@ const TaskManagement = () => {
             </div>
             {/* this details is exist for the row grid show not to the card */}
             {openDetailsPopup && <TaskDetails taskData={selectedTask} onClose={() => setOpenDetailsPopup(false)} />}
-            {openCreateNewTask && <CreateNewItem formAction={formAction} itemName={"task"} closeFunc={ ()=>setOpenCreateNewTask(!openCreateNewTask)} taskEditDefaultData={editTaskData} />}
+            {openCreateNewTask && <CreateNewItem formAction={formAction} itemName={"task"} closeFunc={() => setOpenCreateNewTask(!openCreateNewTask)} taskEditDefaultData={editTaskData} />}
         </>
     );
 };

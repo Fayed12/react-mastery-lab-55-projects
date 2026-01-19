@@ -1,6 +1,8 @@
 // local
 import styles from "./actionsButton.module.css"
 import MainButton from "../../ui/button/MainButton";
+import useUserRole from "../../hooks/userUserRole";
+import { getUserDetails } from "../../Redux/authUserSlice";
 
 // react router
 import { useLocation } from 'react-router';
@@ -10,8 +12,14 @@ import { MdVisibility } from "react-icons/md";
 import { MdEdit } from "react-icons/md";
 import { MdDelete } from "react-icons/md";
 
-function ActionsButtons({ setEditTaskData, setOpenCreateNewTask, openCreateNewTask, setFromAction, deleteItem, task = {}, setSelectedTask = () => { }, openDetailsPopup, setOpenDetailsPopup }) {
+// rdux
+import { useSelector } from "react-redux";
+
+function ActionsButtons({setEditTaskData, setOpenCreateNewTask, openCreateNewTask, setFromAction, deleteItem, task = {}, setSelectedTask = () => { }, openDetailsPopup, setOpenDetailsPopup }) {
     const locationPath = useLocation().pathname
+    const userDetails = useSelector(getUserDetails)
+    const {userRole} = useUserRole(task?.access ,userDetails?.id )
+
 
     return (
         <>
@@ -22,10 +30,10 @@ function ActionsButtons({ setEditTaskData, setOpenCreateNewTask, openCreateNewTa
                 {locationPath === "/dashboard/taskManagement" && (
                     <>
                         <div className={`${styles.actionBtn} ${styles.editBtn}`}>
-                            <MainButton title='edit task' content={<><MdEdit /></>} clickEvent={() => { setOpenCreateNewTask(!openCreateNewTask); setFromAction("editItem");  setEditTaskData(task)}} />
+                            {(userRole === "editor" || userRole === "owner") && (<MainButton title='edit task' content={<><MdEdit /></>} clickEvent={() => { setOpenCreateNewTask(!openCreateNewTask); setFromAction("editItem"); setEditTaskData(task) }} />)}
                         </div>
                         <div className={`${styles.actionBtn} ${styles.deleteBtn}`}>
-                            <MainButton title='delete task' content={<><MdDelete /></>} clickEvent={deleteItem}/>
+                            {userRole === "owner" && <MainButton title='delete task' content={<><MdDelete /></>} clickEvent={deleteItem} />}
                         </div>
                     </>
                 )}

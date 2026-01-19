@@ -4,6 +4,8 @@ import TaskDetails from '../task-details/taskDetails';
 import updateData from '../../firebase/updateExistingData';
 import { getUserDetails } from '../../Redux/authUserSlice';
 import deleteItem from '../../firebase/deleteDocument';
+import MainButton from '../../ui/button/MainButton';
+import useUserRole from '../../hooks/userUserRole';
 
 // redux
 import { useSelector } from 'react-redux';
@@ -12,17 +14,16 @@ import { useSelector } from 'react-redux';
 import { useState } from 'react';
 
 // react icons
-import { MdDateRange, MdPerson, MdLock, MdPublic, MdFlag } from "react-icons/md";
+import { MdDateRange, MdRemoveRedEye, MdPerson, MdLock, MdPublic, MdFlag } from "react-icons/md";
 import ActionsButtons from '../actions-buttons/actionsButtons';
 import { TbActivityHeartbeat } from "react-icons/tb";
 import { IoIosSend } from "react-icons/io";
+import { CiEdit } from "react-icons/ci";
+
+// toast
 import toast from 'react-hot-toast';
-import MainButton from '../../ui/button/MainButton';
 
 const TaskCard = ({ setEditTaskData, setOpenCreateNewTask, openCreateNewTask, setFromAction, task }) => {
-    const [openDetailsPopup, setOpenDetailsPopup] = useState(false)
-    const userDetails = useSelector(getUserDetails)
-    const [commentValue, setCommentValue] = useState("")
 
     const {
         title,
@@ -32,8 +33,15 @@ const TaskCard = ({ setEditTaskData, setOpenCreateNewTask, openCreateNewTask, se
         dueDate,
         privacy,
         description,
-        categories
+        category,
+        access
     } = task;
+
+    const userDetails = useSelector(getUserDetails)
+    
+    const [openDetailsPopup, setOpenDetailsPopup] = useState(false)
+    const [commentValue, setCommentValue] = useState("")
+    const { userRole } = useUserRole(access, userDetails?.id)
 
     // Helper to get priority color
     const getPriorityColor = (p) => {
@@ -84,9 +92,19 @@ const TaskCard = ({ setEditTaskData, setOpenCreateNewTask, openCreateNewTask, se
                             {title}
                         </span>
                     </div>
-                    <div className={styles.priority} style={{ color: getPriorityColor(priority) }}>
-                        <MdFlag />
-                        <span>{priority}</span>
+                    <div className={styles.roleContainer}>
+                        <div className={styles.role}>
+                            <span>role: </span>
+                            <span title={userRole}>
+                                {userRole === "owner" && <MdPerson/>}
+                                {userRole === "editor" && <CiEdit />}
+                                {userRole === "viewer" && <MdRemoveRedEye />}
+                            </span>
+                        </div>
+                        <div className={styles.priority} style={{ color: getPriorityColor(priority) }}>
+                            <MdFlag />
+                            <span>{priority}</span>
+                        </div>
                     </div>
                 </div>
 
@@ -100,15 +118,11 @@ const TaskCard = ({ setEditTaskData, setOpenCreateNewTask, openCreateNewTask, se
                         ))}
                     </div>
 
-                    {categories && categories.length > 0 && (
                         <div className={styles.categories}>
-                            {categories.map((category, index) => (
-                                <span key={index} className={styles.category}>
-                                    {category}
+                                <span className={styles.category}>
+                                    {category?.name}
                                 </span>
-                            ))}
                         </div>
-                    )}
                 </div>
 
                 <div className={styles.footer}>
@@ -127,7 +141,7 @@ const TaskCard = ({ setEditTaskData, setOpenCreateNewTask, openCreateNewTask, se
                         </div>
                     </div>
 
-                    <ActionsButtons task={task} setEditTaskData={setEditTaskData} openCreateNewTask={openCreateNewTask} setOpenCreateNewTask={setOpenCreateNewTask} setFromAction={setFromAction} deleteItem={() => handleDeleteTask()} openDetailsPopup={openDetailsPopup} setOpenDetailsPopup={setOpenDetailsPopup} />
+                    <ActionsButtons userRole={userRole} task={task} setEditTaskData={setEditTaskData} openCreateNewTask={openCreateNewTask} setOpenCreateNewTask={setOpenCreateNewTask} setFromAction={setFromAction} deleteItem={() => handleDeleteTask()} openDetailsPopup={openDetailsPopup} setOpenDetailsPopup={setOpenDetailsPopup} />
                 </div>
                 {new Date() < new Date(task.dueDate).getTime() && (
                     <div className={styles.addComment}>

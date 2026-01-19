@@ -59,22 +59,68 @@ function App() {
         return () => unsubscribe();
     }, [dispatch]);
 
-    // set user tasks, categories and projects when open app
+    // set all user tasks and all related task he has connect with it 
     useEffect(() => {
         if (!userDetails?.id) return;
 
         // tasks snapshot
+        let ownerTasks = [];
+        let accessTasksEditors = [];
+        let accessTasksViewers = [];
+
+        // function that take all returned values and merge it then use New map to remove duplicated tasks and return it as array but Array.from
+        function mergeAndDispatch() {
+            const merged = [...ownerTasks, ...accessTasksEditors, ...accessTasksViewers];
+
+            const uniqueTasks = Array.from(
+                new Map(merged.map(t => [t.id, t])).values()
+            );
+            dispatch(setTasksData(uniqueTasks))
+        }
+
         const qTasks = query(
             collection(db, "tasks"),
-            where("userId", "==", userDetails.id)
+            where("userId", "==", userDetails?.id)
         );
-        const unsubscribeTasks = onSnapshot(qTasks, (snapshot) => {
-            const tasks = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
 
-            dispatch(setTasksData(tasks))
-        },
-            (error) => console.error("Tasks error:", error));
+        const qAccessTasksEditors = query(
+            collection(db, "tasks"),
+            where("access.editors", "array-contains", { id: userDetails?.id, email: userDetails?.email  })
+        );
 
+        const qAccessTasksViewers = query(
+            collection(db, "tasks"),
+            where("access.viewers", "array-contains", { id: userDetails?.id, email: userDetails?.email })
+        );
+
+        const unSub1 = onSnapshot(qTasks, (snapshot) => {
+            ownerTasks = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+
+            mergeAndDispatch()
+        }, (error) => console.error("Tasks error:", error));
+
+        const unSub2 = onSnapshot(qAccessTasksEditors, (snapshot) => {
+            accessTasksEditors = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+
+            mergeAndDispatch()
+        }, (error) => console.error("Tasks Editors error:", error));
+
+        const unSub3 = onSnapshot(qAccessTasksViewers, (snapshot) => {
+            accessTasksViewers = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+
+            mergeAndDispatch()
+        }, (error) => console.error("Tasks Viewers error:", error));
+
+        return () => {
+            unSub1()
+            unSub2()
+            unSub3()
+        }
+    }, [dispatch, userDetails?.id,userDetails?.email])
+
+    // set user categories and projects when open app
+    useEffect(() => {
+        if (!userDetails?.id) return;
 
         // Categories snapshot
         const qCategories = query(
@@ -98,15 +144,13 @@ function App() {
             const projects = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
 
             dispatch(setProjectsData(projects))
-        },
-            (error) => console.error("projects error:", error));
+        }, (error) => console.error("projects error:", error));
 
         return () => {
-            unsubscribeTasks()
-            unsubscribeProjects()
             unsubscribeCategories()
+            unsubscribeProjects()
         }
-    }, [dispatch, userDetails?.id])
+    }, [userDetails?.id, dispatch])
 
     // check deuDate to make it complete dynamically
     useEffect(() => {

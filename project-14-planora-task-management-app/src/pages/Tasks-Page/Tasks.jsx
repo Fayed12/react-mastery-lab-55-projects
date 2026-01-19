@@ -32,11 +32,7 @@ const Tasks = () => {
 
     if (!tasksData || tasksData.length === 0) {
         return (
-            <div className={styles.emptyBox}>
-                <h1>No Tasks Yet</h1>
-                <p>Start by creating your first task</p>
-                <MainButton title="start create task" content={<>Create new Task <MdAddToPhotos /></>} clickEvent={() => navigate("/dashboard/taskManagement")} />
-            </div>
+            <EmptyBox title={"tasks"} navigateFunc={() => navigate("/dashboard/taskManagement")}/>
         )
     }
 

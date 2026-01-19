@@ -60,6 +60,28 @@
     color: var(--text-400);
 }
 
+.roleContainer,
+.roleContainer .role {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: var(--space-sm);
+}
+
+.roleContainer .role{
+    gap: var(--space-xs);
+} 
+
+.roleContainer .role span:first-child{
+    color: var(--text-500);
+    font-size: var(--text-sm);
+}
+
+.roleContainer .role span:last-child{
+    color: var(--text-700);
+    font-size: var(--text-md);
+}
+
 .priority {
     display: flex;
     align-items: center;
