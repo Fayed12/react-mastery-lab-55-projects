@@ -225,7 +225,7 @@ function CreateNewItem({ taskEditDefaultData, formAction, itemName, closeFunc })
         e.stopPropagation();
     };
 
-    // // handle update item
+    // handle update item
     // function handleUpdateItem() {
     //     if (itemName === "task") {
     //         updateData("tasks", taskEditDefaultData.id,)

@@ -12,7 +12,7 @@ import { MdVisibility } from "react-icons/md";
 import { MdEdit } from "react-icons/md";
 import { MdDelete } from "react-icons/md";
 
-// rdux
+// redux
 import { useSelector } from "react-redux";
 
 function ActionsButtons({setEditTaskData, setOpenCreateNewTask, openCreateNewTask, setFromAction, deleteItem, task = {}, setSelectedTask = () => { }, openDetailsPopup, setOpenDetailsPopup }) {

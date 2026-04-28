@@ -10,9 +10,9 @@ import ErrorPage from "../pages/Error-Page/Error"
 import ProtectRouter from "./protectRouter"
 
 // lazy imports
-const App = lazy(()=>import("../App.jsx"))
+const App = lazy(() => import("../App.jsx"))
 const LandingPage = lazy(() => import("../pages/Landing-Page/Landing"))
-const Login = lazy(()=>import("../pages/authentication/Login-Page/Login"))
+const Login = lazy(() => import("../pages/authentication/Login-Page/Login"))
 const Register = lazy(() => import("../pages/authentication/Register-Page/Register"))
 const ForgotPassword = lazy(() => import("../pages/authentication/ForgotPassword-Page/ForgotPassword"))
 const DashboardLayout = lazy(() => import("../layouts/dashboard-layout/DashboardLayout"))
@@ -25,13 +25,13 @@ const Projects = lazy(() => import("../pages/Projects-Page/Projects.jsx"))
 const ProjectsManagement = lazy(() => import("../pages/ProjectsManagement-Page/ProjectsManagement.jsx"))
 const Calendar = lazy(() => import("../pages/Calendar-Page/Calendar.jsx"))
 const Profile = lazy(() => import("../pages/Profile-Page/Profile.jsx"))
-const Statistics = lazy(()=>import("../pages/Statistics-Page/Statistics.jsx"))
+const Statistics = lazy(() => import("../pages/Statistics-Page/Statistics.jsx"))
 
 // eslint-disable-next-line react-refresh/only-export-components
-function SuspenseContainer({children}) {
+function SuspenseContainer({ children }) {
     return (
         <>
-        <Suspense fallback={<Loading/>}>{children} </Suspense>
+            <Suspense fallback={<Loading />}>{children} </Suspense>
         </>
     )
 }
@@ -43,7 +43,7 @@ const router = createBrowserRouter([
         errorElement: <ErrorPage />,
         children: [
             {
-                path: "/",
+                index: true,
                 element: <LandingPage />,
             },
             {
@@ -72,38 +72,38 @@ const router = createBrowserRouter([
                 children: [
                     {
                         index: true,
-                        element:<Home/>
+                        element: <Home />
                     },
                     {
-                        path:"home",
-                        element:<Home/>
+                        path: "home",
+                        element: <Home />
                     },
                     {
-                        path:"tasks",
+                        path: "tasks",
                         element: <Tasks />
                     },
                     {
-                        path:"taskManagement",
+                        path: "taskManagement",
                         element: <TaskManagement />
                     },
                     {
-                        path:"projects",
+                        path: "projects",
                         element: <Projects />
                     },
                     {
-                        path:"projectsManagement",
+                        path: "projectsManagement",
                         element: <ProjectsManagement />
                     },
                     {
-                        path:"calendar",
+                        path: "calendar",
                         element: <Calendar />
                     },
                     {
-                        path:"profile",
+                        path: "profile",
                         element: <Profile />
                     },
                     {
-                        path:"statistics",
+                        path: "statistics",
                         element: <Statistics />
                     },
                 ]

@@ -90,7 +90,7 @@ const TaskManagement = () => {
                 </>
 
                 <div className={styles.tasksLength}>
-                    <p>tasks/ <span>{tasksData.length}</span></p>
+                    <p>tasks/ <span>{tasksAfterFilter.length}</span></p>
                 </div>
 
                 {/* Workspace Section */}
@@ -143,12 +143,12 @@ const TaskManagement = () => {
                 </div>
 
                 {/* Pagination Footer */}
-                {tasksData.length > 10 ? (
-                    <Pagination allData={tasksData} setCurrentPage={setCurrentPage} currentPage={currentPage} />
+                {tasksAfterFilter.length > 10 ? (
+                    <Pagination allData={tasksAfterFilter} setCurrentPage={setCurrentPage} currentPage={currentPage} />
                 ) :
                     (
                         <div className={styles.results}>
-                            <p>{tasksData.length} results </p>
+                            <p>{tasksAfterFilter.length} results </p>
                         </div>
                     )}
 

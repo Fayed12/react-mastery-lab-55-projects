@@ -20,10 +20,13 @@ import { onAuthStateChanged } from 'firebase/auth';
 import { collection, onSnapshot, query, where } from 'firebase/firestore';
 
 // react 
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
 // react router
 import { useNavigate } from 'react-router';
+
+// pages
+import Offline from './pages/offline-page/Offline';
 
 function App() {
     const themeValue = useSelector(getThemeValue)
@@ -31,6 +34,8 @@ function App() {
     const tasksData = useSelector(getTasksData)
     const dispatch = useDispatch()
     const navigate = useNavigate()
+
+    const [isOnline, setIsOnline] = useState(window.navigator.onLine)
 
     // set user data when login user changed
     useEffect(() => {
@@ -85,7 +90,7 @@ function App() {
 
         const qAccessTasksEditors = query(
             collection(db, "tasks"),
-            where("access.editors", "array-contains", { id: userDetails?.id, email: userDetails?.email  })
+            where("access.editors", "array-contains", { id: userDetails?.id, email: userDetails?.email })
         );
 
         const qAccessTasksViewers = query(
@@ -116,7 +121,7 @@ function App() {
             unSub2()
             unSub3()
         }
-    }, [dispatch, userDetails?.id,userDetails?.email])
+    }, [dispatch, userDetails?.id, userDetails?.email])
 
     // set user categories and projects when open app
     useEffect(() => {
@@ -198,9 +203,29 @@ function App() {
 
     }, [dispatch])
 
+    // handle offline mode
+    useEffect(() => {
+        const handleOffline = () => {
+            setIsOnline(false)
+        }
+        const handleOnline = () => {
+            setIsOnline(true)
+        }
+        window.addEventListener("offline", handleOffline)
+        window.addEventListener("online", handleOnline)
+        return () => {
+            window.removeEventListener("offline", handleOffline)
+            window.removeEventListener("online", handleOnline)
+        }
+    }, [])
+
+    if (!isOnline) {
+        return <Offline />
+    }
     return (
         <>
             <Outlet />
+
         </>
     );
 }

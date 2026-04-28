@@ -11,7 +11,7 @@ function ProtectRouter({ children }) {
     const userDetails = useSelector(getUserDetails);
 
     if (!userDetails) {
-        return <Navigate to={"/login"} replace={true } />
+        return <Navigate to={"/login"} replace={true} />
     }
 
     return children

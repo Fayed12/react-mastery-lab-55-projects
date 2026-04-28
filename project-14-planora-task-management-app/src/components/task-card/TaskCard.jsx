@@ -38,7 +38,7 @@ const TaskCard = ({ setEditTaskData, setOpenCreateNewTask, openCreateNewTask, se
     } = task;
 
     const userDetails = useSelector(getUserDetails)
-    
+
     const [openDetailsPopup, setOpenDetailsPopup] = useState(false)
     const [commentValue, setCommentValue] = useState("")
     const { userRole } = useUserRole(access, userDetails?.id)
@@ -79,7 +79,7 @@ const TaskCard = ({ setEditTaskData, setOpenCreateNewTask, openCreateNewTask, se
             <div className={styles.card}>
                 <div className={styles.header}>
                     <div className={styles.checkboxWrapper}>
-                        {new Date() < new Date(task.dueDate).getTime() && (
+                        {new Date() < new Date(task.dueDate).getTime() && !isCompleted && userRole !== "viewer" && (
                             <input
                                 type="checkbox"
                                 checked={isCompleted}
@@ -96,7 +96,7 @@ const TaskCard = ({ setEditTaskData, setOpenCreateNewTask, openCreateNewTask, se
                         <div className={styles.role}>
                             <span>role: </span>
                             <span title={userRole}>
-                                {userRole === "owner" && <MdPerson/>}
+                                {userRole === "owner" && <MdPerson />}
                                 {userRole === "editor" && <CiEdit />}
                                 {userRole === "viewer" && <MdRemoveRedEye />}
                             </span>
@@ -118,11 +118,11 @@ const TaskCard = ({ setEditTaskData, setOpenCreateNewTask, openCreateNewTask, se
                         ))}
                     </div>
 
-                        <div className={styles.categories}>
-                                <span className={styles.category}>
-                                    {category?.name}
-                                </span>
-                        </div>
+                    <div className={styles.categories}>
+                        <span className={styles.category}>
+                            {category?.name}
+                        </span>
+                    </div>
                 </div>
 
                 <div className={styles.footer}>
@@ -131,9 +131,11 @@ const TaskCard = ({ setEditTaskData, setOpenCreateNewTask, openCreateNewTask, se
                             <MdDateRange />
                             <span>{new Date(dueDate).toLocaleDateString()}</span>
                         </div>
-                        <div className={styles.metaItem} title="Owner">
-                            <MdPerson />
-                            <span>Owner</span>
+                        <div className={styles.metaItem} title={userRole}>
+                            {userRole === "owner" && <MdPerson />}
+                            {userRole === "editor" && <CiEdit />}
+                            {userRole === "viewer" && <MdRemoveRedEye />}
+                            <span>{userRole}</span>
                         </div>
                         <div className={styles.metaItem} title="Privacy">
                             {privacy === 'private' ? <MdLock /> : <MdPublic />}
@@ -143,7 +145,7 @@ const TaskCard = ({ setEditTaskData, setOpenCreateNewTask, openCreateNewTask, se
 
                     <ActionsButtons userRole={userRole} task={task} setEditTaskData={setEditTaskData} openCreateNewTask={openCreateNewTask} setOpenCreateNewTask={setOpenCreateNewTask} setFromAction={setFromAction} deleteItem={() => handleDeleteTask()} openDetailsPopup={openDetailsPopup} setOpenDetailsPopup={setOpenDetailsPopup} />
                 </div>
-                {new Date() < new Date(task.dueDate).getTime() && (
+                {(new Date() < new Date(task.dueDate).getTime() && !isCompleted) && (
                     <div className={styles.addComment}>
                         <input type="text" placeholder='add comment' value={commentValue} onChange={(e) => setCommentValue(e.target.value)} />
                         <MainButton title='add comment' type='button' content={!commentValue ? <TbActivityHeartbeat /> : <IoIosSend />} clickEvent={() => handleAddComment()()} />
