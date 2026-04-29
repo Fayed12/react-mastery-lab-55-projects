@@ -294,7 +294,7 @@ src/
 
 * project contain [title - description - linked tasks - isCompleted - priority  - due date - role-based access]
 
-* projects page contain categories section that can from it manage all categories in all tasks, user can create new category with [title - description - stars]
+* categories page contain categories section that can from it manage all categories in all tasks, user can create new category with [title - description - stars] 
 
 * in project user can link other users to his project and give them access to edit or view only, you can remove or add
 

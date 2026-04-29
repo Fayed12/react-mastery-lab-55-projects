@@ -44,6 +44,7 @@ function CreateNewItem({ taskEditDefaultData, formAction, itemName, closeFunc })
         const res = allUsers.filter((user) => user.id !== userDetails.id)
         return res;
     })
+
     // categories options
     const categoriesOptions = Categories.map((cat) => {
         return { value: cat.id, label: cat.title }
@@ -73,10 +74,10 @@ function CreateNewItem({ taskEditDefaultData, formAction, itemName, closeFunc })
         }),
 
         category: { value: taskEditDefaultData?.category?.id, label: taskEditDefaultData?.category?.name },
-        // projectLinkedTasks: taskEditDefaultData?.map((task) => {
+        // projectLinkedTasks: taskEditDefaultData?.linkedTasks?.map((task) => {
         //     return { value: task.id, label: task.title, description: task.description, userId: task.userId }
         // }),
-        // categoriesLinkedTasks: taskEditDefaultData?.map((task) => {
+        // categoriesLinkedTasks: taskEditDefaultData?.categoriesLinkedTasks?.map((task) => {
         //     return { value: task.id, label: task.title, description: task.description, userId: task.userId }
         // }),
         // stars: taskEditDefaultData?,

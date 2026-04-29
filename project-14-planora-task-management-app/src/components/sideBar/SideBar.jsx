@@ -12,16 +12,12 @@ import { useEffect, useRef, useState } from 'react';
 
 // react icons
 import { RiShutDownLine } from "react-icons/ri";
-import { LuPanelRightClose } from "react-icons/lu";
-import { LuPanelLeftClose } from "react-icons/lu";
+import { LuPanelRightClose, LuPanelLeftClose } from "react-icons/lu";
 import { IoIosHome } from "react-icons/io";
-import { FaTasks } from "react-icons/fa";
-import { MdOutlineSettings } from "react-icons/md";
-import { FaProjectDiagram } from "react-icons/fa";
+import { FaTasks, FaUser, FaProjectDiagram } from "react-icons/fa";
+import { MdOutlineCategory, MdOutlineSettings, MdQueryStats } from "react-icons/md";
 import { TbSettingsShare } from "react-icons/tb";
 import { BsCalendar2Date } from "react-icons/bs";
-import { FaUser } from "react-icons/fa";
-import { MdQueryStats } from "react-icons/md";
 
 // react router
 import { NavLink } from 'react-router';
@@ -82,6 +78,12 @@ const SideBar = ({ openMenu, setOpenMenu }) => {
                             <NavLink to={"projectsManagement"} onClick={() => setOpenMenu(false)}>
                                 <TbSettingsShare />
                                 <span className={styles.text}>Manage Project</span>
+                            </NavLink>
+                        </li>
+                        <li>
+                            <NavLink to={"categories"} onClick={() => setOpenMenu(false)}>
+                                <MdOutlineCategory />
+                                <span className={styles.text}>Categories</span>
                             </NavLink>
                         </li>
                         <li>

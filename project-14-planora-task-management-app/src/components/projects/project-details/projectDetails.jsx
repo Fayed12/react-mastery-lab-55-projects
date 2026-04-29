@@ -1,45 +1,47 @@
 // local
-import styles from "./taskDetails.module.css"
-import MainButton from "../../ui/button/MainButton";
-import { getUserDetails } from "../../Redux/authUserSlice";
-import updateData from "../../firebase/updateExistingData";
+import styles from "./projectDetails.module.css"
+import MainButton from "../../../ui/button/MainButton";
+import { getUserDetails } from "../../../Redux/authUserSlice";
+import updateData from "../../../firebase/updateExistingData";
+import { getTasksData } from "../../../Redux/tasksSlice";
+import TaskDetails from "../../task-details/taskDetails";
 
 // redux
 import { useSelector } from "react-redux";
 
 // react 
 import { useState } from "react";
+import ReactDOM from "react-dom";
 
 // react icons
-import { MdClose, MdCalendarToday, MdFlag, MdPerson, MdCategory, MdLabel, MdAccessTime, MdLock, MdPublic, MdEdit, MdDelete } from "react-icons/md";
+import { MdClose, MdCalendarToday, MdFlag, MdPerson, MdAccessTime, MdLock, MdPublic, MdEdit, MdDelete, MdCheckCircleOutline } from "react-icons/md";
 import { FaSave } from "react-icons/fa";
 import { IoIosCloseCircleOutline } from "react-icons/io";
 
-// react dom
-import ReactDOM from "react-dom";
-
-
-function TaskDetails({ taskData, onClose }) {
+function ProjectDetails({ projectData, onClose }) {
     const userDetails = useSelector(getUserDetails);
+    const tasksData = useSelector(getTasksData);
+
     const [openEditCommentId, setOpenEditCommentId] = useState(null)
     const [newCommentValue, setNewCommentValue] = useState("")
+    const [selectedTaskPopup, setSelectedTaskPopup] = useState(null)
 
-    // get all task comments and update it by send all comments again
 
-    if (!taskData) return null;
+    if (!projectData) return null;
 
     const {
+        id,
         title,
         description,
         priority,
         dueDate,
         isCompleted,
-        labels,
+        linkedTasks,
         privacy,
-        categories,
+        progress,
         comments,
         createdAt
-    } = taskData;
+    } = projectData;
 
     // Helper to stop propagation so clicking modal doesn't close it
     const handleModalClick = (e) => {
@@ -66,23 +68,23 @@ function TaskDetails({ taskData, onClose }) {
     };
 
     // handle edit comment
-    async function handleEditComment(id) {
+    async function handleEditComment(commentId) {
         if (!newCommentValue) {
             console.error("there is no value")
             return;
         }
 
-        const allUpdatedComments = comments?.map((comment) => comment.id === id ? { ...comment, content: newCommentValue } : comment)
-        await updateData("tasks", taskData.id, { comments: allUpdatedComments })
+        const allUpdatedComments = comments?.map((comment) => comment.id === commentId ? { ...comment, content: newCommentValue } : comment)
+        await updateData("projects", id, { comments: allUpdatedComments })
 
         setOpenEditCommentId(null)
     }
 
     // handle delete comment
-    async function handleDeleteComment(id) {
-        const allUpdatedComments = comments?.filter((comment) => comment.id !== id)
+    async function handleDeleteComment(commentId) {
+        const allUpdatedComments = comments?.filter((comment) => comment.id !== commentId)
 
-        await updateData("tasks", taskData.id, { comments: allUpdatedComments })
+        await updateData("projects", id, { comments: allUpdatedComments })
     }
 
     const portalRoot = document.getElementById("portal-root") || document.body;
@@ -93,7 +95,7 @@ function TaskDetails({ taskData, onClose }) {
                 {/* Header */}
                 <div className={styles.header}>
                     <div className={styles.titleSection}>
-                        <h2 className={styles.title}>{title || "Untitled Task"}</h2>
+                        <h2 className={styles.title}>{title || "Untitled Project"}</h2>
                         <div className={styles.metaHeader}>
                             <span className={`${styles.statusBadge} ${isCompleted ? styles.statusCompleted : styles.statusPending}`}>
                                 {isCompleted ? "Completed" : "In Progress"}
@@ -121,8 +123,21 @@ function TaskDetails({ taskData, onClose }) {
                         <h3 className={styles.sectionHeader}>Description</h3>
                         <div className={styles.descriptionContent}>
                             <p className={styles.descriptionText}>
-                                {description || "No description provided for this task."}
+                                {description || "No description provided for this project."}
                             </p>
+                        </div>
+                    </div>
+
+                    {/* Progress indicator */}
+                    <div className={styles.section}>
+                        <div className={styles.progressHeader}>
+                            <span>Overall Progress</span>
+                            <span>{progress || 0}%</span>
+                        </div>
+                        <div className={styles.progressContainer}>
+                            <div className={styles.progressBar}>
+                                <div className={styles.progressFill} style={{ width: `${progress || 0}%` }}></div>
+                            </div>
                         </div>
                     </div>
 
@@ -167,34 +182,30 @@ function TaskDetails({ taskData, onClose }) {
                         </div>
                     </div>
 
-                    {/* Categories & Labels */}
-                    {(categories?.length > 0 || labels?.length > 0) && (
-                        <div className={styles.gridTwoColumns}>
-                            {categories?.length > 0 && (
-                                <div className={styles.section}>
-                                    <h3 className={styles.sectionHeader}>Categories</h3>
-                                    <div className={styles.tagsWrapper}>
-                                        {categories.map((cat, idx) => (
-                                            <span key={idx} className={styles.categoryTag}>
-                                                <MdCategory /> {cat}
+                    {/* Linked Tasks */}
+                    {linkedTasks?.length > 0 && (
+                        <div className={styles.section}>
+                            <h3 className={styles.sectionHeader}>Linked Tasks ({linkedTasks.length})</h3>
+                            <div className={styles.linkedTasksList}>
+                                {linkedTasks.map((taskId) => {
+                                    const task = tasksData?.find(t => t.id === taskId)
+                                    return (
+                                        <div
+                                            key={task.id}
+                                            className={styles.linkedTaskCard}
+                                            onClick={() => setSelectedTaskPopup(task)}
+                                        >
+                                            <span className={`${styles.linkedTaskTitle} ${task.isCompleted ? styles.linkedTaskCompleted : ''}`}>
+                                                <input type="checkbox" checked={task.isCompleted} readOnly className={styles.checkbox} style={{ width: '0.9em', height: '0.9em' }} />
+                                                {task.title}
                                             </span>
-                                        ))}
-                                    </div>
-                                </div>
-                            )}
-
-                            {labels?.length > 0 && (
-                                <div className={styles.section}>
-                                    <h3 className={styles.sectionHeader}>Labels</h3>
-                                    <div className={styles.tagsWrapper}>
-                                        {labels.map((lbl, idx) => (
-                                            <span key={idx} className={styles.labelTag}>
-                                                <MdLabel /> {lbl}
+                                            <span className={styles.linkedTaskPriority} style={{ color: getPriorityColor(task.priority) }}>
+                                                <MdFlag />
                                             </span>
-                                        ))}
-                                    </div>
-                                </div>
-                            )}
+                                        </div>
+                                    )
+                                })}
+                            </div>
                         </div>
                     )}
 
@@ -265,9 +276,10 @@ function TaskDetails({ taskData, onClose }) {
                     </div>
                 </div>
             </div>
+            {selectedTaskPopup && <TaskDetails taskData={selectedTaskPopup} onClose={() => setSelectedTaskPopup(null)} />}
         </div>,
         portalRoot
     )
 }
 
-export default TaskDetails;
+export default ProjectDetails;

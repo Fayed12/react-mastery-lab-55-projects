@@ -6,6 +6,7 @@ import MainButton from "../../ui/button/MainButton"
 import TaskCard from '../../components/task-card/TaskCard';
 import FilterBar from '../../components/filterBar/filterBarSection';
 import EmptyBox from '../../components/empty-box/emptyBox';
+import Pagination from '../../components/Pagination-footer/Pagination';
 
 import PieChartComponent from '../../components/charts/completePieChart';
 import BarChartComponent from '../../components/charts/priorityBarChart';
@@ -30,9 +31,11 @@ const Tasks = () => {
     const [tasksAfterFilter, setTasksAfterFilter] = useState(tasksData)
     const navigate = useNavigate()
 
+    const [currentPage, setCurrentPage] = useState(1)
+
     if (!tasksData || tasksData.length === 0) {
         return (
-            <EmptyBox title={"tasks"} navigateFunc={() => navigate("/dashboard/taskManagement")}/>
+            <EmptyBox title={"tasks"} navigateFunc={() => navigate("/dashboard/taskManagement")} />
         )
     }
 
@@ -61,19 +64,24 @@ const Tasks = () => {
                     </div>
                 </div>
                 <>
-                    <FilterBar originalData={tasksData} setMainData={ setTasksAfterFilter} />
+                    <FilterBar originalData={tasksData} setMainData={setTasksAfterFilter} />
                 </>
                 {!tasksAfterFilter || tasksAfterFilter.length === 0 ?
                     (
-                        <EmptyBox title={"Tasks"} navigateFunc={()=>navigate("/dashboard/taskManagement")}/>
+                        <EmptyBox title={"Tasks"} navigateFunc={() => navigate("/dashboard/taskManagement")} />
                     )
                     :
                     (
-                        <div className={styles.tasksGrid}>
-                            {tasksAfterFilter.map((task) => (
-                                <TaskCard key={task.id} task={task} />
-                            ))}
-                        </div>
+                        <>
+                            <div className={styles.tasksGrid}>
+                                {tasksAfterFilter.slice((currentPage - 1) * 10, currentPage * 10).map((task) => (
+                                    <TaskCard key={task.id} task={task} />
+                                ))}
+                            </div>
+                            {tasksAfterFilter.length > 10 && (
+                                <Pagination allData={tasksAfterFilter} setCurrentPage={setCurrentPage} currentPage={currentPage} />
+                            )}
+                        </>
                     )
                 }
 

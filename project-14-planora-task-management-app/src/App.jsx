@@ -1,6 +1,7 @@
 // local
 import { auth, db } from './firebase/firebaseConfig';
 import { getUserDetails } from './Redux/authUserSlice';
+import { getProjectsData } from './Redux/projectsSlice';
 import { setDataError, setDataLoading, setUserData } from './Redux/authUserSlice';
 import { getThemeValue } from './Redux/themeSlice';
 import { getTasksData, setTasksData } from './Redux/tasksSlice';
@@ -32,6 +33,7 @@ function App() {
     const themeValue = useSelector(getThemeValue)
     const userDetails = useSelector(getUserDetails)
     const tasksData = useSelector(getTasksData)
+    const projectData = useSelector(getProjectsData)
     const dispatch = useDispatch()
     const navigate = useNavigate()
 
@@ -171,7 +173,21 @@ function App() {
             }
         })
 
-    }, [tasksData])
+        // project check project dueDate to make it complete dynamically
+        if (!projectData || projectData.length === 0) {
+            return
+        }
+
+        projectData?.map((project) => {
+            if (new Date() > new Date(project.dueDate).getTime() && !project.isCompleted) {
+                updateData("projects", project.id, { isCompleted: true })
+                return
+            } else {
+                return
+            }
+        })
+
+    }, [tasksData, projectData])
 
     // go to app if user is logged in and user data is exit
     useEffect(() => {

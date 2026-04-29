@@ -16,6 +16,7 @@ const Login = lazy(() => import("../pages/authentication/Login-Page/Login"))
 const Register = lazy(() => import("../pages/authentication/Register-Page/Register"))
 const ForgotPassword = lazy(() => import("../pages/authentication/ForgotPassword-Page/ForgotPassword"))
 const DashboardLayout = lazy(() => import("../layouts/dashboard-layout/DashboardLayout"))
+const CategoriesPage = lazy(() => import("../pages/categories-page/categoriesPage.jsx"))
 
 // dashboard pages
 const Home = lazy(() => import("../pages/Home-Page/Home.jsx"))
@@ -93,6 +94,10 @@ const router = createBrowserRouter([
                     {
                         path: "projectsManagement",
                         element: <ProjectsManagement />
+                    },
+                    {
+                        path: "categories",
+                        element: <CategoriesPage />
                     },
                     {
                         path: "calendar",
