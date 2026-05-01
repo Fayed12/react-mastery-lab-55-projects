@@ -290,17 +290,17 @@ src/
 
 * for managing the tasks he can go to tasks management page, user can  create new one or edit or remove task, make it complete or not ✅
 
-* user can go to projects page that contains, grid cards with all projects, user can make it done or not, project is the big task that contain some of related or small tasks
+* user can go to projects page that contains, grid cards with all projects, user can make it done or not, project is the big task that contain some of related or small tasks ✅
 
-* project contain [title - description - linked tasks - isCompleted - priority  - due date - role-based access]
+* project contain [title - description - linked tasks - isCompleted - priority  - due date - role-based access] ✅
 
-* categories page contain categories section that can from it manage all categories in all tasks, user can create new category with [title - description - stars] 
+* categories page contain categories section that can from it manage all categories in all tasks, user can create new category with [title - description - stars] ✅
 
 * one task can connect to only one category, and category can connect to many tasks✅
 
-* in project user can link other users to his project and give them access to edit or view only, you can remove or add
+* in project user can link other users to his project and give them access to edit or view only, you can remove or add ✅
 
-* user can add his own categories but if no cats and he need to add one to task he must create one first 
+* user can add his own categories but if no cats and he need to add one to task he must create one first ✅
 
 * EX: edit==> userIdOne, view ==> userIdTwo....
 
