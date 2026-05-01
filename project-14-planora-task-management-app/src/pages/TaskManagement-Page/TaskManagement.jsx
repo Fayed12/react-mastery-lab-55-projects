@@ -132,7 +132,7 @@ const TaskManagement = () => {
                                                 {task.privacy}
                                             </div>
                                             <div className={styles.actions}>
-                                                <ActionsButtons setEditTaskData={setEditTaskData} openCreateNewTask={openCreateNewTask} setOpenCreateNewTask={setOpenCreateNewTask} setFromAction={setFromAction} deleteItem={() => handleDeleteTask(task.id)} task={task} setSelectedTask={setSelectedTask} openDetailsPopup={openDetailsPopup} setOpenDetailsPopup={setOpenDetailsPopup} />
+                                                <ActionsButtons actionType={"task"} setEditTaskData={setEditTaskData} openCreateNewTask={openCreateNewTask} setOpenCreateNewTask={setOpenCreateNewTask} setFromAction={setFromAction} deleteItem={() => handleDeleteTask(task.id)} task={task} setSelectedTask={setSelectedTask} openDetailsPopup={openDetailsPopup} setOpenDetailsPopup={setOpenDetailsPopup} />
                                             </div>
                                         </div>
                                     ))}

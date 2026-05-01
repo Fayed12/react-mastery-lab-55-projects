@@ -6,7 +6,7 @@ import { getCategoriesData } from "../../Redux/categoriesSlice"
 import EmptyBox from "../../components/empty-box/emptyBox"
 import Pagination from "../../components/Pagination-footer/Pagination"
 import CreateNewItem from "../../components/create-edit-new-item/createEditNewItem"
-import FilterBar from '../../components/filterBar/filterBarSection';
+
 import ActionsButtons from "../../components/actions-buttons/actionsButtons"
 import deleteItem from "../../firebase/deleteDocument"
 
@@ -14,48 +14,60 @@ import deleteItem from "../../firebase/deleteDocument"
 import { useSelector } from 'react-redux';
 
 // react 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 
 // react icons
 import { MdGridView, MdViewList, MdAdd, MdOutlineCategory, MdStar, MdCalendarToday, MdTaskAlt } from 'react-icons/md';
 
-const exCategory = {
-    id: 'm8H824TcLQvdsg3OrDF4',
-    createdAt: '2025-01-02T08:00:00Z',
-    linkedTasks: [
-        { title: 'open note' },
-        { title: 'study TS' },
-        { title: 'open note' }
-    ],
-    title: 'Frontend',
-    userId: 'QVn1CbUkfqfKFKI1zJwyPkKG8gK2',
-    stars: '4',
-    description: 'All frontend related tasks'
-}
-
 function CategoriesPage() {
-    const categoriesData = useSelector(getCategoriesData) || [];
+    const categoriesData = useSelector(getCategoriesData);
 
-    const [openCreateNewTask, setOpenCreateNewTask] = useState(false)
+    const [openCreateNewCategory, setOpenCreateNewCategory] = useState(false)
     const [formAction, setFromAction] = useState("")
-    const [editTaskData, setEditTaskData] = useState({})
-    
-    // UI states
-    const initialData = categoriesData.length > 0 ? categoriesData : [exCategory, exCategory, exCategory];
-    const [categoriesAfterFilter, setCategoriesAfterFilter] = useState(initialData)
+    const [searchQuery, setSearchQuery] = useState("");
+    const [editCategoryData, setEditCategoryData] = useState({})
+    const [categoriesAfterFilter, setCategoriesAfterFilter] = useState(() => {
+        return categoriesData || []
+    })
     const [viewMode, setViewMode] = useState('grid');
     const [currentPage, setCurrentPage] = useState(1);
+    const [starsFilter, setStarsFilter] = useState("all");
 
-    // Sync state when redux data changes
-    useEffect(() => {
-        if (categoriesData.length > 0) {
-            setCategoriesAfterFilter(categoriesData);
-        }
-    }, [categoriesData]);
+    // const categoriesAfterFilter = useMemo(() => {
+    //     if (!categoriesData) return [];
 
+    //     return categoriesData.filter(cat => {
+    //         const matchSearch = cat.title
+    //             ?.toLowerCase()
+    //             .includes(searchQuery.toLowerCase());
+
+    //         const matchStars = starsFilter
+    //             ? cat.stars === starsFilter
+    //             : true;
+
+    //         return matchSearch && matchStars;
+    //     }) || categoriesData;
+    // }, [categoriesData, searchQuery, starsFilter]);
+
+    // handle delete category
     function handleDeleteCategory(id) {
         deleteItem("categories", id)
     }
+
+
+    useEffect(() => {
+        let filtered = categoriesData || [];
+
+        if (searchQuery.trim() !== "") {
+            filtered = filtered.filter(cat => cat.title.toLowerCase().includes(searchQuery.toLowerCase()));
+        }
+
+        if (starsFilter !== "all") {
+            filtered = filtered.filter(cat => parseInt(cat.stars || 0) === parseInt(starsFilter));
+        }
+
+        setCategoriesAfterFilter(filtered);
+    }, [searchQuery, starsFilter, categoriesData]);
 
     return (
         <>
@@ -72,7 +84,7 @@ function CategoriesPage() {
                             type='button'
                             title="Create Category"
                             content={<><MdAdd /> New Category</>}
-                            clickEvent={() => { setOpenCreateNewTask(!openCreateNewTask); setFromAction("addNewItem") }}
+                            clickEvent={() => { setOpenCreateNewCategory(!openCreateNewCategory); setFromAction("addNewItem") }}
                         />
 
                         <div className={styles.viewToggle}>
@@ -94,8 +106,34 @@ function CategoriesPage() {
                     </div>
                 </header>
 
-                {/* Filter section using existing FilterBar */}
-                <FilterBar originalData={categoriesData.length > 0 ? categoriesData : [exCategory, exCategory, exCategory]} setMainData={setCategoriesAfterFilter} />
+                {/* Filter section */}
+                <div className={styles.filterSection}>
+                    <div className={styles.filterGroup} style={{ flex: 1 }}>
+                        <input
+                            type="text"
+                            className={styles.searchInput}
+                            placeholder="Search categories by name..."
+                            value={searchQuery}
+                            onChange={(e) => setSearchQuery(e.target.value)}
+                        />
+                    </div>
+                    <div className={styles.filterGroup}>
+                        <label className={styles.filterLabel}>Stars:</label>
+                        <select
+                            className={styles.selectFilter}
+                            value={starsFilter}
+                            onChange={(e) => setStarsFilter(e.target.value)}
+                        >
+                            <option value="all">All</option>
+                            <option value="5">5 Stars</option>
+                            <option value="4">4 Stars</option>
+                            <option value="3">3 Stars</option>
+                            <option value="2">2 Stars</option>
+                            <option value="1">1 Star</option>
+                            <option value="0">0 Stars</option>
+                        </select>
+                    </div>
+                </div>
 
                 <div className={styles.tasksLength}>
                     <p>categories/ <span>{categoriesAfterFilter.length}</span></p>
@@ -104,18 +142,18 @@ function CategoriesPage() {
                 {/* Workspace */}
                 <div className={styles.workspace}>
                     {!categoriesAfterFilter || categoriesAfterFilter.length === 0 ? (
-                        <EmptyBox title={"Categories"} navigateFunc={() => { setOpenCreateNewTask(!openCreateNewTask); setFromAction("addNewItem") }} />
+                        <EmptyBox title={"Categories"} navigateFunc={() => { setOpenCreateNewCategory(!openCreateNewCategory); setFromAction("addNewItem") }} />
                     ) : (
                         viewMode === 'grid' ? (
                             <div className={styles.grid}>
                                 {(categoriesAfterFilter.slice(0, (10 * currentPage))).map((category, index) => (
-                                    <CategoryCard 
-                                        key={category.id || index} 
-                                        category={category} 
-                                        setEditTaskData={setEditTaskData} 
-                                        openCreateNewTask={openCreateNewTask} 
-                                        setOpenCreateNewTask={setOpenCreateNewTask} 
-                                        setFromAction={setFromAction} 
+                                    <CategoryCard
+                                        key={category.id || index}
+                                        category={category}
+                                        setEditCategoryData={setEditCategoryData}
+                                        openCreateNewCategory={openCreateNewCategory}
+                                        setOpenCreateNewCategory={setOpenCreateNewCategory}
+                                        setFromAction={setFromAction}
                                     />
                                 ))}
                             </div>
@@ -124,12 +162,12 @@ function CategoriesPage() {
                                 {categoriesAfterFilter.map((category, index) => (
                                     <div key={category.id || index} className={styles.listRow}>
                                         <div className={styles.rowHeader}>
-                                            <MdOutlineCategory style={{color: 'var(--primary-500)', fontSize: '1.2rem'}}/>
+                                            <MdOutlineCategory style={{ color: 'var(--primary-500)', fontSize: '1.2rem' }} />
                                             <span className={styles.rowTitle}>{category.title}</span>
                                         </div>
-                                        
+
                                         <div className={`${styles.rowMeta} ${styles.hidden}`}>
-                                            <MdStar style={{color: 'var(--warning-400)'}}/>
+                                            <MdStar style={{ color: 'var(--warning-400)' }} />
                                             {category.stars} Stars
                                         </div>
 
@@ -144,13 +182,13 @@ function CategoriesPage() {
                                         </div>
 
                                         <div className={styles.actions}>
-                                            <ActionsButtons 
-                                                setEditTaskData={setEditTaskData} 
-                                                openCreateNewTask={openCreateNewTask} 
-                                                setOpenCreateNewTask={setOpenCreateNewTask} 
-                                                setFromAction={setFromAction} 
-                                                deleteItem={() => handleDeleteCategory(category.id)} 
-                                                task={category} 
+                                            <ActionsButtons
+                                                setEditTaskData={setEditCategoryData}
+                                                openCreateNewTask={openCreateNewCategory}
+                                                setOpenCreateNewTask={setOpenCreateNewCategory}
+                                                setFromAction={setFromAction}
+                                                deleteItem={() => handleDeleteCategory(category.id)}
+                                                task={category}
                                                 userRole={"owner"}
                                             />
                                         </div>
@@ -172,7 +210,7 @@ function CategoriesPage() {
             </div>
 
             {/* Render CreateNewItem component if state is true */}
-            {openCreateNewTask && <CreateNewItem formAction={formAction} itemName={"category"} closeFunc={() => setOpenCreateNewTask(!openCreateNewTask)} taskEditDefaultData={editTaskData} />}
+            {openCreateNewCategory && <CreateNewItem formAction={formAction} itemName={"category"} closeFunc={() => setOpenCreateNewCategory(!openCreateNewCategory)} taskEditDefaultData={editCategoryData} />}
         </>
     )
 }

@@ -2,30 +2,27 @@
 import styles from "./categoryCard.module.css"
 import ActionsButtons from "../../actions-buttons/actionsButtons"
 import deleteItem from "../../../firebase/deleteDocument"
+import { getTasksData } from "../../../Redux/tasksSlice";
+import updateData from "../../../firebase/updateExistingData";
+import TaskDetails from "../../task-details/taskDetails";
+
+// react
+import { useState } from "react";
+
+// redux
+import { useSelector } from "react-redux";
 
 // react icons
 import { MdOutlineCategory, MdStar, MdStarBorder, MdCalendarToday, MdTaskAlt } from "react-icons/md";
 
-const exCategory = {
-    id: 'm8H824TcLQvdsg3OrDF4',
-    createdAt: '2025-01-02T08:00:00Z',
-    linkedTasks: [
-        { title: 'open note' },
-        { title: 'study TS' },
-        { title: 'open note' },
-        { title: 'open note' },
-        { title: 'Open note' }
-    ],
-    title: 'Frontend',
-    userId: 'QVn1CbUkfqfKFKI1zJwyPkKG8gK2',
-    stars: '4',
-    description: 'All frontend related tasks'
-}
+function CategoryCard({ category = {}, setEditCategoryData, openCreateNewCategory, setOpenCreateNewCategory, setFromAction }) {
 
-function CategoryCard({ category = exCategory, setEditTaskData, openCreateNewTask, setOpenCreateNewTask, setFromAction }) {
-    
-    // Fallback to exCategory if category is undefined or missing important fields
-    const data = category || exCategory;
+    const tasksData = useSelector(getTasksData)
+
+    const [openDetailsPopup, setOpenDetailsPopup] = useState(false)
+    const [selectedTask, setSelectedTask] = useState({})
+
+    const data = category;
 
     const {
         id,
@@ -38,6 +35,12 @@ function CategoryCard({ category = exCategory, setEditTaskData, openCreateNewTas
 
     function handleDelete() {
         deleteItem("categories", id)
+
+        tasksData.forEach(task => {
+            if (task.category?.id === id) {
+                updateData("tasks", task.id, { ...task, category: {} })
+            }
+        })
     }
 
     const renderStars = () => {
@@ -51,48 +54,80 @@ function CategoryCard({ category = exCategory, setEditTaskData, openCreateNewTas
         )
     }
 
-    return (
-        <div className={styles.categoryCard}>
-            <div className={styles.header}>
-                <div className={styles.title}>
-                    <MdOutlineCategory />
-                    {title}
-                </div>
-                {renderStars()}
-            </div>
+    const handleDetailsPopup = (taskId) => {
+        const taskData = tasksData.find((task) => task?.id === taskId)
+        setOpenDetailsPopup(true)
+        setSelectedTask(taskData)
+    }
 
-            <div className={styles.body}>
-                <p className={styles.description}>{description}</p>
-                
-                <div className={styles.metaInfo}>
-                    <div className={styles.metaItem}>
-                        <MdTaskAlt />
-                        <span>{linkedTasks?.length || 0} Linked Tasks</span>
-                        {linkedTasks?.length > 0 && (
-                            <span className={styles.badge}>Active</span>
+    return (
+        <>
+
+            <div className={styles.categoryCard}>
+                <div className={styles.header}>
+                    <div className={styles.title}>
+                        <MdOutlineCategory />
+                        {title}
+                    </div>
+                    {renderStars()}
+                </div>
+
+                <div className={styles.body}>
+                    <p className={styles.description}>{description}</p>
+
+                    <div className={styles.metaInfo}>
+                        {linkedTasks?.length > 0 ? (
+                            <div className={styles.taskCardsContainer}>
+                                {linkedTasks.map((task) => {
+                                    if (!task) return null;
+                                    return (
+                                        <div
+                                            key={task.id}
+                                            className={styles.taskCard}
+                                            onClick={() => handleDetailsPopup(task.id)}
+                                        >
+                                            <MdTaskAlt />
+                                            <span className={styles.taskTitle}>{task.title}</span>
+                                        </div>
+                                    );
+                                })}
+                            </div>
+                        ) : (
+                            <div className={styles.metaItem}>
+                                <MdTaskAlt />
+                                <span>0 Linked Tasks</span>
+                            </div>
                         )}
+                    </div>
+                </div>
+
+                <div className={styles.footer}>
+                    <div className={styles.date}>
+                        <MdCalendarToday />
+                        <span>{new Date(createdAt).toLocaleDateString()}</span>
+                    </div>
+                    <div style={{ minWidth: '120px' }}>
+                        <ActionsButtons
+                            task={data}
+                            setEditTaskData={setEditCategoryData}
+                            openCreateNewTask={openCreateNewCategory}
+                            setOpenCreateNewTask={setOpenCreateNewCategory}
+                            setFromAction={setFromAction}
+                            deleteItem={handleDelete}
+                            actionType={"category"}
+                        />
                     </div>
                 </div>
             </div>
 
-            <div className={styles.footer}>
-                <div className={styles.date}>
-                    <MdCalendarToday />
-                    <span>{new Date(createdAt).toLocaleDateString()}</span>
-                </div>
-                <div style={{minWidth: '120px'}}>
-                    <ActionsButtons 
-                        task={data} 
-                        setEditTaskData={setEditTaskData} 
-                        openCreateNewTask={openCreateNewTask} 
-                        setOpenCreateNewTask={setOpenCreateNewTask} 
-                        setFromAction={setFromAction} 
-                        deleteItem={handleDelete} 
-                        userRole={"owner"} // Defaulting to owner for category management
-                    />
-                </div>
-            </div>
-        </div>
+            {/* Task details popup */}
+            {openDetailsPopup && selectedTask && (
+                <TaskDetails
+                    taskData={selectedTask}
+                    onClose={() => setOpenDetailsPopup(false)}
+                />
+            )}
+        </>
     )
 }
 

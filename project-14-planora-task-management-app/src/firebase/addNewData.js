@@ -19,7 +19,7 @@ async function createDocument(collectionName, newData) {
 
         toast.success("Created successfully", { id: "new-data" });
 
-        return res
+        return res.id
     } catch (err) {
         toast.error("something went wrong!", { id: "new-data" })
         console.error("createDocument error:", err);

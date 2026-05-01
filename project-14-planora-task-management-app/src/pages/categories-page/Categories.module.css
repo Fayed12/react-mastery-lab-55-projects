@@ -231,3 +231,49 @@
         display: none;
     }
 }
+
+/* Filter Section */
+.filterSection {
+    display: flex;
+    align-items: center;
+    gap: var(--space-md);
+    flex-wrap: wrap;
+    background-color: var(--bg-100);
+    padding: var(--space-sm) var(--space-md);
+    border-radius: var(--radius-md);
+    border: 1px solid var(--border-100);
+}
+
+.searchInput,
+.selectFilter {
+    padding: var(--space-xs) var(--space-sm);
+    border: 1px solid var(--border-200);
+    border-radius: var(--radius-sm);
+    font-size: var(--text-sm);
+    color: var(--text-700);
+    background-color: var(--bg-50);
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.searchInput:focus,
+.selectFilter:focus {
+    border-color: var(--primary-400);
+    box-shadow: 0 0 0 2px var(--primary-100);
+}
+
+.searchInput {
+    width: 100%;
+}
+
+.filterGroup {
+    display: flex;
+    align-items: center;
+    gap: var(--space-xs);
+}
+
+.filterLabel {
+    font-size: var(--text-sm);
+    color: var(--text-600);
+    font-weight: 500;
+}

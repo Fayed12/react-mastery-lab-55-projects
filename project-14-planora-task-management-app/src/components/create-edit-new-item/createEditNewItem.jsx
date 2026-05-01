@@ -1,3 +1,4 @@
+// local
 import styles from "./createEditNewItem.module.css"
 import MainInput from "../../ui/input/MainInput"
 import MainButton from "../../ui/button/MainButton"
@@ -23,6 +24,9 @@ import { useSelector } from "react-redux";
 
 // react
 import { useEffect, useState } from "react";
+
+// lodash
+import _ from "lodash";
 
 // react icons
 import { IoMdAdd } from "react-icons/io";
@@ -77,10 +81,10 @@ function CreateNewItem({ taskEditDefaultData, formAction, itemName, closeFunc })
         // projectLinkedTasks: taskEditDefaultData?.linkedTasks?.map((task) => {
         //     return { value: task.id, label: task.title, description: task.description, userId: task.userId }
         // }),
-        // categoriesLinkedTasks: taskEditDefaultData?.categoriesLinkedTasks?.map((task) => {
-        //     return { value: task.id, label: task.title, description: task.description, userId: task.userId }
-        // }),
-        // stars: taskEditDefaultData?,
+        categoriesLinkedTasks: taskEditDefaultData?.linkedTasks?.map((task) => {
+            return { value: task?.id, label: task?.title }
+        }),
+        stars: taskEditDefaultData?.stars,
         dueDate: taskEditDefaultData?.dueDate,
     } : {
         title: "",
@@ -172,40 +176,83 @@ function CreateNewItem({ taskEditDefaultData, formAction, itemName, closeFunc })
                 viewers: mapUsers(itemData.viewerUser),
             };
 
-            const newTask = {
-                userId: userDetails.id,
-                access,
-                title: itemData.title,
-                description: itemData.description,
-                isCompleted: false,
-                priority: itemData.priority,
-                dueDate: itemData.dueDate,
-                createdAt: new Date().toISOString(),
-                privacy: itemData.privacy,
-                category: { name: itemData?.category?.label, id: itemData?.category?.value },
-                labels: Array.isArray(itemData.labels)
-                    ? itemData.labels.map(lab => lab.label)
-                    : [],
-                comments: [],
-            }
-
-            const cat = Categories?.filter((cat) => cat.title === watchCategory.label)
+            const taskRelatedCategory = Categories?.filter((cat) => cat.id === watchCategory.value)
 
             if (formAction === "editItem") {
-                if (userRole === "owner") {
-                    updateData("tasks", taskEditDefaultData.id, newTask)
-                } else if (userRole === "editor") {
-                    updateData("tasks", taskEditDefaultData.id, { ...newTask, access: taskEditDefaultData?.access, userId: taskEditDefaultData?.userId })
+
+                const editedTaskData = {
+                    ...taskEditDefaultData,
+                    access,
+                    title: itemData.title,
+                    description: itemData.description,
+                    priority: itemData.priority,
+                    dueDate: itemData.dueDate,
+                    privacy: itemData.privacy,
+                    category: { name: itemData?.category?.label, id: itemData?.category?.value },
+                    labels: Array.isArray(itemData.labels)
+                        ? itemData.labels.map(lab => lab.label)
+                        : [],
                 }
-                updateData("categories", cat[0].id, { ...cat[0], linkedTasks: [...cat[0].linkedTasks, { title: newTask.title }] })
+
+                if (_.isEqual(editedTaskData, taskEditDefaultData)) {
+                    toast.error("No changes were made", { id: "no-changes" });
+                    return;
+                }
+
+                // handle update the task based on user role
+                if (userRole === "owner") {
+                    updateData("tasks", taskEditDefaultData.id, editedTaskData)
+                } else if (userRole === "editor") {
+                    updateData("tasks", taskEditDefaultData.id, { ...editedTaskData, access: taskEditDefaultData?.access, userId: taskEditDefaultData?.userId })
+                }
+
+                if (taskRelatedCategory.length > 0) {
+                    // check if task is exist in the taskRelatedCategory linked tasks
+                    const taskRelatedCategoryLinkedTasks = taskRelatedCategory[0].linkedTasks
+
+                    // first remove from all another categories
+                    Categories.forEach(async (cat) => {
+                        if (cat.linkedTasks?.find((linkedTask) => linkedTask.id === taskEditDefaultData.id)) {
+                            await updateData("categories", cat.id, { ...cat, linkedTasks: cat.linkedTasks.filter((linkedTask) => linkedTask.id !== taskEditDefaultData.id) })
+                        }
+                    })
+                    
+                    // second add the task to the new category
+                    if (!taskRelatedCategoryLinkedTasks.some((task) => task.id === taskEditDefaultData.id)) {
+                        updateData("categories", taskRelatedCategory[0].id, { ...taskRelatedCategory[0], linkedTasks: [...taskRelatedCategory[0].linkedTasks, { title: editedTaskData.title, id: editedTaskData.id }] })
+                    } else {
+                        closeFunc()
+                        return
+                    }
+                }
                 closeFunc()
                 toast.success("edited successfully", { id: "edit" })
             }
 
             if (formAction === "addNewItem") {
+
+                const newTask = {
+                    userId: userDetails.id,
+                    access,
+                    title: itemData.title,
+                    description: itemData.description,
+                    isCompleted: false,
+                    priority: itemData.priority,
+                    dueDate: itemData.dueDate,
+                    createdAt: new Date().toISOString(),
+                    privacy: itemData.privacy,
+                    category: { name: itemData?.category?.label, id: itemData?.category?.value },
+                    labels: Array.isArray(itemData.labels)
+                        ? itemData.labels.map(lab => lab.label)
+                        : [],
+                    comments: [],
+                }
+
                 async function addNewTask() {
-                    await createDocument("tasks", newTask)
-                    updateData("categories", cat[0].id, { ...cat[0], linkedTasks: [...cat[0].linkedTasks, { title: newTask.title }] })
+                    const taskId = await createDocument("tasks", newTask)
+                    if (taskRelatedCategory.length > 0) {
+                        updateData("categories", taskRelatedCategory[0].id, { ...taskRelatedCategory[0], linkedTasks: [...taskRelatedCategory[0].linkedTasks, { title: newTask.title, id: taskId }] })
+                    }
                     handleResetFrom()
                     closeFunc()
                 }
@@ -213,12 +260,74 @@ function CreateNewItem({ taskEditDefaultData, formAction, itemName, closeFunc })
                 addNewTask()
             }
         }
+
+        if (itemName === "category") {
+
+            // check number of stars
+            if (itemData.stars > 5) {
+                toast.error("number of stars must be less than or equal to 5", { id: "stars" })
+                return;
+            }
+
+            if (formAction === "editItem") {
+
+                const editCategory = {
+                    ...taskEditDefaultData,
+                    title: itemData?.title,
+                    description: itemData?.description,
+                    stars: itemData?.stars,
+                }
+
+                if (_.isEqual(editCategory, taskEditDefaultData)) {
+                    toast.error("No changes detected", { id: "changes" })
+                    return;
+                }
+
+                // check if there is category with this title
+                const isCategoryExist = Categories.find((cat) => cat.title === itemData?.title)
+                if (isCategoryExist) {
+                    toast.error("category with this title already exists", { id: "category-exist" })
+                    return;
+                }
+
+                updateData("categories", taskEditDefaultData.id, editCategory)
+                closeFunc()
+                toast.success("edited successfully", { id: "edit" })
+            }
+
+            if (formAction === "addNewItem") {
+
+                const newCategory = {
+                    createdAt: new Date().toISOString(),
+                    linkedTasks: [],
+                    userId: userDetails.id,
+                    title: itemData?.title,
+                    description: itemData?.description,
+                    stars: itemData?.stars,
+                }
+
+                // check if there is category with this title
+                const isCategoryExist = Categories.find((cat) => cat.title === itemData?.title)
+                if (isCategoryExist) {
+                    toast.error("category with this title already exists", { id: "category-exist" })
+                    return;
+                }
+
+                async function addNewCategory() {
+                    await createDocument("categories", newCategory)
+                    handleResetFrom()
+                    closeFunc()
+                }
+
+                addNewCategory()
+            }
+        }
+
+
         // if (itemName === "project") {
 
         // }
-        // if (itemName === "category") {
 
-        // }
     }
 
     // stop close the popup if the user click inside form
@@ -428,7 +537,7 @@ function CreateNewItem({ taskEditDefaultData, formAction, itemName, closeFunc })
                         {
                             itemName === "category" && (
                                 <>
-                                    <div className={styles.linkedTasks}>
+                                    {/* <div className={styles.linkedTasks}>
                                         <Controller
                                             name="categoriesLinkedTasks"
                                             control={control}
@@ -446,7 +555,7 @@ function CreateNewItem({ taskEditDefaultData, formAction, itemName, closeFunc })
                                                 />
                                             )}
                                         />
-                                    </div>
+                                    </div> */}
                                     <div className={styles.stars}>
                                         <span>set Category stars</span>
                                         <MainInput

@@ -15,25 +15,29 @@ import { MdDelete } from "react-icons/md";
 // redux
 import { useSelector } from "react-redux";
 
-function ActionsButtons({setEditTaskData, setOpenCreateNewTask, openCreateNewTask, setFromAction, deleteItem, task = {}, setSelectedTask = () => { }, openDetailsPopup, setOpenDetailsPopup }) {
+function ActionsButtons({ actionType = "task", setEditTaskData, setOpenCreateNewTask, openCreateNewTask, setFromAction, deleteItem, task = {}, setSelectedTask = () => { }, openDetailsPopup, setOpenDetailsPopup }) {
     const locationPath = useLocation().pathname
     const userDetails = useSelector(getUserDetails)
-    const {userRole} = useUserRole(task?.access ,userDetails?.id )
+    const { userRole } = useUserRole(task?.access, userDetails?.id)
 
 
     return (
         <>
             <div className={styles.actions}>
-                <div className={`${styles.actionBtn} ${styles.infoBtn}`}>
-                    <MainButton title='View Details' content={<><MdVisibility /></>} clickEvent={() => { setOpenDetailsPopup(!openDetailsPopup); setSelectedTask(task) }} />
-                </div>
-                {locationPath === "/dashboard/taskManagement" && (
+                {
+                    actionType !== "category" && (
+                        <div className={`${styles.actionBtn} ${styles.infoBtn}`}>
+                            <MainButton title='View Details' content={<><MdVisibility /></>} clickEvent={() => { setOpenDetailsPopup(!openDetailsPopup); setSelectedTask(task) }} />
+                        </div>
+                    )
+                }
+                {(locationPath === "/dashboard/taskManagement" || locationPath === "/dashboard/categories" || locationPath === "/dashboard/projectsManagement") && (
                     <>
                         <div className={`${styles.actionBtn} ${styles.editBtn}`}>
-                            {(userRole === "editor" || userRole === "owner") && (<MainButton title='edit task' content={<><MdEdit /></>} clickEvent={() => { setOpenCreateNewTask(!openCreateNewTask); setFromAction("editItem"); setEditTaskData(task) }} />)}
+                            {(userRole === "editor" || userRole === "owner" || actionType === "category") && (<MainButton title={`edit ${actionType}`} content={<><MdEdit /></>} clickEvent={() => { setOpenCreateNewTask(!openCreateNewTask); setFromAction("editItem"); setEditTaskData(task) }} />)}
                         </div>
                         <div className={`${styles.actionBtn} ${styles.deleteBtn}`}>
-                            {userRole === "owner" && <MainButton title='delete task' content={<><MdDelete /></>} clickEvent={deleteItem} />}
+                            {(userRole === "owner" || actionType === "category") && <MainButton title={`delete ${actionType}`} content={<><MdDelete /></>} clickEvent={deleteItem} />}
                         </div>
                     </>
                 )}

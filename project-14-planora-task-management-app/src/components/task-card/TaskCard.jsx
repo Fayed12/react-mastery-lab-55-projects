@@ -3,6 +3,7 @@ import styles from './TaskCard.module.css';
 import TaskDetails from '../task-details/taskDetails';
 import updateData from '../../firebase/updateExistingData';
 import { getUserDetails } from '../../Redux/authUserSlice';
+import { getCategoriesData } from '../../Redux/categoriesSlice';
 import deleteItem from '../../firebase/deleteDocument';
 import MainButton from '../../ui/button/MainButton';
 import useUserRole from '../../hooks/userUserRole';
@@ -38,6 +39,7 @@ const TaskCard = ({ setEditTaskData, setOpenCreateNewTask, openCreateNewTask, se
     } = task;
 
     const userDetails = useSelector(getUserDetails)
+    const Categories = useSelector(getCategoriesData)
 
     const [openDetailsPopup, setOpenDetailsPopup] = useState(false)
     const [commentValue, setCommentValue] = useState("")
@@ -70,8 +72,15 @@ const TaskCard = ({ setEditTaskData, setOpenCreateNewTask, openCreateNewTask, se
     }
 
     // handle delete task
-    function handleDeleteTask() {
-        deleteItem("tasks", task.id)
+    async function handleDeleteTask() {
+        await deleteItem("tasks", task.id)
+
+        // remove the task from all categories it belongs to if exists
+        Categories.forEach(async (cat) => {
+            if (cat.linkedTasks?.find((linkedTask) => linkedTask.id === task.id)) {
+                await updateData("categories", cat.id, { ...cat, linkedTasks: cat.linkedTasks.filter((linkedTask) => linkedTask.id !== task.id) })
+            }
+        })
     }
 
     return (
@@ -143,12 +152,12 @@ const TaskCard = ({ setEditTaskData, setOpenCreateNewTask, openCreateNewTask, se
                         </div>
                     </div>
 
-                    <ActionsButtons userRole={userRole} task={task} setEditTaskData={setEditTaskData} openCreateNewTask={openCreateNewTask} setOpenCreateNewTask={setOpenCreateNewTask} setFromAction={setFromAction} deleteItem={() => handleDeleteTask()} openDetailsPopup={openDetailsPopup} setOpenDetailsPopup={setOpenDetailsPopup} />
+                    <ActionsButtons actionType={"task"} task={task} setEditTaskData={setEditTaskData} openCreateNewTask={openCreateNewTask} setOpenCreateNewTask={setOpenCreateNewTask} setFromAction={setFromAction} deleteItem={() => handleDeleteTask()} openDetailsPopup={openDetailsPopup} setOpenDetailsPopup={setOpenDetailsPopup} />
                 </div>
                 {(new Date() < new Date(task.dueDate).getTime() && !isCompleted) && (
                     <div className={styles.addComment}>
                         <input type="text" placeholder='add comment' value={commentValue} onChange={(e) => setCommentValue(e.target.value)} />
-                        <MainButton title='add comment' type='button' content={!commentValue ? <TbActivityHeartbeat /> : <IoIosSend />} clickEvent={() => handleAddComment()()} />
+                        <MainButton title='add comment' type='button' content={!commentValue ? <TbActivityHeartbeat /> : <IoIosSend />} clickEvent={() => handleAddComment()} />
                     </div>
                 )}
 

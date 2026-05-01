@@ -296,6 +296,8 @@ src/
 
 * categories page contain categories section that can from it manage all categories in all tasks, user can create new category with [title - description - stars] 
 
+* one task can connect to only one category, and category can connect to many tasks✅
+
 * in project user can link other users to his project and give them access to edit or view only, you can remove or add
 
 * user can add his own categories but if no cats and he need to add one to task he must create one first 
