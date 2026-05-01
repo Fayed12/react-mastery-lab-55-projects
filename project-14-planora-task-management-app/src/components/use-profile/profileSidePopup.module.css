@@ -1,0 +1,208 @@
+.overlay {
+    position: fixed;
+    top: 77px;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 100vw;
+    height: calc(100vh - 77px);
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 9999998;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.overlay.open {
+    opacity: 1;
+    visibility: visible;
+}
+
+.popupContainer {
+    position: fixed;
+    top: 77px;
+    right: 0;
+    left: auto;
+    width: 350px;
+    height: calc(100vh - 77px);
+    background-color: var(--bg-50);
+    z-index: 9999999;
+    transform: translateX(100%);
+    transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: var(--shadow-lg);
+    padding: var(--space-lg);
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+}
+
+.popupContainer.open {
+    transform: translateX(0);
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: var(--space-xl);
+    padding-bottom: var(--space-md);
+    border-bottom: 1px solid var(--border-100);
+}
+
+.header h2 {
+    color: var(--text-900);
+    font-size: var(--text-xl);
+    margin: 0;
+}
+
+.closeBtn {
+    background: none;
+    border: none;
+    font-size: var(--text-xl);
+    color: var(--text-500);
+    cursor: pointer;
+    transition: color 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.closeBtn:hover {
+    color: var(--error-500);
+}
+
+.content {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-md);
+}
+
+.infoGroup {
+    display: flex;
+    align-items: center;
+    gap: var(--space-md);
+    background-color: var(--bg-100);
+    padding: var(--space-md);
+    border-radius: var(--radius-md);
+    border: 1px solid var(--border-100);
+}
+
+.icon {
+    font-size: var(--text-2xl);
+    color: var(--primary-500);
+    flex-shrink: 0;
+}
+
+.infoText {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    overflow: hidden;
+}
+
+.infoText label {
+    font-size: var(--text-xs);
+    color: var(--text-500);
+    margin-bottom: var(--space-2xs);
+    text-transform: uppercase;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+}
+
+.infoText span {
+    font-size: var(--text-md);
+    color: var(--text-900);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.idText {
+    font-family: monospace;
+    font-size: var(--text-sm) !important;
+}
+
+.editInput {
+    padding: var(--space-xs);
+    border: 1px solid var(--primary-300);
+    border-radius: var(--radius-xs);
+    font-size: var(--text-md);
+    color: var(--text-900);
+    background-color: var(--bg-50);
+    outline: none;
+    width: 100%;
+}
+
+.editInput:focus {
+    border-color: var(--primary-500);
+    box-shadow: var(--focus-ring);
+}
+
+.editBtn {
+    background: none;
+    border: none;
+    color: var(--primary-500);
+    cursor: pointer;
+    font-size: var(--text-lg);
+    padding: var(--space-xs);
+    border-radius: var(--radius-xs);
+    transition: background-color 0.2s, color 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.editBtn:hover {
+    background-color: var(--primary-100);
+    color: var(--primary-700);
+}
+
+.actions {
+    margin-top: var(--space-xl);
+    display: flex;
+    gap: var(--space-md);
+}
+
+.cancelBtn {
+    flex: 1;
+    padding: var(--btn-padding-y-md) var(--btn-padding-x-md);
+    background-color: var(--bg-200);
+    color: var(--text-900);
+    border: none;
+    border-radius: var(--radius-md);
+    font-size: var(--text-md);
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.cancelBtn:hover {
+    background-color: var(--bg-300);
+}
+
+.saveBtn {
+    flex: 1;
+    padding: var(--btn-padding-y-md) var(--btn-padding-x-md);
+    background-color: var(--primary-600);
+    color: white;
+    border: none;
+    border-radius: var(--radius-md);
+    font-size: var(--text-md);
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.saveBtn:hover {
+    background-color: var(--primary-700);
+}
+
+.saveBtn:disabled, .cancelBtn:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+}
+
+/* Responsive */
+@media (max-width: 500px) {
+    .popupContainer {
+        width: 100%;
+    }
+}

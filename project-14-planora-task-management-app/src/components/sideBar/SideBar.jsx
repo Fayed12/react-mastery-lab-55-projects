@@ -98,12 +98,7 @@ const SideBar = ({ openMenu, setOpenMenu }) => {
                                 <span className={styles.text}>Statistics</span>
                             </NavLink>
                         </li>
-                        <li>
-                            <NavLink to={"profile"} onClick={() => setOpenMenu(false)}>
-                                <FaUser />
-                                <span className={styles.text}>Profile</span>
-                            </NavLink>
-                        </li>
+
                     </ul>
                 </div>
                 <div className={styles.footer}>

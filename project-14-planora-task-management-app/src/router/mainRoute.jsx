@@ -25,7 +25,7 @@ const TaskManagement = lazy(() => import("../pages/TaskManagement-Page/TaskManag
 const Projects = lazy(() => import("../pages/Projects-Page/Projects.jsx"))
 const ProjectsManagement = lazy(() => import("../pages/ProjectsManagement-Page/ProjectsManagement.jsx"))
 const Calendar = lazy(() => import("../pages/Calendar-Page/Calendar.jsx"))
-const Profile = lazy(() => import("../pages/Profile-Page/Profile.jsx"))
+
 const Statistics = lazy(() => import("../pages/Statistics-Page/Statistics.jsx"))
 
 // eslint-disable-next-line react-refresh/only-export-components
@@ -103,10 +103,7 @@ const router = createBrowserRouter([
                         path: "calendar",
                         element: <Calendar />
                     },
-                    {
-                        path: "profile",
-                        element: <Profile />
-                    },
+
                     {
                         path: "statistics",
                         element: <Statistics />

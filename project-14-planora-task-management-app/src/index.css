@@ -278,3 +278,11 @@ li {
 .swal2-container {
     z-index: 9999999 !important;
 }
+/* end swal buttons styles */
+
+
+/* profile button */
+.profileButton button {
+    width: 100%;
+}
+/* end profile button */
