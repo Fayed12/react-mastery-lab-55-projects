@@ -5,6 +5,7 @@ import deleteItem from "../../../firebase/deleteDocument"
 import { getTasksData } from "../../../Redux/tasksSlice";
 import updateData from "../../../firebase/updateExistingData";
 import TaskDetails from "../../task-details/taskDetails";
+import useConfirm from "../../../hooks/confirm";
 
 // react
 import { useState } from "react";
@@ -18,6 +19,8 @@ import { MdOutlineCategory, MdStar, MdStarBorder, MdCalendarToday, MdTaskAlt } f
 function CategoryCard({ category = {}, setEditCategoryData, openCreateNewCategory, setOpenCreateNewCategory, setFromAction }) {
 
     const tasksData = useSelector(getTasksData)
+
+    const confirmAction = useConfirm()
 
     const [openDetailsPopup, setOpenDetailsPopup] = useState(false)
     const [selectedTask, setSelectedTask] = useState({})
@@ -33,14 +36,23 @@ function CategoryCard({ category = {}, setEditCategoryData, openCreateNewCategor
         createdAt
     } = data;
 
-    function handleDelete() {
-        deleteItem("categories", id)
-
-        tasksData.forEach(task => {
-            if (task.category?.id === id) {
-                updateData("tasks", task.id, { ...task, category: {} })
-            }
+    async function handleDelete() {
+        const confirmed = await confirmAction({
+            title: "Delete Category",
+            text: `Are you sure you want to delete "${title}" category?`,
+            confirmText: "Yes, delete!",
+            cancelText: "Cancel",
         })
+        if (confirmed) {
+            deleteItem("categories", id)
+            tasksData.forEach(task => {
+                if (task.category?.id === id) {
+                    updateData("tasks", task.id, { ...task, category: {} })
+                }
+            })
+        } else {
+            return
+        }
     }
 
     const renderStars = () => {

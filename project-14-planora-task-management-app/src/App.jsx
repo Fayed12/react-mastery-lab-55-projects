@@ -82,6 +82,13 @@ function App() {
             const uniqueTasks = Array.from(
                 new Map(merged.map(t => [t.id, t])).values()
             );
+
+            // sort tasks by dueDate first, by task will be end soon is first 
+            uniqueTasks.sort((a, b) => {
+                if (new Date(a.dueDate) < new Date(b.dueDate)) return -1
+                if (new Date(a.dueDate) > new Date(b.dueDate)) return 1
+                return 0
+            })
             dispatch(setTasksData(uniqueTasks))
         }
 
@@ -150,6 +157,13 @@ function App() {
         const unsubscribeProjects = onSnapshot(qProjects, (snapshot) => {
             const projects = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
 
+            // sort projects by dueDate first, by project will be end soon is first
+            projects.sort((a, b) => {
+                if (new Date(a.dueDate) < new Date(b.dueDate)) return -1
+                if (new Date(a.dueDate) > new Date(b.dueDate)) return 1
+                return 0
+            })
+            
             dispatch(setProjectsData(projects))
         }, (error) => console.error("projects error:", error));
 

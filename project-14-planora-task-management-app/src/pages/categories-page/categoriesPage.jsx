@@ -6,15 +6,15 @@ import { getCategoriesData } from "../../Redux/categoriesSlice"
 import EmptyBox from "../../components/empty-box/emptyBox"
 import Pagination from "../../components/Pagination-footer/Pagination"
 import CreateNewItem from "../../components/create-edit-new-item/createEditNewItem"
-
 import ActionsButtons from "../../components/actions-buttons/actionsButtons"
 import deleteItem from "../../firebase/deleteDocument"
+import useConfirm from "../../hooks/confirm"
 
 // redux 
 import { useSelector } from 'react-redux';
 
 // react 
-import { useState, useEffect, useMemo } from 'react';
+import { useState, useMemo } from 'react';
 
 // react icons
 import { MdGridView, MdViewList, MdAdd, MdOutlineCategory, MdStar, MdCalendarToday, MdTaskAlt } from 'react-icons/md';
@@ -22,52 +22,48 @@ import { MdGridView, MdViewList, MdAdd, MdOutlineCategory, MdStar, MdCalendarTod
 function CategoriesPage() {
     const categoriesData = useSelector(getCategoriesData);
 
+    const confirmAction = useConfirm()
+
     const [openCreateNewCategory, setOpenCreateNewCategory] = useState(false)
     const [formAction, setFromAction] = useState("")
     const [searchQuery, setSearchQuery] = useState("");
     const [editCategoryData, setEditCategoryData] = useState({})
-    const [categoriesAfterFilter, setCategoriesAfterFilter] = useState(() => {
-        return categoriesData || []
-    })
     const [viewMode, setViewMode] = useState('grid');
     const [currentPage, setCurrentPage] = useState(1);
     const [starsFilter, setStarsFilter] = useState("all");
 
-    // const categoriesAfterFilter = useMemo(() => {
-    //     if (!categoriesData) return [];
+    const categoriesAfterFilter = useMemo(() => {
+        if (!categoriesData) return [];
 
-    //     return categoriesData.filter(cat => {
-    //         const matchSearch = cat.title
-    //             ?.toLowerCase()
-    //             .includes(searchQuery.toLowerCase());
+        return categoriesData.filter(cat => {
+            const matchSearch =
+                cat.title
+                    ?.toLowerCase()
+                    .includes(searchQuery.toLowerCase());
 
-    //         const matchStars = starsFilter
-    //             ? cat.stars === starsFilter
-    //             : true;
+            const matchStars =
+                starsFilter === "all" ||
+                String(cat.stars) === starsFilter;
 
-    //         return matchSearch && matchStars;
-    //     }) || categoriesData;
-    // }, [categoriesData, searchQuery, starsFilter]);
+            return matchSearch && matchStars;
+        }) || categoriesData;
+    }, [categoriesData, searchQuery, starsFilter]);
+
 
     // handle delete category
-    function handleDeleteCategory(id) {
-        deleteItem("categories", id)
+    async function handleDeleteCategory(id) {
+        const confirmed = await confirmAction({
+            title: "Delete Category?",
+            text: `Are you sure you want to delete this category?`,
+            confirmText: "Yes, delete!",
+            cancelText: "Cancel",
+        })
+        if (confirmed) {
+            deleteItem("categories", id)
+        } else {
+            return
+        }
     }
-
-
-    useEffect(() => {
-        let filtered = categoriesData || [];
-
-        if (searchQuery.trim() !== "") {
-            filtered = filtered.filter(cat => cat.title.toLowerCase().includes(searchQuery.toLowerCase()));
-        }
-
-        if (starsFilter !== "all") {
-            filtered = filtered.filter(cat => parseInt(cat.stars || 0) === parseInt(starsFilter));
-        }
-
-        setCategoriesAfterFilter(filtered);
-    }, [searchQuery, starsFilter, categoriesData]);
 
     return (
         <>
@@ -189,7 +185,7 @@ function CategoriesPage() {
                                                 setFromAction={setFromAction}
                                                 deleteItem={() => handleDeleteCategory(category.id)}
                                                 task={category}
-                                                userRole={"owner"}
+                                                actionType="category"
                                             />
                                         </div>
                                     </div>

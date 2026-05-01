@@ -3,6 +3,7 @@ import styles from "./taskDetails.module.css"
 import MainButton from "../../ui/button/MainButton";
 import { getUserDetails } from "../../Redux/authUserSlice";
 import updateData from "../../firebase/updateExistingData";
+import useConfirm from "../../hooks/confirm";
 
 // redux
 import { useSelector } from "react-redux";
@@ -21,6 +22,9 @@ import ReactDOM from "react-dom";
 
 function TaskDetails({ taskData, onClose }) {
     const userDetails = useSelector(getUserDetails);
+
+    const confirmAction = useConfirm()
+
     const [openEditCommentId, setOpenEditCommentId] = useState(null)
     const [newCommentValue, setNewCommentValue] = useState("")
 
@@ -80,9 +84,19 @@ function TaskDetails({ taskData, onClose }) {
 
     // handle delete comment
     async function handleDeleteComment(id) {
-        const allUpdatedComments = comments?.filter((comment) => comment.id !== id)
+        const confirmed = await confirmAction({
+            title: "Delete Comment?",
+            text: `Are you sure you want to delete this comment?`,
+            confirmText: "Yes, delete!",
+            cancelText: "Cancel",
+        })
+        if (confirmed) {
+            const allUpdatedComments = comments?.filter((comment) => comment.id !== id)
 
-        await updateData("tasks", taskData.id, { comments: allUpdatedComments })
+            await updateData("tasks", taskData.id, { comments: allUpdatedComments })
+        } else {
+            return
+        }
     }
 
     const portalRoot = document.getElementById("portal-root") || document.body;

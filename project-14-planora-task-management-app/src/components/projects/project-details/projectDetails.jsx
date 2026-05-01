@@ -5,6 +5,7 @@ import { getUserDetails } from "../../../Redux/authUserSlice";
 import updateData from "../../../firebase/updateExistingData";
 import { getTasksData } from "../../../Redux/tasksSlice";
 import TaskDetails from "../../task-details/taskDetails";
+import useConfirm from "../../../hooks/confirm";
 
 // redux
 import { useSelector } from "react-redux";
@@ -21,6 +22,8 @@ import { IoIosCloseCircleOutline } from "react-icons/io";
 function ProjectDetails({ projectData, onClose }) {
     const userDetails = useSelector(getUserDetails);
     const tasksData = useSelector(getTasksData);
+
+    const confirmAction = useConfirm()
 
     const [openEditCommentId, setOpenEditCommentId] = useState(null)
     const [newCommentValue, setNewCommentValue] = useState("")
@@ -82,9 +85,19 @@ function ProjectDetails({ projectData, onClose }) {
 
     // handle delete comment
     async function handleDeleteComment(commentId) {
-        const allUpdatedComments = comments?.filter((comment) => comment.id !== commentId)
+        const confirmed = await confirmAction({
+            title: "Delete Comment?",
+            text: `Are you sure you want to delete this comment?`,
+            confirmText: "Yes, delete!",
+            cancelText: "Cancel",
+        })
+        if (confirmed) {
+            const allUpdatedComments = comments?.filter((comment) => comment.id !== commentId)
 
-        await updateData("projects", id, { comments: allUpdatedComments })
+            await updateData("projects", id, { comments: allUpdatedComments })
+        } else {
+            return
+        }
     }
 
     const portalRoot = document.getElementById("portal-root") || document.body;

@@ -7,6 +7,7 @@ import { getCategoriesData } from '../../Redux/categoriesSlice';
 import deleteItem from '../../firebase/deleteDocument';
 import MainButton from '../../ui/button/MainButton';
 import useUserRole from '../../hooks/userUserRole';
+import useConfirm from '../../hooks/confirm';
 
 // redux
 import { useSelector } from 'react-redux';
@@ -41,6 +42,8 @@ const TaskCard = ({ setEditTaskData, setOpenCreateNewTask, openCreateNewTask, se
     const userDetails = useSelector(getUserDetails)
     const Categories = useSelector(getCategoriesData)
 
+    const confirmAction = useConfirm()
+
     const [openDetailsPopup, setOpenDetailsPopup] = useState(false)
     const [commentValue, setCommentValue] = useState("")
     const { userRole } = useUserRole(access, userDetails?.id)
@@ -73,7 +76,17 @@ const TaskCard = ({ setEditTaskData, setOpenCreateNewTask, openCreateNewTask, se
 
     // handle delete task
     async function handleDeleteTask() {
-        await deleteItem("tasks", task.id)
+        const confirmed = await confirmAction({
+            title: "Delete Task?",
+            text: `Are you sure you want to delete "${title}"?`,
+            confirmText: "Yes, delete!",
+            cancelText: "Cancel",
+        })
+        if (confirmed) {
+            deleteItem("tasks", task.id)
+        } else {
+            return
+        }
 
         // remove the task from all categories it belongs to if exists
         Categories.forEach(async (cat) => {

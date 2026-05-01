@@ -1,7 +1,7 @@
 /* Card Container */
 .card {
     width: 100%;
-    height: fit-content;
+    height: auto;
     background-color: var(--bg-100);
     border: 1px solid var(--border-100);
     border-radius: var(--radius-lg);

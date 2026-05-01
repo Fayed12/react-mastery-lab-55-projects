@@ -212,22 +212,69 @@ li {
     user-select: none;
 }
 
-::-webkit-scrollbar{
+::-webkit-scrollbar {
     width: 7px;
 }
 
-::-webkit-scrollbar-track{
+::-webkit-scrollbar-track {
     background-color: var(--primary-200);
 }
 
-::-webkit-scrollbar-thumb{
+::-webkit-scrollbar-thumb {
     background-color: var(--primary-600);
     border-radius: var(--radius-lg);
 }
 
-.error{
+.error {
     color: var(--error-500);
     margin: 0;
     font-size: var(--text-xs);
     /* margin-top: var(--space-2xs); */
+}
+
+/* swal buttons styles */
+.confirm-btn {
+    background-color: var(--success-500);
+    color: var(--btn-primary-text);
+    font-size: var(--text-md);
+    font-weight: var(--font-weight-semibold);
+    padding: var(--btn-padding-y-sm) var(--btn-padding-x-sm);
+    border-radius: var(--radius-sm);
+    transition: 0.4s;
+    cursor: pointer;
+    border: none;
+}
+
+.confirm-btn:hover {
+    background-color: #22a038;
+    border: none;
+    color: var(--btn-primary-text);
+}
+
+.cancel-btn {
+    background-color: var(--error-500);
+    color: var(--btn-primary-text);
+    font-size: var(--text-md);
+    font-weight: var(--font-weight-semibold);
+    padding: var(--btn-padding-y-sm) var(--btn-padding-x-sm);
+    border-radius: var(--radius-sm);
+    transition: 0.4s;
+    cursor: pointer;
+    border: none;
+    margin-right: 10px;
+}
+
+.cancel-btn:hover {
+    background-color: #c72c2c;
+    border: none;
+}
+
+.my-popup {
+    z-index: 999999;
+    background-color: var(--bg-100);
+    border-radius: var(--radius-lg);
+}
+
+.swal2-container {
+    z-index: 9999999 !important;
 }

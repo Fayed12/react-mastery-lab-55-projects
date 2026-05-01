@@ -9,6 +9,9 @@ import Pagination from '../../components/Pagination-footer/Pagination';
 import ActionsButtons from '../../components/actions-buttons/actionsButtons';
 import TaskDetails from '../../components/task-details/taskDetails';
 import CreateNewItem from '../../components/create-edit-new-item/createEditNewItem';
+import useConfirm from '../../hooks/confirm';
+import EmptyBox from '../../components/empty-box/emptyBox';
+import deleteItem from '../../firebase/deleteDocument';
 
 // redux
 import { useSelector } from 'react-redux';
@@ -25,11 +28,11 @@ import {
     MdDateRange,
     MdLock
 } from 'react-icons/md';
-import EmptyBox from '../../components/empty-box/emptyBox';
-import deleteItem from '../../firebase/deleteDocument';
 
 const TaskManagement = () => {
     const tasksData = useSelector(getTasksData);
+
+    const confirmAction = useConfirm()
 
     const [tasksAfterFilter, setTasksAfterFilter] = useState(tasksData)
     const [openDetailsPopup, setOpenDetailsPopup] = useState(false)
@@ -43,8 +46,18 @@ const TaskManagement = () => {
     const [currentPage, setCurrentPage] = useState(1);
 
     // handle delete task
-    function handleDeleteTask(id) {
-        deleteItem("tasks", id)
+    async function handleDeleteTask(id) {
+        const confirmed = await confirmAction({
+            title: "Delete Task?",
+            text: `Are you sure you want to delete this task?`,
+            confirmText: "Yes, delete!",
+            cancelText: "Cancel",
+        })
+        if (confirmed) {
+            deleteItem("tasks", id)
+        } else {
+            return
+        }
     }
 
     return (
@@ -111,7 +124,7 @@ const TaskManagement = () => {
                                     {tasksAfterFilter.map(task => (
                                         <div key={task.id} className={styles.listRow}>
                                             <div className={styles.rowHeader}>
-                                                {new Date() < new Date(task.dueDate).getTime() && <input type="checkbox" checked={task.isCompleted} className={styles.rowCheckbox} onChange={() => updateData("tasks", task.id, { isCompleted: !task.isCompleted })} />}
+                                                {(new Date() < new Date(task?.dueDate).getTime() && !task?.isCompleted) && <input type="checkbox" checked={task.isCompleted} className={styles.rowCheckbox} onChange={() => updateData("tasks", task.id, { isCompleted: !task.isCompleted })} />}
                                                 <span className={`${styles.rowTitle} ${task.isCompleted ? styles.completed : ''}`}>
                                                     {task.title}
                                                 </span>

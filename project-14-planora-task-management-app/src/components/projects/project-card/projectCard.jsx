@@ -7,6 +7,7 @@ import { getUserDetails } from "../../../Redux/authUserSlice"
 import ProjectDetails from "../project-details/projectDetails"
 import MainButton from "../../../ui/button/MainButton"
 import ActionsButtons from "../../actions-buttons/actionsButtons"
+import useConfirm from "../../../hooks/confirm"
 
 // react
 import { useState } from "react"
@@ -23,6 +24,8 @@ import toast from "react-hot-toast"
 
 function ProjectCard({ project, setEditProjectData, openCreateNewProject, setOpenCreateNewProject, setFromAction }) {
     const userDetails = useSelector(getUserDetails)
+
+    const confirmAction = useConfirm()
 
     const [openDetailsPopup, setOpenDetailsPopup] = useState(false)
     const [commentValue, setCommentValue] = useState("")
@@ -74,8 +77,18 @@ function ProjectCard({ project, setEditProjectData, openCreateNewProject, setOpe
         setCommentValue("")
     }
 
-    function handleDeleteProject() {
-        deleteItem("projects", id)
+    async function handleDeleteProject() {
+        const confirmed = await confirmAction({
+            title: "Delete Project?",
+            text: `Are you sure you want to delete "${title}"?`,
+            confirmText: "Yes, delete!",
+            cancelText: "Cancel",
+        })
+        if (confirmed) {
+            deleteItem("projects", id)
+        } else {
+            return
+        }
     }
 
     return (

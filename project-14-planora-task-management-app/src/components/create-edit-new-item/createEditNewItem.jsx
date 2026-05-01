@@ -216,7 +216,7 @@ function CreateNewItem({ taskEditDefaultData, formAction, itemName, closeFunc })
                             await updateData("categories", cat.id, { ...cat, linkedTasks: cat.linkedTasks.filter((linkedTask) => linkedTask.id !== taskEditDefaultData.id) })
                         }
                     })
-                    
+
                     // second add the task to the new category
                     if (!taskRelatedCategoryLinkedTasks.some((task) => task.id === taskEditDefaultData.id)) {
                         updateData("categories", taskRelatedCategory[0].id, { ...taskRelatedCategory[0], linkedTasks: [...taskRelatedCategory[0].linkedTasks, { title: editedTaskData.title, id: editedTaskData.id }] })
