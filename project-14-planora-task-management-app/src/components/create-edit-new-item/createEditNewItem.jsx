@@ -7,6 +7,7 @@ import { customStyles } from "../select-meu/selectStyles";
 import { getAllUsersData, getUserDetails } from "../../Redux/authUserSlice";
 import { getCategoriesData } from "../../Redux/categoriesSlice";
 import { getTasksData } from "../../Redux/tasksSlice";
+import { getProjectsData } from "../../Redux/projectsSlice";
 import DateTimePicker from "../Date-Time-Picker/DateTimePicker";
 import createDocument from "../../firebase/addNewData";
 import updateData from "../../firebase/updateExistingData";
@@ -42,6 +43,7 @@ function CreateNewItem({ taskEditDefaultData, formAction, itemName, closeFunc })
     const allUsers = useSelector(getAllUsersData)
     const Categories = useSelector(getCategoriesData)
     const tasksData = useSelector(getTasksData)
+    const projectsData = useSelector(getProjectsData)
     const { userRole } = useUserRole(taskEditDefaultData?.access, userDetails?.id)
 
     const [selectUsersData, setSelectedUsersData] = useState(() => {
@@ -52,11 +54,6 @@ function CreateNewItem({ taskEditDefaultData, formAction, itemName, closeFunc })
     // categories options
     const categoriesOptions = Categories.map((cat) => {
         return { value: cat.id, label: cat.title }
-    })
-
-    // tasks options
-    const tasksOptions = tasksData.map((task) => {
-        return { value: task.id, label: task.title, description: task.description, userId: task.userId }
     })
 
     const defaultValues = formAction === "editItem" ? {
@@ -78,9 +75,11 @@ function CreateNewItem({ taskEditDefaultData, formAction, itemName, closeFunc })
         }),
 
         category: { value: taskEditDefaultData?.category?.id, label: taskEditDefaultData?.category?.name },
-        // projectLinkedTasks: taskEditDefaultData?.linkedTasks?.map((task) => {
-        //     return { value: task.id, label: task.title, description: task.description, userId: task.userId }
-        // }),
+
+        projectLinkedTasks: taskEditDefaultData?.linkedTasks?.map((task) => {
+            return { value: task.id, label: task.title }
+        }),
+
         categoriesLinkedTasks: taskEditDefaultData?.linkedTasks?.map((task) => {
             return { value: task?.id, label: task?.title }
         }),
@@ -123,6 +122,30 @@ function CreateNewItem({ taskEditDefaultData, formAction, itemName, closeFunc })
     // watch editors users and viewers, if user select any user in editors he can not select this user again
     const watchEditor = watch("editorUser")
     const watchViewers = watch("viewerUser")
+
+    const selectedUserIdsForTasks = [
+        ...(watchEditor || []),
+        ...(watchViewers || [])
+    ].map(u => u.value);
+
+    // tasks options
+    const tasksOptions = tasksData
+        .filter(task => {
+            if (itemName !== "project") return true;
+
+            if (selectedUserIdsForTasks.length === 0) {
+                return task.userId === userDetails?.id;
+            }
+
+            return selectedUserIdsForTasks.some(userId =>
+                task.userId === userId ||
+                task.access?.editors?.some(e => e.id === userId) ||
+                task.access?.viewers?.some(v => v.id === userId)
+            );
+        })
+        .map((task) => {
+            return { value: task.id, label: task.title }
+        });
 
     // let selectUsersData =
     useEffect(() => {
@@ -323,10 +346,97 @@ function CreateNewItem({ taskEditDefaultData, formAction, itemName, closeFunc })
             }
         }
 
+        if (itemName === "project") {
 
-        // if (itemName === "project") {
+            function mapUsers(users) {
+                if (!Array.isArray(users) || users.length === 0) return [];
 
-        // }
+                return users.map(user => ({
+                    id: user.value,
+                    email: user.label
+                }));
+            }
+
+            const access = {
+                owner: userDetails.id,
+                editors: mapUsers(itemData.editorUser),
+                viewers: mapUsers(itemData.viewerUser),
+            };
+
+            function getProjectLinkedTasks() {
+                const formTasks = itemData?.projectLinkedTasks;
+                if (Array.isArray(formTasks) && formTasks.length > 0) {
+                    return formTasks?.map((task) => {
+                        return { id: task.value, title: task.label }
+                    })
+                }
+                return [];
+            }
+
+            if (formAction === "editItem") {
+                const tasks = getProjectLinkedTasks()
+
+                const editProject = {
+                    ...taskEditDefaultData,
+                    title: itemData?.title,
+                    description: itemData?.description,
+                    access,
+                    dueDate: itemData?.dueDate,
+                    priority: itemData?.priority,
+                    linkedTasks: tasks ? tasks : [],
+                    privacy: itemData?.privacy
+                }
+
+                if (_.isEqual(editProject, taskEditDefaultData)) {
+                    toast.error("No changes detected", { id: "changes" })
+                    return;
+                }
+
+                // handle update the task based on user role
+                if (userRole === "owner") {
+                    updateData("projects", taskEditDefaultData.id, editProject)
+                } else if (userRole === "editor") {
+                    updateData("projects", taskEditDefaultData.id, { ...editProject, access: taskEditDefaultData?.access, userId: taskEditDefaultData?.userId, privacy: taskEditDefaultData?.privacy })
+                }
+
+                closeFunc()
+                toast.success("edited successfully", { id: "edit" })
+            }
+
+            if (formAction === "addNewItem") {
+                const tasks = getProjectLinkedTasks()
+
+                const newProject = {
+                    access,
+                    comments: [],
+                    createdAt: new Date().toISOString(),
+                    description: itemData?.description,
+                    dueDate: itemData?.dueDate,
+                    isCompleted: false,
+                    linkedTasks: tasks ? tasks : [],
+                    priority: itemData?.priority,
+                    privacy: itemData?.privacy,
+                    progress: "0",
+                    title: itemData?.title,
+                    userId: userDetails.id,
+                }
+
+                // check if there is project with this title
+                const isProjectExist = projectsData.find((project) => project.title === itemData?.title)
+                if (isProjectExist) {
+                    toast.error("project with this title already exists", { id: "project-exist" })
+                    return;
+                }
+
+                async function addNewProject() {
+                    await createDocument("projects", newProject)
+                    handleResetFrom()
+                    closeFunc()
+                }
+
+                addNewProject()
+            }
+        }
 
     }
 
@@ -334,13 +444,6 @@ function CreateNewItem({ taskEditDefaultData, formAction, itemName, closeFunc })
     const handleModalClick = (e) => {
         e.stopPropagation();
     };
-
-    // handle update item
-    // function handleUpdateItem() {
-    //     if (itemName === "task") {
-    //         updateData("tasks", taskEditDefaultData.id,)
-    //     }
-    // }
 
     // focus to email when open email
     useEffect(() => {
@@ -524,6 +627,7 @@ function CreateNewItem({ taskEditDefaultData, formAction, itemName, closeFunc })
                                                             placeholder="select task...."
                                                             isSearchable
                                                             isClearable
+                                                            isMulti
                                                             styles={customStyles}
                                                         />
                                                     )}
@@ -537,27 +641,8 @@ function CreateNewItem({ taskEditDefaultData, formAction, itemName, closeFunc })
                         {
                             itemName === "category" && (
                                 <>
-                                    {/* <div className={styles.linkedTasks}>
-                                        <Controller
-                                            name="categoriesLinkedTasks"
-                                            control={control}
-                                            render={({ field }) => (
-                                                <Select
-                                                    {...field}
-                                                    onChange={(selected) => field.onChange(selected)}
-                                                    value={field.value}
-                                                    options={tasksOptions}
-                                                    placeholder="select task...."
-                                                    isSearchable
-                                                    isClearable
-                                                    isMulti
-                                                    styles={customStyles}
-                                                />
-                                            )}
-                                        />
-                                    </div> */}
                                     <div className={styles.stars}>
-                                        <span>set Category stars</span>
+                                        <span className={styles.setCategoryStarsLabel}>set Category stars</span>
                                         <MainInput
                                             type={"number"}
                                             name={"stars"}

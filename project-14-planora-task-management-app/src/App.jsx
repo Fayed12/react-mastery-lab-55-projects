@@ -66,7 +66,7 @@ function App() {
         return () => unsubscribe();
     }, [dispatch]);
 
-    // set all user tasks and all related task he has connect with it 
+    // set all user tasks that he is owner or editor or viewer
     useEffect(() => {
         if (!userDetails?.id) return;
 
@@ -85,6 +85,11 @@ function App() {
 
             // sort tasks by dueDate first, by task will be end soon is first 
             uniqueTasks.sort((a, b) => {
+                // if isCompleted is different
+                if (a.isCompleted !== b.isCompleted) {
+                    return a.isCompleted ? 1 : -1;
+                }
+
                 if (new Date(a.dueDate) < new Date(b.dueDate)) return -1
                 if (new Date(a.dueDate) > new Date(b.dueDate)) return 1
                 return 0
@@ -132,7 +137,96 @@ function App() {
         }
     }, [dispatch, userDetails?.id, userDetails?.email])
 
-    // set user categories and projects when open app
+    // set all projects that user is owner or editor or viewer
+    useEffect(() => {
+        if (!userDetails?.id) return;
+
+        let ownerProjects = [];
+        let accessProjectsEditors = [];
+        let accessProjectsViewers = [];
+
+        function mergeAndDispatch() {
+            const merged = [
+                ...ownerProjects,
+                ...accessProjectsEditors,
+                ...accessProjectsViewers
+            ];
+
+            const uniqueProjects = Array.from(
+                new Map(merged.map(p => [p.id, p])).values()
+            );
+
+            // sort projects by dueDate first, by project will be end soon is first
+            uniqueProjects.sort((a, b) => {
+                // if isCompleted is different
+                if (a.isCompleted !== b.isCompleted) {
+                    return a.isCompleted ? 1 : -1;
+                }
+
+                if (new Date(a.dueDate) < new Date(b.dueDate)) return -1
+                if (new Date(a.dueDate) > new Date(b.dueDate)) return 1
+                return 0
+            });
+
+            dispatch(setProjectsData(uniqueProjects));
+        }
+
+        // owner
+        const qOwner = query(
+            collection(db, "projects"),
+            where("userId", "==", userDetails.id)
+        );
+
+        // editors
+        const qEditors = query(
+            collection(db, "projects"),
+            where("access.editors", "array-contains", {
+                id: userDetails.id,
+                email: userDetails.email
+            })
+        );
+
+        // viewers
+        const qViewers = query(
+            collection(db, "projects"),
+            where("access.viewers", "array-contains", {
+                id: userDetails.id,
+                email: userDetails.email
+            })
+        );
+
+        const unSub1 = onSnapshot(qOwner, (snapshot) => {
+            ownerProjects = snapshot.docs.map(doc => ({
+                id: doc.id,
+                ...doc.data()
+            }));
+            mergeAndDispatch();
+        });
+
+        const unSub2 = onSnapshot(qEditors, (snapshot) => {
+            accessProjectsEditors = snapshot.docs.map(doc => ({
+                id: doc.id,
+                ...doc.data()
+            }));
+            mergeAndDispatch();
+        });
+
+        const unSub3 = onSnapshot(qViewers, (snapshot) => {
+            accessProjectsViewers = snapshot.docs.map(doc => ({
+                id: doc.id,
+                ...doc.data()
+            }));
+            mergeAndDispatch();
+        });
+
+        return () => {
+            unSub1();
+            unSub2();
+            unSub3();
+        };
+    }, [userDetails?.id, userDetails?.email, dispatch]);
+
+    // set user categories when open app
     useEffect(() => {
         if (!userDetails?.id) return;
 
@@ -147,29 +241,9 @@ function App() {
             dispatch(setCategoriesData(categories))
         },
             (error) => console.error("categories error:", error));
-
-
-        // projects snapshot
-        const qProjects = query(
-            collection(db, "projects"),
-            where("userId", "==", userDetails.id)
-        );
-        const unsubscribeProjects = onSnapshot(qProjects, (snapshot) => {
-            const projects = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-
-            // sort projects by dueDate first, by project will be end soon is first
-            projects.sort((a, b) => {
-                if (new Date(a.dueDate) < new Date(b.dueDate)) return -1
-                if (new Date(a.dueDate) > new Date(b.dueDate)) return 1
-                return 0
-            })
-            
-            dispatch(setProjectsData(projects))
-        }, (error) => console.error("projects error:", error));
-
+        
         return () => {
             unsubscribeCategories()
-            unsubscribeProjects()
         }
     }, [userDetails?.id, dispatch])
 
@@ -179,8 +253,11 @@ function App() {
             return
         }
         tasksData?.map((task) => {
-            if (new Date() > new Date(task.dueDate).getTime()) {
+            if (new Date() > new Date(task.dueDate).getTime() && !task.isCompleted) {
                 updateData("tasks", task.id, { isCompleted: true })
+                return
+            } else if (new Date() < new Date(task.dueDate).getTime() && task.isCompleted) {
+                updateData("tasks", task.id, { isCompleted: false })
                 return
             } else {
                 return
@@ -194,7 +271,10 @@ function App() {
 
         projectData?.map((project) => {
             if (new Date() > new Date(project.dueDate).getTime() && !project.isCompleted) {
-                updateData("projects", project.id, { isCompleted: true })
+                updateData("projects", project.id, { isCompleted: true, progress: "100" })
+                return
+            } else if (new Date() < new Date(project.dueDate).getTime() && project.isCompleted) {
+                updateData("projects", project.id, { isCompleted: false, progress: "0" })
                 return
             } else {
                 return
@@ -202,6 +282,62 @@ function App() {
         })
 
     }, [tasksData, projectData])
+
+    // check privacy to handle access users 
+    useEffect(() => {
+        // handle task privacy
+        if (!tasksData || tasksData.length === 0) {
+            return
+        }
+
+        const emptyAccess = {
+            viewers: [],
+            editors: []
+        }
+
+        tasksData?.map((task) => {
+            if (task?.privacy === "private") {
+                updateData("tasks", task.id, { access: { ...task?.access, ...emptyAccess } })
+                return
+            }
+            else {
+                return
+            }
+        })
+
+        // handle project privacy
+        if (!projectData || projectData.length === 0) {
+            return
+        }
+
+        projectData?.map((project) => {
+            if (project?.privacy === "private") {
+                updateData("projects", project.id, { access: { ...project?.access, ...emptyAccess } })
+                return
+            }
+            else {
+                return
+            }
+        })
+
+    }, [tasksData, projectData])
+
+    // check project completion when progress is 100
+    useEffect(() => {
+        if (!projectData || projectData.length === 0) {
+            return
+        }
+
+        projectData?.map((project) => {
+            if (String(project.progress) == "100" && !project.isCompleted) {
+                updateData("projects", project.id, { isCompleted: true })
+                return
+            } else if (String(project.progress) != "100" && project.isCompleted) {
+                updateData("projects", project.id, { isCompleted: false })
+                return
+            }
+        })
+    }, [projectData])
 
     // go to app if user is logged in and user data is exit
     useEffect(() => {

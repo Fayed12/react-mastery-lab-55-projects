@@ -26,7 +26,7 @@ const ProfileSidePopup = ({ isOpen = true, onClose = () => { } }) => {
     const user = allUsersData?.find((user) => user.email === userDetails.email)
 
     const [isEditing, setIsEditing] = useState(false);
-    const [nameInput, setNameInput] = useState(user.name);
+    const [nameInput, setNameInput] = useState(user?.name);
     const [loading, setLoading] = useState(false);
 
     const handleSave = async () => {

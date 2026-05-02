@@ -169,6 +169,15 @@
     background-color: var(--text-400);
 }
 
+.setCategoryStarsLabel {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    color: var(--text-500);
+    font-size: var(--text-sm);
+}
+
 /* Responsive */
 @media (max-width: 640px) {
     .createNewItem {

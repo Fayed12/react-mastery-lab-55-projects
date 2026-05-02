@@ -15,7 +15,7 @@ import { useState } from "react";
 import ReactDOM from "react-dom";
 
 // react icons
-import { MdClose, MdCalendarToday, MdFlag, MdPerson, MdAccessTime, MdLock, MdPublic, MdEdit, MdDelete, MdCheckCircleOutline } from "react-icons/md";
+import { MdClose, MdCalendarToday, MdFlag, MdPerson, MdAccessTime, MdLock, MdPublic, MdEdit, MdDelete, MdSentimentVeryDissatisfied, MdSentimentNeutral, MdSentimentSatisfied, MdSentimentVerySatisfied } from "react-icons/md";
 import { FaSave } from "react-icons/fa";
 import { IoIosCloseCircleOutline } from "react-icons/io";
 
@@ -100,6 +100,20 @@ function ProjectDetails({ projectData, onClose }) {
         }
     }
 
+    let progressColor = "var(--error-500)";
+        let ProgressIcon = MdSentimentVeryDissatisfied;
+    
+        if (progress > 25 && progress <= 50) {
+            progressColor = "var(--warning-500)";
+            ProgressIcon = MdSentimentNeutral;
+        } else if (progress > 50 && progress <= 75) {
+            progressColor = "var(--info-500)";
+            ProgressIcon = MdSentimentSatisfied;
+        } else if (progress > 75) {
+            progressColor = "var(--success-500)";
+            ProgressIcon = MdSentimentVerySatisfied;
+        }
+
     const portalRoot = document.getElementById("portal-root") || document.body;
 
     return ReactDOM.createPortal(
@@ -145,11 +159,14 @@ function ProjectDetails({ projectData, onClose }) {
                     <div className={styles.section}>
                         <div className={styles.progressHeader}>
                             <span>Overall Progress</span>
-                            <span>{progress || 0}%</span>
+                            <div className={styles.progressIconWrapper}>
+                                <ProgressIcon style={{ color: progressColor, fontSize: '1.2rem' }} />
+                                <span>{progress || 0}%</span>
+                            </div>
                         </div>
                         <div className={styles.progressContainer}>
                             <div className={styles.progressBar}>
-                                <div className={styles.progressFill} style={{ width: `${progress || 0}%` }}></div>
+                                <div className={styles.progressFill} style={{ width: `${progress || 0}%`, backgroundColor: progressColor }}></div>
                             </div>
                         </div>
                     </div>
@@ -198,21 +215,21 @@ function ProjectDetails({ projectData, onClose }) {
                     {/* Linked Tasks */}
                     {linkedTasks?.length > 0 && (
                         <div className={styles.section}>
-                            <h3 className={styles.sectionHeader}>Linked Tasks ({linkedTasks.length})</h3>
+                            <h3 className={styles.sectionHeader}>Linked Tasks ({linkedTasks?.length})</h3>
                             <div className={styles.linkedTasksList}>
-                                {linkedTasks.map((taskId) => {
-                                    const task = tasksData?.find(t => t.id === taskId)
+                                {linkedTasks?.map((task) => {
+                                    const taskItem = tasksData?.find(t => t.id === task?.id)
                                     return (
                                         <div
-                                            key={task.id}
+                                            key={taskItem?.id}
                                             className={styles.linkedTaskCard}
-                                            onClick={() => setSelectedTaskPopup(task)}
+                                            onClick={() => setSelectedTaskPopup(taskItem)}
                                         >
-                                            <span className={`${styles.linkedTaskTitle} ${task.isCompleted ? styles.linkedTaskCompleted : ''}`}>
-                                                <input type="checkbox" checked={task.isCompleted} readOnly className={styles.checkbox} style={{ width: '0.9em', height: '0.9em' }} />
-                                                {task.title}
+                                            <span className={`${styles.linkedTaskTitle} ${taskItem?.isCompleted ? styles.linkedTaskCompleted : ''}`}>
+                                                <input type="checkbox" checked={taskItem?.isCompleted} readOnly className={styles.checkbox} style={{ width: '0.9em', height: '0.9em' }} />
+                                                {taskItem?.title}
                                             </span>
-                                            <span className={styles.linkedTaskPriority} style={{ color: getPriorityColor(task.priority) }}>
+                                            <span className={styles.linkedTaskPriority} style={{ color: getPriorityColor(taskItem?.priority) }}>
                                                 <MdFlag />
                                             </span>
                                         </div>
@@ -225,22 +242,22 @@ function ProjectDetails({ projectData, onClose }) {
                     {/* Comments */}
                     <div className={styles.commentsSection}>
                         <h3 className={styles.sectionHeader}>Comments ({comments?.length || 0})</h3>
-                        {comments && comments.length > 0 ? (
+                        {comments && comments?.length > 0 ? (
                             <div className={styles.commentsContainer}>
-                                {comments.map((comment, index) => (
+                                {comments?.map((comment, index) => (
                                     <div className={styles.commentBox} key={index}>
                                         <div className={styles.userAvatar}>
-                                            <span>{comment.senderName.split(" ").at(0).slice(0, 1).toUpperCase()}{comment.senderName.split(" ").at(1).slice(0, 1).toUpperCase()}</span>
+                                            <span>{comment?.senderName?.split(" ")?.at(0)?.slice(0, 1)?.toUpperCase()}{comment?.senderName?.split(" ")?.at(1)?.slice(0, 1)?.toUpperCase()}</span>
                                         </div>
                                         <div className={styles.content}>
                                             {openEditCommentId !== comment.id ? (
                                                 <div className={styles.commentContentWrapper}>
-                                                    <p className={styles.commentText}>{comment.content}</p>
-                                                    {userDetails.id === comment.senderId && (
+                                                    <p className={styles.commentText}>{comment?.content}</p>
+                                                    {userDetails?.id === comment?.senderId && (
                                                         <div className={styles.commentActions}>
                                                             <button
                                                                 className={styles.actionBtn}
-                                                                onClick={() => { setOpenEditCommentId(comment.id); setNewCommentValue(comment.content) }}
+                                                                onClick={() => { setOpenEditCommentId(comment?.id); setNewCommentValue(comment?.content) }}
                                                                 title="Edit"
                                                             >
                                                                 <MdEdit />
