@@ -1,3 +1,278 @@
-.title {
-    color: var(--primary-600);
+.calendarContainer {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    padding: var(--space-lg);
+    background-color: var(--bg-50);
+    color: var(--text-900);
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: var(--space-lg);
+    flex-wrap: wrap;
+    gap: var(--space-md);
+}
+
+.monthTitle {
+    font-weight: 700 !important;
+    color: var(--text-900);
+}
+
+.headerActions {
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+}
+
+.todayBtn {
+    color: var(--primary-600) !important;
+    border-color: var(--primary-600) !important;
+    text-transform: none !important;
+    font-weight: 600 !important;
+}
+
+.navBtn {
+    color: var(--text-700) !important;
+    background-color: var(--bg-200) !important;
+}
+.navBtn:hover {
+    background-color: var(--bg-300) !important;
+}
+
+.daysRow {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    margin-bottom: var(--space-xs);
+}
+
+.dayName {
+    text-align: center;
+    color: var(--text-500);
+    font-weight: 600;
+    padding: var(--space-xs) 0;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    /* auto-rows to maintain minimum height, but can expand */
+    grid-auto-rows: minmax(120px, auto);
+    gap: 1px;
+    background-color: var(--border-200);
+    border: 1px solid var(--border-200);
+    border-radius: var(--radius-md);
+    overflow: hidden;
+}
+
+.dayCell {
+    background-color: var(--bg-50) !important;
+    padding: var(--space-sm);
+    display: flex;
+    flex-direction: column;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+    min-height: 120px;
+    border-radius: 0 !important;
+}
+
+.dayCell:hover {
+    background-color: var(--bg-100) !important;
+}
+
+.outsideMonth {
+    opacity: 0.5;
+    background-color: var(--bg-100) !important;
+}
+
+.today {
+    border: 2px solid var(--info-500) !important;
+    position: relative;
+    z-index: 1; /* Keep border above adjacent cells */
+}
+
+.dayNumber {
+    font-size: var(--text-sm) !important;
+    font-weight: 600 !important;
+    color: var(--text-700);
+    margin-bottom: var(--space-xs) !important;
+    align-self: flex-end;
+}
+
+.todayText {
+    color: var(--info-500) !important;
+}
+
+.itemsContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    overflow: hidden;
+    flex: 1;
+}
+
+.itemPreview {
+    font-size: var(--text-xs);
+    padding: 2px 6px;
+    background-color: var(--bg-200);
+    border-radius: var(--radius-xs);
+    border-left: 3px solid transparent;
+    color: var(--text-800);
+}
+
+.itemTitle {
+    font-size: 0.75rem !important;
+    line-height: 1.2 !important;
+    font-weight: 500 !important;
+}
+
+.completedItem .itemTitle,
+.completedItem.modalItem .modalItemTitle {
+    text-decoration: line-through;
+    color: var(--text-400) !important;
+}
+
+.moreLabel {
+    font-size: 0.7rem !important;
+    color: var(--text-500);
+    font-weight: 600 !important;
+    padding-left: 2px;
+}
+
+/* Modal Styles */
+.modalContent {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 90%;
+    max-width: 500px;
+    background-color: var(--bg-50);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-lg);
+    outline: none;
+    max-height: 85vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.modalHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: var(--space-md) var(--space-lg);
+    border-bottom: 1px solid var(--border-100);
+}
+
+.modalHeader h6 {
+    font-weight: 600;
+    color: var(--text-900);
+}
+
+.modalBody {
+    padding: var(--space-lg);
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-md);
+}
+
+.modalItem {
+    padding: var(--space-md);
+    border-radius: var(--radius-sm) !important;
+    border-left: 4px solid transparent !important;
+    background-color: var(--bg-100) !important;
+    color: var(--text-900) !important;
+}
+
+.modalItemHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: var(--space-sm);
+    margin-bottom: var(--space-xs);
+}
+
+.modalItemTitle {
+    font-weight: 600 !important;
+    color: var(--text-900);
+    word-break: break-word;
+}
+
+.itemTypeChip {
+    background-color: var(--primary-100) !important;
+    color: var(--primary-700) !important;
+    font-weight: 600 !important;
+    height: 24px !important;
+}
+
+.modalItemMeta {
+    display: flex;
+    align-items: center;
+    gap: var(--space-md);
+    font-size: var(--text-sm);
+}
+
+.priorityLabel {
+    font-weight: 500;
+}
+
+.statusLabel {
+    color: var(--success-500);
+    font-weight: 600;
+}
+
+.emptyState {
+    text-align: center;
+    padding: var(--space-xl) 0;
+}
+
+/* Responsiveness */
+@media (max-width: 768px) {
+    .calendarContainer {
+        padding: var(--space-md);
+    }
+    
+    .grid {
+        grid-auto-rows: minmax(100px, auto);
+    }
+    
+    .dayCell {
+        padding: var(--space-2xs);
+        min-height: 100px;
+    }
+    
+    .itemPreview {
+        padding: 2px 4px;
+    }
+    
+    .header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    
+    .headerActions {
+        width: 100%;
+        justify-content: space-between;
+    }
+}
+
+@media (max-width: 480px) {
+    .dayName h6 {
+        font-size: 0.75rem;
+    }
+    
+    .grid {
+        grid-auto-rows: minmax(80px, auto);
+    }
+    
+    .dayCell {
+        min-height: 80px;
+    }
+    
+    .itemTitle {
+        font-size: 0.65rem !important;
+    }
 }
