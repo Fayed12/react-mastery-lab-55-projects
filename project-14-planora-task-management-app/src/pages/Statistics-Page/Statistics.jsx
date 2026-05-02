@@ -4,11 +4,11 @@ import { getCategoriesData } from '../../Redux/categoriesSlice';
 import { getProjectsData } from '../../Redux/projectsSlice';
 import { getTasksData } from '../../Redux/tasksSlice';
 import { getUserDetails } from '../../Redux/authUserSlice';
-import { 
-    getTaskStats, 
-    getProjectStats, 
-    getCategoryStats, 
-    getProductivityStats 
+import {
+    getTaskStats,
+    getProjectStats,
+    getCategoryStats,
+    getProductivityStats
 } from '../../services/statistics/statisticsService';
 
 // react
@@ -21,22 +21,22 @@ import { useSelector } from 'react-redux';
 import { Avatar, Box, Typography } from '@mui/material';
 
 // recharts
-import { 
+import {
     PieChart, Pie, Cell, Tooltip, Legend, ResponsiveContainer,
     BarChart, Bar, XAxis, YAxis, CartesianGrid,
     LineChart, Line
 } from 'recharts';
 
 // icons
-import { 
-    FaTasks, FaProjectDiagram, FaTags, FaCheckCircle, 
-    FaExclamationCircle, FaChartLine, FaCalendarDay 
+import {
+    FaTasks, FaProjectDiagram, FaTags, FaCheckCircle,
+    FaExclamationCircle, FaChartLine, FaCalendarDay
 } from 'react-icons/fa';
 
 const Statistics = () => {
-    const tasks = useSelector(getTasksData) || [];
-    const categories = useSelector(getCategoriesData) || [];
-    const projects = useSelector(getProjectsData) || [];
+    const tasks = useSelector(getTasksData || []);
+    const categories = useSelector(getCategoriesData || []);
+    const projects = useSelector(getProjectsData || []);
     const user = useSelector(getUserDetails);
 
     // Compute stats using service layer
@@ -128,7 +128,7 @@ const Statistics = () => {
                                     <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="var(--border-100)" />
                                     <XAxis dataKey="name" stroke="var(--text-500)" />
                                     <YAxis stroke="var(--text-500)" />
-                                    <Tooltip cursor={{fill: 'var(--bg-200)'}} />
+                                    <Tooltip cursor={{ fill: 'var(--bg-200)' }} />
                                     <Bar dataKey="value" radius={[4, 4, 0, 0]}>
                                         {taskStats.priorityCount.map((entry, index) => (
                                             <Cell key={`cell-${index}`} fill={entry.color} />
@@ -147,7 +147,7 @@ const Statistics = () => {
                                     <XAxis dataKey="date" stroke="var(--text-500)" />
                                     <YAxis stroke="var(--text-500)" />
                                     <Tooltip />
-                                    <Line type="monotone" dataKey="count" stroke="var(--primary-600)" strokeWidth={3} dot={{r:4}} />
+                                    <Line type="monotone" dataKey="count" stroke="var(--primary-600)" strokeWidth={3} dot={{ r: 4 }} />
                                 </LineChart>
                             </ResponsiveContainer>
                         </div>
@@ -182,7 +182,7 @@ const Statistics = () => {
                                     <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="var(--border-100)" />
                                     <XAxis dataKey="name" stroke="var(--text-500)" />
                                     <YAxis stroke="var(--text-500)" />
-                                    <Tooltip cursor={{fill: 'var(--bg-200)'}} />
+                                    <Tooltip cursor={{ fill: 'var(--bg-200)' }} />
                                     <Bar dataKey="projects" fill="var(--primary-500)" radius={[4, 4, 0, 0]} />
                                 </BarChart>
                             </ResponsiveContainer>
@@ -211,7 +211,7 @@ const Statistics = () => {
                                     <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="var(--border-100)" />
                                     <XAxis dataKey="name" stroke="var(--text-500)" />
                                     <YAxis stroke="var(--text-500)" />
-                                    <Tooltip cursor={{fill: 'var(--bg-200)'}} />
+                                    <Tooltip cursor={{ fill: 'var(--bg-200)' }} />
                                     <Bar dataKey="tasks" fill="var(--info-500)" radius={[4, 4, 0, 0]} />
                                 </BarChart>
                             </ResponsiveContainer>

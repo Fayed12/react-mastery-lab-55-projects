@@ -302,13 +302,13 @@ src/
 
 * user can add his own categories but if no cats and he need to add one to task he must create one first ✅
 
-* EX: edit==> userIdOne, view ==> userIdTwo....
+* EX: edit==> userIdOne, view ==> userIdTwo.... ✅
 
-* Statistics pages, that contain all Statistics of the tasks and projects, can be in below of each page
+* Statistics pages, that contain all Statistics of the tasks and projects, can be in below of each page ✅
 
 * user can go to calender page to see in easy way his upcoming and soon tasks in calender
 
-* Profile page,Where the user can edit gis profile image and other data
+* Profile section,Where the user can edit his profile name ✅
 
 * the website will contain notifications 
 
