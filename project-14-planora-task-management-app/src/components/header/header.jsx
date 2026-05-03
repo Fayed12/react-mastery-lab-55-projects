@@ -11,14 +11,9 @@ import { useLocation } from 'react-router';
 // redux
 import { useSelector, useDispatch } from 'react-redux';
 
-// react router
-import { MdLightMode } from "react-icons/md";
-import { MdDarkMode } from "react-icons/md";
-import { IoIosNotifications } from "react-icons/io";
-
-// react icons
-import { AiOutlineMenuUnfold } from "react-icons/ai";
-import { AiOutlineMenuFold } from "react-icons/ai";
+//react icons
+import { MdLightMode, MdDarkMode } from "react-icons/md";
+import { AiOutlineMenuUnfold, AiOutlineMenuFold } from "react-icons/ai";
 
 const Header = ({ setOpenMenu, openMenu }) => {
     const themeValue = useSelector(getThemeValue)

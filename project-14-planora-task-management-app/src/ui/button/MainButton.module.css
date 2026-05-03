@@ -44,3 +44,11 @@
 .btn[data-variant="secondary"]:hover:not(:disabled) {
     background-color: var(--btn-secondary-hover);
 }
+
+/* Responsiveness */
+@media (max-width: 500px) {
+    .btn {
+        width: 100%;
+        justify-content: center;
+    }
+}

@@ -64,6 +64,8 @@
     border: 1px solid var(--border-100);
     min-height: 350px;
     width: 100%;
+    min-width: 0;
+    overflow: hidden;
 }
 
 .pieChart *:focus,
@@ -96,43 +98,67 @@
     to { opacity: 1; transform: translateY(0); }
 }
 
-/* Responsive */
-@media (max-width: 1024px) {
+/* Responsiveness */
+@media (max-width: 1200px) {
     .chartsGrid {
-        grid-template-columns: 1fr 1fr;
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .projectsGrid {
+        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
     }
 }
 
-@media (max-width: 768px) {
+@media (max-width: 992px) {
     .chartsGrid {
         grid-template-columns: 1fr;
     }
-
-    .projectPage {
+    
+    .allPage {
         padding: var(--space-md);
     }
-
+    
     .absoluteButton {
         position: relative;
         top: 0;
         right: 0;
         margin-bottom: var(--space-lg);
-        text-align: center;
         display: flex;
+        justify-content: flex-end;
+    }
+}
+
+@media (max-width: 768px) {
+    .projectPage {
+        padding: var(--space-sm);
+    }
+    
+    .projectsGrid {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 500px) {
+    .allPage {
+        padding: var(--space-sm);
+    }
+
+    .absoluteButton {
+        justify-content: stretch;
+    }
+    
+    .absoluteButton button {
+        width: 100%;
         justify-content: center;
     }
-
-    .filterBar {
-        flex-direction: column;
-        align-items: stretch;
+    
+    .headerTitle h1 {
+        font-size: var(--text-2xl);
     }
-
-    .filterContent,
-    .sorted {
-        flex-wrap: wrap;
-    }
-
-    select {
-        flex: 1;
+    
+    .pieChart,
+    .barChart,
+    .radialChart {
+        padding: var(--space-sm);
     }
 }

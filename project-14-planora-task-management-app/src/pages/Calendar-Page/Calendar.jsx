@@ -25,7 +25,7 @@ import {
 } from 'date-fns';
 
 // mui
-import { Box, Typography, Paper, Modal, IconButton, Button, Chip } from '@mui/material';
+import { Box, Typography, Paper, Modal, Chip } from '@mui/material';
 
 // react icons
 import { 

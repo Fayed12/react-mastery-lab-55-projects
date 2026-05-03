@@ -4,11 +4,23 @@
     align-items: center;
     gap: var(--space-md);
     margin-top: auto;
-    padding-top: var(--space-sm);
+    padding-block: var(--space-sm);
 }
 
 .pageNumber {
     font-size: var(--text-sm);
     font-weight: 500;
     color: var(--text-700);
+}
+
+/* Responsiveness */
+@media (max-width: 500px) {
+    .footer {
+        flex-direction: column;
+        gap: var(--space-sm);
+    }
+    
+    .footer > button {
+        width: 100%;
+    }
 }

@@ -60,3 +60,35 @@ select:hover {
     border-color: var(--primary-400);
     background-color: var(--bg-100);
 }
+
+/* Responsiveness */
+@media (max-width: 992px) {
+    .filterBar {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    
+    .filterContent,
+    .sorted {
+        flex-wrap: wrap;
+    }
+}
+
+@media (max-width: 768px) {
+    .searchBar {
+        width: 100%;
+        min-width: unset;
+    }
+}
+
+@media (max-width: 500px) {
+    .filterContent div,
+    .sorted div {
+        flex-direction: column;
+        width: 100%;
+    }
+    
+    select {
+        width: 100%;
+    }
+}

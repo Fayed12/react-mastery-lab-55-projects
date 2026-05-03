@@ -39,6 +39,8 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    overflow: hidden;
+    min-width: 0;
 }
 
 :global(.recharts-default-tooltip) {
@@ -55,4 +57,30 @@
 
 :global(.recharts-default-tooltip) ul li:first-child {
     color: var(--primary-300) !important;
+}
+
+/* Responsiveness */
+@media (max-width: 992px) {
+    .chart {
+        height: 300px;
+        max-height: 300px;
+    }
+}
+
+@media (max-width: 768px) {
+    .title div {
+        padding: var(--space-sm) var(--space-md);
+        text-align: center;
+    }
+}
+
+@media (max-width: 500px) {
+    .chart {
+        height: 250px;
+        max-height: 250px;
+    }
+    
+    .title h3 {
+        font-size: var(--text-lg);
+    }
 }

@@ -32,3 +32,15 @@
     background-color: var(--error-500) !important;
     color: white !important;
 }
+
+/* Responsiveness */
+@media (max-width: 500px) {
+    .actions {
+        width: 100%;
+        justify-content: flex-end;
+    }
+    
+    .actionBtn button {
+        padding: var(--btn-padding-y-sm) var(--btn-padding-x-md);
+    }
+}

@@ -72,6 +72,40 @@
     display: inline;
 }
 
+.links {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.backToHome {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+}
+
+.backToHome a {
+    margin-bottom: 0 !important;
+}
+
+.backToHome a svg {
+    color: var(--text-900);
+    font-size: var(--text-2xl);
+    font-weight: 700;
+    margin-top: 5px;
+    transition: all 0.5s ease-in-out;
+}
+
+.backToHome a svg:hover {
+    color: var(--primary-600);
+    transform: rotateY(180deg) scale(1.1)
+}
+
+.links .signUp p{
+    margin-top: 0 !important;
+}
+
 @keyframes fadeIn {
     from {
         opacity: 0;

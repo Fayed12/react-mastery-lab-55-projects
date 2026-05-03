@@ -53,6 +53,9 @@
     color: var(--text-500);
     font-weight: 600;
     padding: var(--space-xs) 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .headerSection {
@@ -215,6 +218,11 @@
 .modalHeader h6 {
     font-weight: 600;
     color: var(--text-900);
+    width: fit-content;
+}
+
+.modalHeader button{
+    width: auto;
 }
 
 .modalBody {
@@ -307,49 +315,105 @@
 }
 
 /* Responsiveness */
-@media (max-width: 768px) {
-    .calendarContainer {
-        padding: var(--space-md);
+@media (max-width: 1200px) {
+    .dayCell {
+        min-height: 100px;
     }
-    
     .grid {
         grid-auto-rows: minmax(100px, auto);
     }
-    
+}
+
+@media (max-width: 992px) {
     .dayCell {
-        padding: var(--space-2xs);
-        min-height: 100px;
+        padding: var(--space-xs);
     }
-    
-    .itemPreview {
-        padding: 2px 4px;
+    .itemTitle {
+        font-size: 0.7rem !important;
     }
-    
-    .header {
-        flex-direction: column;
-        align-items: flex-start;
-    }
-    
-    .headerActions {
-        width: 100%;
-        justify-content: space-between;
+    .modalContent {
+        width: 80%;
     }
 }
 
-@media (max-width: 480px) {
-    .dayName h6 {
-        font-size: 0.75rem;
-    }
-    
-    .grid {
-        grid-auto-rows: minmax(80px, auto);
+@media (max-width: 768px) {
+    .calendarContainer {
+        padding: var(--space-md);
     }
     
     .dayCell {
         min-height: 80px;
     }
     
-    .itemTitle {
+    .grid {
+        grid-auto-rows: minmax(80px, auto);
+    }
+    
+    .itemPreview {
+        padding: 2px 4px;
+    }
+    
+    .modalContent {
+        width: 95%;
+    }
+}
+
+@media (max-width: 500px) {
+    .calendarContainer {
+        padding: var(--space-sm);
+    }
+    
+    .header {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    
+    .headerActions {
+        flex-direction: column;
+        width: 100%;
+        gap: var(--space-sm);
+    }
+    
+    .headerActions > button {
+        width: 100%;
+    }
+    
+    .dayName h6,
+    .dayName span,
+    .dayName p,
+    .dayName * {
         font-size: 0.65rem !important;
+    }
+    
+    .dayCell {
+        min-height: 60px;
+        padding: 2px;
+    }
+    
+    .grid {
+        grid-auto-rows: minmax(60px, auto);
+    }
+    
+    /* Hide Text content */
+    .itemTitle,
+    .itemPreviewType {
+        display: none !important;
+    }
+    
+    /* Center the remaining icon */
+    .itemPreviewHeader {
+        justify-content: center;
+        margin-bottom: 0;
+    }
+    
+    .itemPreviewIcons {
+        gap: 0;
+    }
+    
+    .itemPreview {
+        padding: 2px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
     }
 }

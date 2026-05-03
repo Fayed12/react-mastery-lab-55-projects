@@ -178,8 +178,14 @@
     font-size: var(--text-sm);
 }
 
-/* Responsive */
-@media (max-width: 640px) {
+/* Responsiveness */
+@media (max-width: 992px) {
+    .createNewItem {
+        width: 90%;
+    }
+}
+
+@media (max-width: 768px) {
     .createNewItem {
         width: 95%;
         padding: var(--space-md);
@@ -191,7 +197,9 @@
     .flexCategories {
         grid-template-columns: 1fr;
     }
+}
 
+@media (max-width: 500px) {
     .flexButtonContainer {
         flex-direction: column-reverse;
         width: 100%;

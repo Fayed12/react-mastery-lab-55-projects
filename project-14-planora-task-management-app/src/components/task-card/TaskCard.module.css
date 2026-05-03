@@ -217,3 +217,42 @@
         transform: scale(1);
     }
 }
+
+/* Responsiveness */
+@media (max-width: 768px) {
+    .header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: var(--space-sm);
+    }
+    
+    .roleContainer {
+        width: 100%;
+        justify-content: flex-start;
+    }
+}
+
+@media (max-width: 500px) {
+    .metaInfo {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: var(--space-xs);
+    }
+    
+    .footer {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: var(--space-sm);
+    }
+    
+    .addComment {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    
+    .actions {
+        width: 100%;
+        display: flex;
+        justify-content: flex-end;
+    }
+}

@@ -4,7 +4,6 @@ import MainButton from "../../../ui/button/MainButton";
 import styles from "./Login.module.css";
 import signInWithFirebase from "../../../firebase/auth/firebaseLoginWithEmail";
 import signInWithGoogle from "../../../firebase/auth/firebaseLoginWithGoogle";
-// import { UserContext } from "../../../context/context";
 
 // react form
 import { useForm } from "react-hook-form";
@@ -16,7 +15,10 @@ import toast from "react-hot-toast";
 import { useEffect, useState } from "react";
 
 // react router
-import { NavLink, useNavigate } from "react-router";
+import { NavLink } from "react-router";
+
+// react icons
+import { GiExitDoor } from "react-icons/gi";
 
 
 function Login() {
@@ -29,7 +31,6 @@ function Login() {
         handleSubmit,
         formState: { errors },
     } = useForm();
-    const navigate = useNavigate();
 
     // handle submit data to login
     async function onsubmit(data) {
@@ -59,12 +60,6 @@ function Login() {
         setFocus("email");
     }, [setFocus]);
 
-    // go to home if user exist
-    // useEffect(() => {
-    //     if (userDetails) {
-    //         navigate("/home", { replace: true })
-    //     }
-    // }, [navigate, userDetails])
     return (
         <div className={styles.allPage}>
             <div className={styles.form}>
@@ -120,13 +115,20 @@ function Login() {
                     <p onClick={() => handleGoogleLogin()}>login with google</p>
                 </div>
 
-                <div className={styles.signUp}>
-                    <p>
-                        don't have an account,{" "}
-                        <NavLink to="/register" replace={true}>
-                            register
+                <div className={styles.links}>
+                    <div className={styles.backToHome}>
+                        <NavLink to="/" replace={true} title="back to home">
+                            <GiExitDoor size={20} />
                         </NavLink>
-                    </p>
+                    </div>
+                    <div className={styles.signUp}>
+                        <p>
+                            don't have an account,{" "}
+                            <NavLink to="/register" replace={true}>
+                                register
+                            </NavLink>
+                        </p>
+                    </div>
                 </div>
             </div>
         </div>
