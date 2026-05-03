@@ -2,9 +2,10 @@
 import styles from './Calendar.module.css';
 import { getTasksData } from '../../Redux/tasksSlice';
 import { getProjectsData } from '../../Redux/projectsSlice';
+import MainButton from "../../ui/button/MainButton"
 
 // react
-import React, { useState, useMemo } from 'react';
+import { useState, useMemo } from 'react';
 
 // redux
 import { useSelector } from 'react-redux';
@@ -27,7 +28,18 @@ import {
 import { Box, Typography, Paper, Modal, IconButton, Button, Chip } from '@mui/material';
 
 // react icons
-import { MdChevronLeft, MdChevronRight, MdClose } from 'react-icons/md';
+import { 
+    MdChevronLeft, 
+    MdChevronRight, 
+    MdClose, 
+    MdCheckCircle, 
+    MdFlag, 
+    MdOutlineRadioButtonUnchecked, 
+    MdLockOutline, 
+    MdPublic, 
+    MdCategory, 
+    MdTask
+} from 'react-icons/md';
 
 const Calendar = () => {
     const tasks = useSelector(getTasksData || []);
@@ -48,6 +60,9 @@ const Calendar = () => {
             try {
                 // Handle different date formats safely
                 const parsedDate = new Date(item.dueDate);
+
+                if (isNaN(parsedDate)) return;
+
                 dateKey = format(parsedDate, 'yyyy-MM-dd');
             } catch (e) {
                 console.log(e); // invalid date
@@ -65,13 +80,17 @@ const Calendar = () => {
 
         return group;
     }, [tasks, projects]);
+    console.log("selected date: ", groupedData)
 
-    // Handle month navigation
+
+    // Handle month navigation and today button
     const nextMonth = () => setCurrentDate(addMonths(currentDate, 1));
     const prevMonth = () => setCurrentDate(subMonths(currentDate, 1));
     const jumpToToday = () => setCurrentDate(new Date());
 
-    // Generate days for the current view
+    // Generate all days between startDate and endDate (inclusive)
+    // We start from startDate and keep adding 1 day until we reach endDate
+    // This ensures we cover full weeks for the calendar grid (including previous/next month days)
     const daysToRender = useMemo(() => {
         const monthStart = startOfMonth(currentDate);
         const monthEnd = endOfMonth(monthStart);
@@ -104,6 +123,7 @@ const Calendar = () => {
         setIsModalOpen(true);
     };
 
+    // Close modal
     const handleCloseModal = () => {
         setIsModalOpen(false);
         setSelectedDate(null);
@@ -111,40 +131,32 @@ const Calendar = () => {
 
     return (
         <div className={styles.calendarContainer}>
-            {/* Header */}
-            <div className={styles.header}>
-                <Typography variant="h4" className={styles.monthTitle}>
-                    {format(currentDate, 'MMMM yyyy')}
-                </Typography>
-                <div className={styles.headerActions}>
-                    <Button
-                        variant="outlined"
-                        onClick={jumpToToday}
-                        className={styles.todayBtn}
-                    >
-                        Today
-                    </Button>
-                    <IconButton onClick={prevMonth} className={styles.navBtn}>
-                        <MdChevronLeft />
-                    </IconButton>
-                    <IconButton onClick={nextMonth} className={styles.navBtn}>
-                        <MdChevronRight />
-                    </IconButton>
-                </div>
-            </div>
-
-            {/* Days of Week Row */}
-            <div className={styles.daysRow}>
-                {['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].map(day => (
-                    <div key={day} className={styles.dayName}>
-                        <Typography variant="subtitle2">{day}</Typography>
+            <div className={styles.headerSection}>
+                {/* Header */}
+                <div className={styles.header}>
+                    <Typography variant="h4" className={styles.monthTitle}>
+                        {format(currentDate, 'MMMM yyyy')}
+                    </Typography>
+                    <div className={styles.headerActions}>
+                        <MainButton type='button' title='Today' clickEvent={jumpToToday} content={"Today"} />
+                        <MainButton type='button' title='prev' clickEvent={prevMonth} content={<MdChevronLeft />} />
+                        <MainButton type='button' title='next' clickEvent={nextMonth} content={<MdChevronRight />} />
                     </div>
-                ))}
+                </div>
+
+                {/* Days of Week Row */}
+                <div className={styles.daysRow}>
+                    {['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].map(day => (
+                        <div key={day} className={styles.dayName}>
+                            <Typography variant="subtitle2">{day}</Typography>
+                        </div>
+                    ))}
+                </div>
             </div>
 
             {/* Calendar Grid */}
             <div className={styles.grid}>
-                {daysToRender.map((day, idx) => {
+                {daysToRender?.map((day, idx) => {
                     const dateKey = format(day, 'yyyy-MM-dd');
                     const dayItems = groupedData[dateKey] || [];
                     const isToday = isSameDay(day, new Date());
@@ -162,21 +174,31 @@ const Calendar = () => {
                             </Typography>
 
                             <div className={styles.itemsContainer}>
-                                {dayItems.slice(0, 2).map((item, i) => (
+                                {dayItems?.slice(0, 2).map((item, i) => (
                                     <div
-                                        key={item.id || i}
-                                        className={`${styles.itemPreview} ${item.isCompleted ? styles.completedItem : ''}`}
-                                        style={{ borderLeftColor: getPriorityColor(item.priority) }}
-                                        title={`${item.title} (${item.itemType})`}
+                                        key={item?.id || i}
+                                        className={`${styles.itemPreview} ${item?.isCompleted ? styles.completedItem : ''}`}
+                                        style={{ borderLeftColor: getPriorityColor(item?.priority) }}
+                                        title={`${item?.title} (${item?.itemType})`}
                                     >
+                                        <div className={styles.itemPreviewHeader}>
+                                            <span className={styles.itemPreviewType}>{item?.itemType}</span>
+                                            <div className={styles.itemPreviewIcons}>
+                                                {item?.isCompleted ? 
+                                                    <MdCheckCircle className={styles.completedIcon} /> : 
+                                                    <MdOutlineRadioButtonUnchecked className={styles.pendingIcon} />
+                                                }
+                                                <MdFlag style={{ color: getPriorityColor(item?.priority) }} className={styles.priorityIcon} />
+                                            </div>
+                                        </div>
                                         <Typography noWrap className={styles.itemTitle}>
-                                            {item.title}
+                                            {item?.title}
                                         </Typography>
                                     </div>
                                 ))}
-                                {dayItems.length > 2 && (
+                                {dayItems?.length > 2 && (
                                     <Typography className={styles.moreLabel}>
-                                        +{dayItems.length - 2} more
+                                        +{dayItems?.length - 2} more
                                     </Typography>
                                 )}
                             </div>
@@ -196,37 +218,65 @@ const Calendar = () => {
                         <Typography variant="h6">
                             {selectedDate ? format(selectedDate, 'EEEE, MMMM do, yyyy') : ''}
                         </Typography>
-                        <IconButton onClick={handleCloseModal}>
-                            <MdClose />
-                        </IconButton>
+                        <MainButton type='button' title='close' clickEvent={handleCloseModal} content={<MdClose />} />
                     </div>
 
                     <div className={styles.modalBody}>
                         {selectedDate && (groupedData[format(selectedDate, 'yyyy-MM-dd')]?.length > 0 ? (
                             groupedData[format(selectedDate, 'yyyy-MM-dd')].map((item, idx) => (
                                 <Paper
-                                    key={item.id || idx}
+                                    key={item?.id || idx}
                                     elevation={1}
-                                    className={`${styles.modalItem} ${item.isCompleted ? styles.completedItem : ''}`}
-                                    style={{ borderLeftColor: getPriorityColor(item.priority) }}
+                                    className={`${styles.modalItem} ${item?.isCompleted ? styles.completedItem : ''}`}
+                                    style={{ borderLeftColor: getPriorityColor(item?.priority) }}
                                 >
                                     <div className={styles.modalItemHeader}>
                                         <Typography variant="subtitle1" className={styles.modalItemTitle}>
-                                            {item.title}
+                                            {item?.title}
                                         </Typography>
                                         <Chip
-                                            label={item.itemType}
+                                            label={item?.itemType}
                                             size="small"
                                             className={styles.itemTypeChip}
                                         />
                                     </div>
-                                    <div className={styles.modalItemMeta}>
-                                        <span className={styles.priorityLabel} style={{ color: getPriorityColor(item.priority) }}>
-                                            • {item.priority || 'Normal'} Priority
-                                        </span>
-                                        {item.isCompleted && (
-                                            <span className={styles.statusLabel}>✓ Completed</span>
+                                    <div className={styles.modalItemContent}>
+                                        <Typography variant="body2" className={styles.modalItemDetail}>
+                                            <MdFlag style={{ color: getPriorityColor(item?.priority) }} />
+                                            <span style={{ color: getPriorityColor(item?.priority) }}>{item?.priority || 'Normal'} Priority</span>
+                                        </Typography>
+                                        
+                                        {item?.itemType === 'Task'?  (
+                                            <Typography variant="body2" className={styles.modalItemDetail}>
+                                                <MdCategory className={styles.categoryIcon} />
+                                                <span>{item?.category?.name || 'No Category'}</span>
+                                            </Typography>
+                                        ) : 
+                                            (
+                                                <Typography variant="body2" className={styles.modalItemDetail}>
+                                                    <MdTask className={styles.categoryIcon} />
+                                                    <div style={{ display: 'flex', gap: '4px', flexWrap: 'wrap' }}>
+                                                        {item?.linkedTasks?.map((task, idx) => (
+                                                            <Chip
+                                                                key={idx}
+                                                                label={task?.title}
+                                                                size="small"
+                                                                className={styles.taskChip}
+                                                            />
+                                                        ))}
+                                                    </div>
+                                                </Typography>
                                         )}
+                                        
+                                        <Typography variant="body2" className={styles.modalItemDetail}>
+                                            {item?.privacy === 'global' ? <MdPublic className={styles.privacyIcon} /> : <MdLockOutline className={styles.privacyIcon} />}
+                                            <span>{item?.privacy === 'global' ? 'Public' : 'Private'}</span>
+                                        </Typography>
+                                        
+                                        <Typography variant="body2" className={`${styles.modalItemDetail} ${item?.isCompleted ? styles.statusCompleted : styles.statusPending}`}>
+                                            {item?.isCompleted ? <MdCheckCircle /> : <MdOutlineRadioButtonUnchecked />}
+                                            <span>{item?.isCompleted ? 'Completed' : 'Pending'}</span>
+                                        </Typography>
                                     </div>
                                 </Paper>
                             ))

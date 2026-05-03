@@ -1,7 +1,7 @@
 .calendarContainer {
     display: flex;
     flex-direction: column;
-    height: 100%;
+    height: auto;
     padding: var(--space-lg);
     background-color: var(--bg-50);
     color: var(--text-900);
@@ -55,16 +55,28 @@
     padding: var(--space-xs) 0;
 }
 
+.headerSection {
+    position: sticky;
+    top: 0;
+    backdrop-filter: blur(10px);
+    z-index: 10;
+    border-bottom: 1px solid var(--border-200);
+    margin-bottom: var(--space-md);
+    box-shadow: var(--shadow-lg);
+    border-radius: var(--radius-md);
+    padding: var(--space-xs);
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+}
+
 .grid {
     display: grid;
     grid-template-columns: repeat(7, 1fr);
-    /* auto-rows to maintain minimum height, but can expand */
     grid-auto-rows: minmax(120px, auto);
     gap: 1px;
     background-color: var(--border-200);
     border: 1px solid var(--border-200);
     border-radius: var(--radius-md);
-    overflow: hidden;
 }
 
 .dayCell {
@@ -90,7 +102,7 @@
 .today {
     border: 2px solid var(--info-500) !important;
     position: relative;
-    z-index: 1; /* Keep border above adjacent cells */
+    z-index: 1;
 }
 
 .dayNumber {
@@ -120,6 +132,40 @@
     border-radius: var(--radius-xs);
     border-left: 3px solid transparent;
     color: var(--text-800);
+}
+
+.itemPreviewHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2px;
+}
+
+.itemPreviewType {
+    font-size: 0.6rem;
+    font-weight: 600;
+    color: var(--text-500);
+    text-transform: uppercase;
+}
+
+.itemPreviewIcons {
+    display: flex;
+    align-items: center;
+    gap: 2px;
+}
+
+.completedIcon {
+    color: var(--success-500);
+    font-size: 0.8rem;
+}
+
+.pendingIcon {
+    color: var(--text-400);
+    font-size: 0.8rem;
+}
+
+.priorityIcon {
+    font-size: 0.8rem;
 }
 
 .itemTitle {
@@ -183,7 +229,7 @@
     padding: var(--space-md);
     border-radius: var(--radius-sm) !important;
     border-left: 4px solid transparent !important;
-    background-color: var(--bg-100) !important;
+    background-color: var(--bg-200) !important;
     color: var(--text-900) !important;
 }
 
@@ -201,6 +247,15 @@
     word-break: break-word;
 }
 
+.taskChip {
+    background-color: var(--primary-100) !important;
+    color: var(--primary-700) !important;
+    font-weight: 600 !important;
+    height: 24px !important;
+    font-size: 0.7rem !important;
+    padding: 0 8px !important;
+}
+
 .itemTypeChip {
     background-color: var(--primary-100) !important;
     color: var(--primary-700) !important;
@@ -208,25 +263,47 @@
     height: 24px !important;
 }
 
-.modalItemMeta {
+.modalItemContent {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-sm);
+    margin-top: var(--space-sm);
+}
+
+.modalItemDetail {
     display: flex;
     align-items: center;
-    gap: var(--space-md);
-    font-size: var(--text-sm);
+    gap: var(--space-xs);
+    color: var(--text-700);
 }
 
-.priorityLabel {
-    font-weight: 500;
+.modalItemDetail svg {
+    font-size: 1.1rem;
 }
 
-.statusLabel {
-    color: var(--success-500);
+.categoryIcon, .privacyIcon {
+    color: var(--text-500);
+}
+
+.statusCompleted {
+    color: var(--success-500) !important;
+    font-weight: 600;
+}
+
+.statusPending {
+    color: var(--warning-500) !important;
     font-weight: 600;
 }
 
 .emptyState {
     text-align: center;
     padding: var(--space-xl) 0;
+}
+
+.emptyState p{
+    color: var(--text-900) !important;
+    font-weight: 600 !important;
+    font-size: var(--text-md) !important;
 }
 
 /* Responsiveness */
