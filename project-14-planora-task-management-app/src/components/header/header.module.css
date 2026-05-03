@@ -1,16 +1,10 @@
 .header {
-    background-color: rgba(255, 255, 255, 0.8);
-    backdrop-filter: blur(10px);
-    -webkit-backdrop-filter: blur(10px);
     border-bottom: 1px solid var(--border-100);
     position: sticky;
     top: 0;
     z-index: 40;
     padding: var(--space-xs) var(--space-lg);
     transition: background-color 0.3s ease;
-}
-
-.header {
     background-color: var(--bg-50);
 }
 

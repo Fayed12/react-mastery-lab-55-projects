@@ -3,42 +3,11 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    background: linear-gradient(135deg, var(--bg-100) 0%, var(--bg-200) 100%);
+    background-color: var(--bg-100);
     text-align: center;
     overflow: hidden;
     position: relative;
     padding: var(--space-xs) var(--space-lg);
-}
-
-/* Background Decoration */
-.home::before {
-    content: "";
-    position: absolute;
-    top: -10%;
-    left: -15%;
-    width: 50vw;
-    height: 50vw;
-    background: radial-gradient(circle, var(--primary-100) 0%, transparent 70%);
-    opacity: 0.6;
-    z-index: 0;
-    pointer-events: none;
-}
-
-.home::after {
-    content: "";
-    position: absolute;
-    bottom: -10%;
-    right: -15%;
-    width: 60vw;
-    height: 60vw;
-    background: radial-gradient(
-        circle,
-        var(--secondary-100) 0%,
-        transparent 70%
-    );
-    opacity: 0.5;
-    z-index: 0;
-    pointer-events: none;
 }
 
 /* Content Container */

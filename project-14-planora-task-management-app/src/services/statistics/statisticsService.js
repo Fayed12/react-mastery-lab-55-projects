@@ -1,11 +1,9 @@
-import { format, isBefore, startOfDay } from 'date-fns';
+import { format } from 'date-fns';
 
 export const getTaskStats = (tasks = []) => {
-    const today = startOfDay(new Date());
 
     let completed = 0;
     let pending = 0;
-    let overdue = 0;
 
     let priorityCount = { low: 0, medium: 0, high: 0 };
     const tasksByDate = {};
@@ -17,9 +15,6 @@ export const getTaskStats = (tasks = []) => {
             completed++;
         } else {
             pending++;
-            if (task.dueDate && isBefore(startOfDay(new Date(task.dueDate)), today)) {
-                overdue++;
-            }
         }
 
         const priority = task.priority?.toLowerCase() || 'low';
@@ -48,7 +43,6 @@ export const getTaskStats = (tasks = []) => {
         total,
         completed,
         pending,
-        overdue,
         completionRate: parseFloat(completionRate),
         priorityCount: [
             { name: 'Low', value: priorityCount.low, color: '#3b82f6' },

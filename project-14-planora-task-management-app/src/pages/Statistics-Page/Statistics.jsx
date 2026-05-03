@@ -24,7 +24,7 @@ import { Avatar, Box, Typography } from '@mui/material';
 import {
     PieChart, Pie, Cell, Tooltip, Legend, ResponsiveContainer,
     BarChart, Bar, XAxis, YAxis, CartesianGrid,
-    LineChart, Line
+    LineChart, Line, RadialBarChart, RadialBar, PolarAngleAxis
 } from 'recharts';
 
 // icons
@@ -87,8 +87,8 @@ const Statistics = () => {
                         <span className={styles.cardValue}>{taskStats.completionRate}%</span>
                     </div>
                     <div className={styles.card}>
-                        <span className={styles.cardTitle}><FaExclamationCircle color="var(--error-500)" /> Overdue Tasks</span>
-                        <span className={styles.cardValue}>{taskStats.overdue}</span>
+                        <span className={styles.cardTitle}><FaExclamationCircle color="var(--error-500)" /> Pending Tasks</span>
+                        <span className={styles.cardValue}>{taskStats.pending}</span>
                     </div>
                     <div className={styles.card}>
                         <span className={styles.cardTitle}><FaProjectDiagram /> Active Projects</span>
@@ -188,12 +188,45 @@ const Statistics = () => {
                             </ResponsiveContainer>
                         </div>
                     </div>
-                    <div className={styles.card}>
+                    <div className={styles.chartCard}>
                         <h3 className={styles.chartTitle}>Average Progress</h3>
-                        <div style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-                            <span style={{ fontSize: '4rem', fontWeight: 700, color: 'var(--primary-600)' }}>
-                                {projectStats.averageProgress}%
-                            </span>
+                        <div className={styles.chartWrapper}>
+                            <ResponsiveContainer width="100%" height="100%">
+                                <RadialBarChart 
+                                    cx="50%" 
+                                    cy="50%" 
+                                    innerRadius="60%" 
+                                    outerRadius="100%" 
+                                    barSize={30} 
+                                    data={[{
+                                        name: "Average Progress",
+                                        uv: projectStats.averageProgress || 0,
+                                        fill: "var(--primary-500)"
+                                    }]}
+                                    startAngle={180}
+                                    endAngle={-180}
+                                >
+                                    {/* 50% */}
+                                    <PolarAngleAxis type="number" domain={[0, 100]} angleAxisId={0} tick={false} />
+                                    <RadialBar
+                                        minAngle={15}
+                                        background={{ fill: 'var(--bg-100)' }}
+                                        clockWise
+                                        dataKey="uv"
+                                        cornerRadius={10}
+                                    />
+                                    <Tooltip />
+                                    <text
+                                        x="50%"
+                                        y="50%"
+                                        textAnchor="middle"
+                                        dominantBaseline="middle"
+                                        style={{ fontSize: "clamp(24px, 5vw, 32px)", fontWeight: "bold", fill: "var(--text-500)" }}
+                                    >
+                                        {projectStats.averageProgress || 0}%
+                                    </text>
+                                </RadialBarChart>
+                            </ResponsiveContainer>
                         </div>
                     </div>
                 </div>

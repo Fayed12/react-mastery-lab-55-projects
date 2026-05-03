@@ -264,6 +264,7 @@ const Calendar = () => {
                                                                 className={styles.taskChip}
                                                             />
                                                         ))}
+                                                        {item?.linkedTasks?.length === 0 && <Typography style={{ fontSize: '12px', color: 'var(--text-500)' }}>No tasks linked</Typography>}
                                                     </div>
                                                 </Typography>
                                         )}

@@ -238,10 +238,13 @@ function App() {
         const unsubscribeCategories = onSnapshot(qCategories, (snapshot) => {
             const categories = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
 
+            // sort categories by created date (newest first)
+            categories.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+
             dispatch(setCategoriesData(categories))
         },
             (error) => console.error("categories error:", error));
-        
+
         return () => {
             unsubscribeCategories()
         }
@@ -256,9 +259,6 @@ function App() {
             if (new Date() > new Date(task.dueDate).getTime() && !task.isCompleted) {
                 updateData("tasks", task.id, { isCompleted: true })
                 return
-            } else if (new Date() < new Date(task.dueDate).getTime() && task.isCompleted) {
-                updateData("tasks", task.id, { isCompleted: false })
-                return
             } else {
                 return
             }
@@ -272,9 +272,6 @@ function App() {
         projectData?.map((project) => {
             if (new Date() > new Date(project.dueDate).getTime() && !project.isCompleted) {
                 updateData("projects", project.id, { isCompleted: true, progress: "100" })
-                return
-            } else if (new Date() < new Date(project.dueDate).getTime() && project.isCompleted) {
-                updateData("projects", project.id, { isCompleted: false, progress: "0" })
                 return
             } else {
                 return
@@ -332,8 +329,7 @@ function App() {
             if (String(project.progress) == "100" && !project.isCompleted) {
                 updateData("projects", project.id, { isCompleted: true })
                 return
-            } else if (String(project.progress) != "100" && project.isCompleted) {
-                updateData("projects", project.id, { isCompleted: false })
+            } else {
                 return
             }
         })

@@ -229,7 +229,12 @@ li {
     color: var(--error-500);
     margin: 0;
     font-size: var(--text-xs);
-    /* margin-top: var(--space-2xs); */
+}
+
+a.active{
+    background-color: var(--bg-200) !important;
+    color: var(--text-900) !important;
+    font-weight: 700 !important;
 }
 
 /* swal buttons styles */

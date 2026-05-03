@@ -1,5 +1,5 @@
 // charts
-import { RadialBarChart, RadialBar, Legend, Tooltip, ResponsiveContainer } from "recharts";
+import { RadialBarChart, RadialBar, PolarAngleAxis, Legend, Tooltip, ResponsiveContainer } from "recharts";
 
 // local
 import styles from "./charts.module.css"
@@ -8,7 +8,7 @@ function ProjectRadialChart({ projects = [], isAnimationActive = true }) {
     
     // Calculate average progress of all projects
     const totalProgress = projects.reduce((acc, project) => acc + Number(project.progress || 0), 0);
-    const averageProgress = projects.length ? Math.round(totalProgress / projects.length) : 0;
+    const averageProgress = projects.length ? Number((totalProgress / projects.length).toFixed(1)) : 0;
 
     const data = [
         {
@@ -40,6 +40,7 @@ function ProjectRadialChart({ projects = [], isAnimationActive = true }) {
                         startAngle={180}
                         endAngle={-180}
                     >
+                        <PolarAngleAxis type="number" domain={[0, 100]} angleAxisId={0} tick={false} />
                         <RadialBar
                             minAngle={15}
                             background={{ fill: 'var(--bg-100)' }}

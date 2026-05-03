@@ -40,7 +40,6 @@ const Header = ({ setOpenMenu, openMenu }) => {
                 </div>
                 <div className={styles.Actions}>
                     {themeValue === "light" ? <span onClick={() => dispatch(setThemeToggle("dark"))}><MdDarkMode /></span> : <span onClick={() => dispatch(setThemeToggle("light"))}><MdLightMode /></span>}
-                    <span><IoIosNotifications /></span>
                 </div>
                 <div className={styles.userInfo}>
                     <UserAvatarMenu user={userDetails} />

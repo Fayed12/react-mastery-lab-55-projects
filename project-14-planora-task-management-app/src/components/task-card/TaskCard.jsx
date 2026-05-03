@@ -4,6 +4,7 @@ import TaskDetails from '../task-details/taskDetails';
 import updateData from '../../firebase/updateExistingData';
 import { getUserDetails } from '../../Redux/authUserSlice';
 import { getCategoriesData } from '../../Redux/categoriesSlice';
+import { getProjectsData } from '../../Redux/projectsSlice';
 import deleteItem from '../../firebase/deleteDocument';
 import MainButton from '../../ui/button/MainButton';
 import useUserRole from '../../hooks/userUserRole';
@@ -41,6 +42,7 @@ const TaskCard = ({ setEditTaskData, setOpenCreateNewTask, openCreateNewTask, se
 
     const userDetails = useSelector(getUserDetails)
     const Categories = useSelector(getCategoriesData)
+    const projects = useSelector(getProjectsData)
 
     const confirmAction = useConfirm()
 
@@ -92,6 +94,13 @@ const TaskCard = ({ setEditTaskData, setOpenCreateNewTask, openCreateNewTask, se
         Categories.forEach(async (cat) => {
             if (cat.linkedTasks?.find((linkedTask) => linkedTask.id === task.id)) {
                 await updateData("categories", cat.id, { ...cat, linkedTasks: cat.linkedTasks.filter((linkedTask) => linkedTask.id !== task.id) })
+            }
+        })
+
+        // remove this task from all projects it belongs to if exists
+        projects.forEach(async (project) => {
+            if (project.linkedTasks?.find((linkedTask) => linkedTask.id === task.id)) {
+                await updateData("projects", project.id, { ...project, linkedTasks: project.linkedTasks.filter((linkedTask) => linkedTask.id !== task.id) })
             }
         })
     }
